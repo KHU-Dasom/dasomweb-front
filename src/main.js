@@ -38,7 +38,6 @@ import axios from "axios";
 // configure router
 const router = new VueRouter({
   routes, // short for routes: routes
-  mode: "history",
   linkExactActiveClass: "nav-item active"
 });
 
