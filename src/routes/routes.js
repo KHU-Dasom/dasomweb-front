@@ -64,8 +64,8 @@ const routes = [
         component: Notifications
       },
       {
-        // (임시) 7번 자유게시판 출력
-        path: "/boards/7",
+        // 게시판 출력
+        path: "/boards/:board_id",
         name: "FreeBoard",
         component: FreeBoard,
         beforeEnter: requireAuth()

@@ -36,9 +36,10 @@ export default {
         }
       };
       var vm = this;
+      var board_id = this.$route.params.board_id;
       this.$http.defaults.headers.get["Content-Type"] = "application/json";
       this.$http
-        .get("http://api.dasom.io/boards/7/articles", config)
+        .get("http://api.dasom.io/boards/" + board_id + "/articles", config)
         .then(res => {
           console.log(res);
           vm.articles = res.data.data.articles;

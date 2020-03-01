@@ -37,6 +37,7 @@ export default {
   methods: {
     getBoardData() {
       var vm = this;
+      var board_id = this.$route.params.board_id;
       var token = localStorage.getItem("accessToken");
       let config = {
         headers: {
@@ -50,7 +51,7 @@ export default {
           console.log(res);
           var boards = res.data.data.boards;
           boards.forEach(function(element) {
-            if (element.id == 7) {
+            if (String(element.id) == board_id) {
               vm.boardData = element;
             }
           });

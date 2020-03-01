@@ -4,7 +4,22 @@
 
     <side-bar>
       <mobile-menu slot="content"></mobile-menu>
-      <sidebar-link to="/dashboard">
+
+      <sidebar-link
+        v-for="board in boards"
+        v-bind:to="board.path"
+        v-bind:key="board"
+      >
+        <md-icon>content_paste</md-icon>
+        <p>{{ board.title }}</p>
+      </sidebar-link>
+
+      <sidebar-link to="/extralinks">
+        <md-icon>dashboard</md-icon>
+        <p>추가 기능</p>
+      </sidebar-link>
+
+      <!-- <sidebar-link to="/dashboard">
         <md-icon>dashboard</md-icon>
         <p>Dashboard</p>
       </sidebar-link>
@@ -35,7 +50,7 @@
       <sidebar-link to="/boards/7">
         <md-icon>content_paste</md-icon>
         <p>자유 게시판 (임시)</p>
-      </sidebar-link>
+      </sidebar-link> -->
     </side-bar>
 
     <div class="main-panel">
@@ -60,6 +75,35 @@ export default {
     DashboardContent,
     ContentFooter,
     MobileMenu
+  },
+  data() {
+    return {
+      boards: []
+    };
+  },
+  methods: {
+    getBoards() {
+      var vm = this;
+      this.$http.defaults.headers.get["Content-Type"] = "application/json";
+      this.$http
+        .get("http://api.dasom.io/boards")
+        .then(res => {
+          console.log(res);
+          res.data.data.boards.forEach(element => {
+            var path = "/boards/" + String(element.id);
+            var title = element.title;
+            vm.boards.push({
+              path: path,
+              title: title
+            })
+          });
+          console.log("여기 boards");
+          console.log(vm.boards);
+        });
+    }
+  },
+  created() {
+    this.getBoards();
   }
 };
 </script>
