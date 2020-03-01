@@ -49,10 +49,7 @@
             </md-list-item> -->
 
             <li class="md-list-item">
-              <a
-                href="/notifications"
-                class="md-list-item-router md-list-item-container md-button-clean dropdown"
-              >
+              <a class="md-list-item-router md-list-item-container md-button-clean dropdown">
                 <div class="md-list-item-content">
                   <drop-down>
                     <md-button
@@ -75,11 +72,29 @@
                 </div>
               </a>
             </li>
-
-            <md-list-item href="/user">
-              <i class="material-icons">person</i>
-              <p class="hidden-lg hidden-md">Profile</p>
-            </md-list-item>
+            <li class="md-list-item">
+              <a class="md-list-item-router md-list-item-container md-button-clean dropdown">
+                <div class="md-list-item-content">
+                  <drop-down>
+                    <md-button
+                      slot="title"
+                      class="md-button md-just-icon md-simple"
+                      data-toggle="dropdown"
+                      >
+                      <md-icon>person</md-icon>
+                      <p class="hidden-lg hidden-md">Profile</p>
+                    </md-button>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                      <li><a>Mike John responded to your email</a></li>
+                      <li><a>You have 5 new tasks</a></li>
+                      <li><a>You're now friend with Andrew</a></li>
+                      <li><a>Another Notification</a></li>
+                      <li><a>Another One</a></li>
+                    </ul>
+                  </drop-down>
+                </div>
+              </a>
+            </li>
           </md-list>
         </div>
       </div>
