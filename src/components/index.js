@@ -9,6 +9,7 @@ import OrderedTable from "./Tables/OrderedTable.vue";
 import SimpleTable from "./Tables/SimpleTable.vue";
 
 import FreeBoardTable from "./Tables/FreeBoardTable.vue";
+import ProfileTable from "./Tables/ProfileTable.vue";
 
 export {
   ChartCard,
@@ -17,5 +18,6 @@ export {
   NavTabsTable,
   OrderedTable,
   SimpleTable,
-  FreeBoardTable
+  FreeBoardTable,
+  ProfileTable
 };

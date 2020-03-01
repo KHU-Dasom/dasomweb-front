@@ -2,7 +2,7 @@
   <md-toolbar md-elevation="0" class="md-transparent">
     <div class="md-toolbar-row">
       <div class="md-toolbar-section-start">
-        <h3 class="md-title">{{ $route.name }}</h3>
+        <!-- <h3 class="md-title">{{ $route.name }}</h3> -->
       </div>
       <div class="md-toolbar-section-end">
         <md-button
@@ -26,7 +26,7 @@
             </md-autocomplete>
           </div>
           <md-list>
-            <md-list-item href="#/">
+            <md-list-item>
               <i class="material-icons">dashboard</i>
               <p class="hidden-lg hidden-md">Dashboard</p>
             </md-list-item>
@@ -85,11 +85,15 @@
                       <p class="hidden-lg hidden-md">Profile</p>
                     </md-button>
                     <ul class="dropdown-menu dropdown-menu-right">
-                      <li><a>Mike John responded to your email</a></li>
+                      <md-card-content>
+                        <ProfileTable></ProfileTable>
+                      </md-card-content>
+                      <!-- <li><a>Mike John responded to your email</a></li>
                       <li><a>You have 5 new tasks</a></li>
                       <li><a>You're now friend with Andrew</a></li>
                       <li><a>Another Notification</a></li>
                       <li><a>Another One</a></li>
+                      -->
                     </ul>
                   </drop-down>
                 </div>
@@ -103,7 +107,12 @@
 </template>
 
 <script>
+import { ProfileTable } from "@/components";
+
 export default {
+  components: {
+    ProfileTable
+  },
   data() {
     return {
       selectedEmployee: null,
