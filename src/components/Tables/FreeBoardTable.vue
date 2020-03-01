@@ -23,6 +23,7 @@ export default {
   },
   data() {
     return {
+      boardID: null,
       selected: [],
       articles: []
     };
@@ -36,10 +37,10 @@ export default {
         }
       };
       var vm = this;
-      var board_id = this.$route.params.board_id;
+      this.boardID = this.$route.params.board_id;
       this.$http.defaults.headers.get["Content-Type"] = "application/json";
       this.$http
-        .get("http://api.dasom.io/boards/" + board_id + "/articles", config)
+        .get("http://api.dasom.io/boards/" + this.boardID + "/articles", config)
         .then(res => {
           console.log(res);
           vm.articles = res.data.data.articles;

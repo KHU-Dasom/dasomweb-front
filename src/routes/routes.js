@@ -18,7 +18,7 @@ import Signout from "@/pages/Signout.vue";
 
 // 로그인이 필요한 Route는 이 함수를 먼저(beforeEnter) 실행한다.
 const requireAuth = () => (from, to, next) => {
-  if (store.state.accessToken !== null) {
+  if (store.state.accessToken !== null && localStorage.getItem("accessToken") !== null) {
     return next();
   } else {
     console.log("Unauthorized.");

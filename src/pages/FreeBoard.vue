@@ -4,7 +4,7 @@ for table test
 -->
 
 <template>
-  <div class="content">
+  <div class="content" :key="$route">
     <div class="md-layout">
       <div
         class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100"
@@ -31,13 +31,14 @@ export default {
   },
   data() {
     return {
+      boardID: "",
       boardData: {}
     };
   },
   methods: {
     getBoardData() {
       var vm = this;
-      var board_id = this.$route.params.board_id;
+      this.boardID = this.$route.params.board_id;
       var token = localStorage.getItem("accessToken");
       let config = {
         headers: {
@@ -51,7 +52,7 @@ export default {
           console.log(res);
           var boards = res.data.data.boards;
           boards.forEach(function(element) {
-            if (String(element.id) == board_id) {
+            if (String(element.id) == this.boardID) {
               vm.boardData = element;
             }
           });

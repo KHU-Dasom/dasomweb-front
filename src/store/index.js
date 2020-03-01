@@ -69,14 +69,7 @@ export default new Vuex.Store({
       state.userEnrollYear = null;
 
       // localStorage에 들어있는 token들 모두 제거.
-      localStorage.accessToken = null;
-      localStorage.refreshToken = null;
-      localStorage.userID = null;
-      localStorage.userName = null;
-      localStorage.userBirth = null;
-      localStorage.userEmail = null;
-      localStorage.userLevel = null;
-      localStorage.userEnrollYear = null;
+      localStorage.clear();
     }
   },
   actions: {

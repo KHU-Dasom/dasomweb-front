@@ -158,6 +158,11 @@ export default {
     redirect() {
       this.$router.push("/");
     }
+  },
+  created() {
+    if (localStorage.getItem("accessToken") !== null) {
+      this.$store.dispatch("LOGOUT");
+    }
   }
 };
 </script>
