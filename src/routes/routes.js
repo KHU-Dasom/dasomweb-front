@@ -12,7 +12,7 @@ import Icons from "@/pages/Icons.vue";
 import Notifications from "@/pages/Notifications.vue";
 
 import FreeBoard from "@/pages/FreeBoard.vue";
-//import ArticleShow from "@/pages/ArticleShow.vue";
+import ArticleShow from "@/pages/ArticleShow.vue";
 import Signin from "@/pages/Signin.vue";
 import Signup from "@/pages/Signup.vue";
 import Signout from "@/pages/Signout.vue";
@@ -70,14 +70,14 @@ const routes = [
         name: "FreeBoard",
         component: FreeBoard,
         beforeEnter: requireAuth()
-      }
-      // {
-      //   // 게시글 출력
-      //   path: "/articles/:article_id",
-      //   name: "ArticleShow",
-      //   component: ArticleShow,
-      //   beforeEnter: requireAuth()
-      // }
+      },
+      {
+         // 게시글 출력
+         path: "/articles/:article_id",
+         name: "ArticleShow",
+         component: ArticleShow,
+         beforeEnter: requireAuth()
+       }
     ]
   },
   {

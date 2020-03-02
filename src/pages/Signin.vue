@@ -50,8 +50,8 @@
       </div>
 
       <div class="actions md-layout md-alignment-center-space-between">
-        <a href="/">홈으로</a>
-        <a href="/signup">회원가입</a>
+        <a href="#/">홈으로</a>
+        <a href="#/signup">회원가입</a>
         <md-button
           type="submit"
           class="md-raised md-primary"
