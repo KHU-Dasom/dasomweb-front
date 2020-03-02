@@ -2,7 +2,6 @@
 
 @import "mixins/transparency";
 @import "mixins/vendor-prefixes";
-@import "mixins/chartist";
 
 // Placeholder text
 @mixin material-placeholder() {
@@ -11,9 +10,9 @@
   &::-webkit-input-placeholder  {@content; } // Safari and Chrome
 }
 
-@mixin toolbar-colors($variation-color){
+@mixin toolbar-colors($variation-color, $text-color){
   background-color: $variation-color !important;
-  @include shadow-big-color($variation-color);
+  @include shadow-navbar-color($variation-color);
 
   .md-title,
   .md-list .md-list-item-content,
@@ -21,7 +20,71 @@
   &,
   &:hover,
   &:focus{
-    color: $white-color !important;
+    color: $text-color !important;
+  }
+}
+
+@mixin inputs-color($input-class, $color) {
+  &.has-#{$input-class} {
+    &:before {
+      background-color: $color !important;
+    }
+
+    &.md-focused .md-icon {
+      color: $color !important;
+    }
+  }
+}
+
+@mixin tabs-color($color) {
+  &,
+  &:hover,
+  &:focus{
+    background-color: $color !important;
+    @include shadow-big-color($color);
+  }
+}
+
+@mixin badge-color() {
+    &.badge-primary{
+        background-color: $brand-primary;
+    }
+    &.badge-info {
+        background-color: $brand-info;
+    }
+    &.badge-success{
+        background-color: $brand-success;
+    }
+    &.badge-warning{
+        background-color: $brand-warning;
+    }
+    &.badge-danger{
+        background-color: $brand-danger;
+    }
+    &.badge-rose{
+      background-color: $brand-rose;
+    }
+    &.badge-default{
+        background-color: $gray-light;
+    }
+}
+
+@mixin md-progress-bar($color) {
+  &:not(.md-buffer){
+    background: rgba($color,.2);
+  }
+
+  .md-progress-bar-fill{
+    background-color: $color !important;
+  }
+
+  &.md-buffer {
+    .md-progress-bar-fill{
+      background-color: $color;
+    }
+    .md-progress-bar-buffer {
+      border-color: rgba($color,.2);
+    }
   }
 }
 
@@ -217,10 +280,16 @@
     .open > &.dropdown-toggle:focus,
     .open > &.dropdown-toggle:hover {
       background-color: $btn-color !important;
-      color: $white-color !important;
-
-      i{
-        color: $white-color !important;
+      @if $btn-color == $white-color {
+        &,
+        i{
+          color: $gray-light !important;
+        }
+      } @else {
+        &,
+        i{
+          color: $white-color !important;
+        }
       }
     }
 
@@ -242,8 +311,9 @@
     &.focus,
     &:active,
     &.active {
-      opacity: .65;
-      pointer-events: none;
+        box-shadow: none;
+        opacity: .65;
+        pointer-events: none;
     }
   }
 
@@ -256,7 +326,10 @@
       &:active:focus,
       &:active:hover,
       &.active:focus,
-      &.active:hover{
+      &.active:hover,
+      .open > &.dropdown-toggle,
+      .open > &.dropdown-toggle:focus,
+      .open > &.dropdown-toggle:hover{
         background-color: transparent !important;
         color: $btn-color !important;
         box-shadow: none;
@@ -310,5 +383,11 @@
   }
   &.md-twitter {
     @include social-buttons-color($social-twitter);
+  }
+  &.md-google {
+    @include social-buttons-color($social-google);
+  }
+  &.md-github {
+    @include social-buttons-color($social-github);
   }
 }

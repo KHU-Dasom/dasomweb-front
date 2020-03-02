@@ -26,6 +26,7 @@ export default {
   },
   data() {
     return {
+      colorPagination: 1,
       boardID: "",
       boardData: {}
     };
