@@ -46,15 +46,23 @@ export default {
           Authorization: token
         }
       };
+
       this.$http.defaults.headers.get["Content-Type"] = "application/json";
       this.$http
         .get("http://api.dasom.io/boards", config)
         .then(res => {
-          console.log(res);
           var boards = res.data.data.boards;
+
           boards.forEach(function(element) {
+            // 일치하는 Board 조회
             if (String(element.id) == vm.boardID) {
-              vm.boardData = element;
+              // 권한 체크
+              if (localStorage.getItem("userLevel") >= element.read_level) {
+                vm.boardData = element;
+              } else {
+                alert("해당 게시판의 읽기 권한이 부족합니다.");
+                vm.$router.push("/");
+              }
             }
           });
         })

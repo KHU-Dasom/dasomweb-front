@@ -10,7 +10,7 @@
         v-bind:to="board.path"
         v-bind:key="board.id"
       >
-        <md-icon>content_paste</md-icon>
+        <md-icon>{{ board.icon }}</md-icon>
         <p>{{ board.title }}</p>
       </sidebar-link>
 
@@ -92,11 +92,15 @@ export default {
         .get("http://api.dasom.io/boards")
         .then(res => {
           res.data.data.boards.forEach(element => {
+
             var path = "/boards/" + String(element.id);
             var title = element.title;
+            var icon = element.icon_class;
+
             vm.boards.push({
               path: path,
-              title: title
+              title: title,
+              icon: icon
             });
           });
         })
