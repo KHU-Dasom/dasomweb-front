@@ -1,32 +1,28 @@
 body {
   background-color: #EEEEEE;
   letter-spacing: unset;
-  // background: #fdfdfe;
+  font-size: 1rem;
   color: $black-color;
-  &.inverse {
-    background: #333333;
-    &, .form-control {
-      color: $mdb-text-color-light;
-    }
-    .modal,
-    .panel-default,
-    .card {
-      &,
-      .form-control {
-        background-color: initial;
-        color: initial;
-      }
-    }
+  line-height: 1.5em;
+}
 
-  }
+.main{
+    background: #FFFFFF;
+    position: relative;
+    z-index: 3;
+}
+
+.main-raised{
+    margin: -60px 30px 0px;
+    border-radius: $border-radius-base * 2;
+    @include shadow-16dp();
 }
 
 .wrapper{
-
-    &.wrapper-full-page{
-        height: auto;
-        min-height: 100vh;
-    }
+  &.wrapper-full-page{
+      height: auto;
+      min-height: 100vh;
+  }
 }
 
 
@@ -38,27 +34,6 @@ blockquote{
 
 .life-of-material-dashboard{
     background: #FFFFFF;
-}
-
-body, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4 {
-  font-family: $font-family-sans-serif;
-  font-weight: 300;
-  line-height: 1.5em;
-}
-
-.serif-font{
-    font-family: $font-family-serif;
-}
-
-.page-header {
-    height: 60vh;
-    background-position: center center;
-    background-size: cover;
-    margin: 0;
-    padding: 0;
-    border: 0;
-    border-bottom-left-radius: 6px;
-    border-bottom-right-radius: 6px;
 }
 
 a{
@@ -80,13 +55,12 @@ a{
   }
 }
 
-a[data-toggle="collapse"][aria-expanded="true"] .caret{
-    @include rotate-180();
+.dropdown.open .dropdown-toggle .md-ripple:after {
+  @include rotate-180();
 }
 
-.sidebar .nav a,
 .caret,
-.sidebar .dropdown .dropdown-menu li a{
+.md-toolbar {
     @include transition($fast-transition-time, $transition-ease-in);
 }
 
@@ -122,16 +96,6 @@ legend {
     outline: 0;
   }
 }
-a:focus, a:active,
-button:active, button:focus, button:hover,
-button::-moz-focus-inner,
-input[type="reset"]::-moz-focus-inner,
-input[type="button"]::-moz-focus-inner,
-input[type="submit"]::-moz-focus-inner,
-select::-moz-focus-inner,
-input[type="file"] > input[type="button"]::-moz-focus-inner {
-    outline : 0 !important;
-}
 
 .text-center{
   text-align: center;
@@ -152,4 +116,45 @@ input[type="file"] > input[type="button"]::-moz-focus-inner {
 
 .md-theme-default :not(input):not(textarea)::selection{
   background-color: #c8c8c8 !important;
+}
+
+.container,
+.container-fluid {
+  padding-right: 15px;
+  padding-left: 15px;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+
+  .section & {
+    flex-direction: column;
+  }
+}
+
+.md-ripple .md-ripple-wave {
+  border-radius: 50% !important;
+}
+
+.small, small {
+  font-size: 75%;
+  color: #777;
+  font-weight: 400;
+}
+
+.ml-auto,
+.mx-auto {
+  margin-left: auto !important;
+}
+
+.mr-auto,
+.mx-auto {
+  margin-right: auto!important;
+}
+
+.md-layout {
+  margin-right: -15px;
+  margin-left: -15px;
 }
