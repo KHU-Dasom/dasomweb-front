@@ -1,7 +1,7 @@
 <template>
   <footer class="footer">
     <div class="container">
-      <nav>
+      <!-- <nav>
         <ul>
           <li>
             <a href="https://www.creative-tim.com">Creative Tim</a>
@@ -20,6 +20,13 @@
             <a href="https://www.creative-tim.com/license">
               Licenses
             </a>
+          </li>
+        </ul>
+      </nav> -->
+      <nav>
+        <ul>
+          <li>
+            <a md-alignment="centered">다솜은 사랑입니다</a>
           </li>
         </ul>
       </nav>

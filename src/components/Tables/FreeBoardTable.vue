@@ -1,8 +1,8 @@
 <template>
   <div>
-    <md-table v-model="articles" :table-header-color="tableHeaderColor">
-      <md-table-row slot="md-table-row" slot-scope="{ item }">
-        <md-table-cell md-label="ID">{{ item.id }}</md-table-cell>
+    <md-table v-model="articles" @md-selected="onSelect" :table-header-color="tableHeaderColor">
+      <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable="single">
+        <md-table-cell md-label="ID" @click="onclickArticle()">{{ item.id }}</md-table-cell>
         <md-table-cell md-label="제목">{{ item.title }}</md-table-cell>
         <md-table-cell md-label="작성 시간">{{ item.published_at }}</md-table-cell>
         <md-table-cell md-label="작성자">{{ item.author_name }}</md-table-cell>
@@ -48,6 +48,9 @@ export default {
           console.log(res);
           vm.articles = res.data.data.articles;
         });
+    },
+    onSelect(item) {
+      this.$router.push("/articles/" + item.id);
     }
   }
 };
