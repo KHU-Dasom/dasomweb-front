@@ -8,7 +8,7 @@
       <sidebar-link
         v-for="board in boards"
         v-bind:to="board.path"
-        v-bind:key="board"
+        v-bind:key="board.id"
       >
         <md-icon>content_paste</md-icon>
         <p>{{ board.title }}</p>
@@ -81,27 +81,30 @@ export default {
       boards: []
     };
   },
+  created() {
+    this.fetchData();
+  },
   methods: {
     fetchData() {
       var vm = this;
       this.$http.defaults.headers.get["Content-Type"] = "application/json";
-      this.$http.get("http://api.dasom.io/boards").then(res => {
-        console.log(res);
-        res.data.data.boards.forEach(element => {
-          var path = "/boards/" + String(element.id);
-          var title = element.title;
-          vm.boards.push({
-            path: path,
-            title: title
+      this.$http
+        .get("http://api.dasom.io/boards")
+        .then(res => {
+          res.data.data.boards.forEach(element => {
+            var path = "/boards/" + String(element.id);
+            var title = element.title;
+            vm.boards.push({
+              path: path,
+              title: title
+            });
           });
+        })
+        .catch(error => {
+          console.log("게시판 리스트 로딩 에러 :", error);
+          alert("게시판 로딩에 실패하였습니다.");
         });
-        console.log("여기 boards");
-        console.log(vm.boards);
-      });
     }
-  },
-  created() {
-    this.fetchData();
   }
 };
 </script>

@@ -1,8 +1,3 @@
-<!-- 
-Created by Freckie.
-for table test
--->
-
 <template>
   <div class="content" :key="$route">
     <div class="md-layout">
