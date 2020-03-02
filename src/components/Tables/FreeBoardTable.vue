@@ -50,7 +50,7 @@ export default {
         });
     },
     onSelect(item) {
-      this.$router.push("/articles/" + item.id);
+      this.$router.push(this.boardID + "/articles/" + item.id);
     }
   }
 };
