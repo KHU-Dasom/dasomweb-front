@@ -82,28 +82,26 @@ export default {
     };
   },
   methods: {
-    getBoards() {
+    fetchData() {
       var vm = this;
       this.$http.defaults.headers.get["Content-Type"] = "application/json";
-      this.$http
-        .get("http://api.dasom.io/boards")
-        .then(res => {
-          console.log(res);
-          res.data.data.boards.forEach(element => {
-            var path = "/boards/" + String(element.id);
-            var title = element.title;
-            vm.boards.push({
-              path: path,
-              title: title
-            })
+      this.$http.get("http://api.dasom.io/boards").then(res => {
+        console.log(res);
+        res.data.data.boards.forEach(element => {
+          var path = "/boards/" + String(element.id);
+          var title = element.title;
+          vm.boards.push({
+            path: path,
+            title: title
           });
-          console.log("여기 boards");
-          console.log(vm.boards);
         });
+        console.log("여기 boards");
+        console.log(vm.boards);
+      });
     }
   },
   created() {
-    this.getBoards();
+    this.fetchData();
   }
 };
 </script>

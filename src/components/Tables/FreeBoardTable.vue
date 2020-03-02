@@ -28,8 +28,11 @@ export default {
       articles: []
     };
   },
+  beforeMount() {
+    this.fetchData();
+  },
   methods: {
-    getArticles() {
+    fetchData() {
       var token = localStorage.getItem("accessToken");
       let config = {
         headers: {
@@ -46,9 +49,6 @@ export default {
           vm.articles = res.data.data.articles;
         });
     }
-  },
-  mounted() {
-    this.getArticles();
   }
 };
 </script>

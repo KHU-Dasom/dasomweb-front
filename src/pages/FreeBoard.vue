@@ -35,9 +35,15 @@ export default {
       boardData: {}
     };
   },
+  watch: {
+    $route: "fetchData"
+  },
+  created() {
+    this.fetchData();
+  },
   methods: {
-    getBoardData() {
-      var vm = this;
+    fetchData() {
+      let vm = this; // 화살표 함수 안 에서는 this가 정의되지 않음.
       this.boardID = this.$route.params.board_id;
       var token = localStorage.getItem("accessToken");
       let config = {
@@ -52,24 +58,22 @@ export default {
           console.log(res);
           var boards = res.data.data.boards;
           boards.forEach(function(element) {
-            if (String(element.id) == this.boardID) {
+            if (String(element.id) == vm.boardID) {
               vm.boardData = element;
             }
           });
         })
         .catch(error => {
-          if (error.response.status == 403) {
+          console.log("여기 error", error);
+          if (error.response.request.status == 403) {
             alert("해당 게시판의 읽기 권한이 부족합니다.");
-            this.$router.push("/");
-          } else if (error.response.status == 401) {
+            vm.$router.push("/");
+          } else if (error.response.request.status == 401) {
             alert("로그인 세션이 만료되었습니다.");
-            this.$router.push("/signin");
+            vm.$router.push("/signin");
           }
         });
     }
-  },
-  created() {
-    this.getBoardData();
   }
 };
 </script>
