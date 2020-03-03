@@ -39,6 +39,31 @@
     &.alert-success{
       @include alert-color(lighten($brand-success,5%));
     }
+    // Pantone Colors
+    &.alert-ultra-violet{
+      @include alert-color(lighten($pantone-ultra-violet,5%));
+    }
+    &.alert-classic-blue{
+      @include alert-color(lighten($pantone-classic-blue,5%));
+    }
+    &.alert-provence{
+      @include alert-color(lighten($pantone-provence,5%));
+    }
+    &.alert-baby-blue{
+      @include alert-color(lighten($pantone-baby-blue,5%));
+    }
+    &.alert-monument{
+      @include alert-color(lighten($pantone-monument,5%));
+    }
+    &.alert-stucco{
+      @include alert-color(lighten($pantone-stucco,5%));
+    }
+    &.alert-peach-quartz{
+      @include alert-color(lighten($pantone-peach-quartz,5%));
+    }
+    &.alert-cornhusk{
+      @include alert-color(lighten($pantone-cornhusk,5%));
+    }
 
 
     &-info, &-danger, &-warning, &-success {

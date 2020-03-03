@@ -56,6 +56,32 @@
     &.md-danger{
       @include btn-styles($brand-danger);
     }
+    // Pantone Colors
+    &.md-ultra-violet{
+      @include btn-styles($pantone-ultra-violet);
+    }
+    &.md-classic-blue{
+      @include btn-styles($pantone-classic-blue);
+    }
+    &.md-provence{
+      @include btn-styles($pantone-provence);
+    }
+    &.md-baby-blue{
+      @include btn-styles($pantone-baby-blue);
+    }
+    &.md-monument{
+      @include btn-styles($pantone-monument);
+    }
+    &.md-stucco{
+      @include btn-styles($pantone-stucco);
+    }
+    &.md-peach-quartz{
+      @include btn-styles($pantone-peach-quartz);
+    }
+    &.md-cornhusk{
+      @include btn-styles($pantone-cornhusk);
+    }
+
     &.md-white{
         &,
         &:focus,

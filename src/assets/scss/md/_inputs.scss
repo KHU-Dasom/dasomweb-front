@@ -248,6 +248,47 @@
              background-image: linear-gradient($white-color, $white-color), linear-gradient($mdb-input-underline-color, $mdb-input-underline-color);
          }
     }
+    // Pantone Colors
+    &.form-ultra-violet{
+      .form-control{
+           background-image: linear-gradient($pantone-ultra-violet, $pantone-ultra-violet), linear-gradient($mdb-input-underline-color, $mdb-input-underline-color);
+       }
+    }
+    &.form-classic-blue{
+      .form-control{
+           background-image: linear-gradient($pantone-classic-blue, $pantone-classic-blue), linear-gradient($mdb-input-underline-color, $mdb-input-underline-color);
+       }
+    }
+    &.form-provence{
+      .form-control{
+           background-image: linear-gradient($pantone-provence, $pantone-provence), linear-gradient($mdb-input-underline-color, $mdb-input-underline-color);
+       }
+    }
+    &.form-baby-blue{
+      .form-control{
+           background-image: linear-gradient($pantone-baby-blue, $pantone-baby-blue), linear-gradient($mdb-input-underline-color, $mdb-input-underline-color);
+       }
+    }
+    &.form-monument{
+      .form-control{
+           background-image: linear-gradient($pantone-monument, $pantone-monument), linear-gradient($mdb-input-underline-color, $mdb-input-underline-color);
+       }
+    }
+    &.form-stucco{
+      .form-control{
+           background-image: linear-gradient($pantone-stucco, $pantone-stucco), linear-gradient($mdb-input-underline-color, $mdb-input-underline-color);
+       }
+    }
+    &.form-peach-quartz{
+      .form-control{
+           background-image: linear-gradient($pantone-peach-quartz, $pantone-peach-quartz), linear-gradient($mdb-input-underline-color, $mdb-input-underline-color);
+       }
+    }
+    &.form-cornhusk{
+      .form-control{
+           background-image: linear-gradient($pantone-cornhusk, $pantone-cornhusk), linear-gradient($mdb-input-underline-color, $mdb-input-underline-color);
+       }
+    }
 
     //.variations(unquote(".is-focused.label-placeholder label.control-label"), color, $mdb-input-placeholder-color);  // default label color variations
     &.label-placeholder {

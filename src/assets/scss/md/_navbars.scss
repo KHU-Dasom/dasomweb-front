@@ -148,6 +148,39 @@
     @include dropdown-colors($brand-success);
     @include toolbar-colors($brand-success);
   }
+  // Pantone Colors
+  &.md-ultra-violet{
+    @include dropdown-colors($pantone-ultra-violet);
+    @include toolbar-colors($pantone-ultra-violet);
+  }
+  &.md-classic-blue{
+    @include dropdown-colors($pantone-classic-blue);
+    @include toolbar-colors($pantone-classic-blue);
+  }
+  &.md-provence{
+    @include dropdown-colors($pantone-provence);
+    @include toolbar-colors($pantone-provence);
+  }
+  &.md-baby-blue{
+    @include dropdown-colors($pantone-baby-blue);
+    @include toolbar-colors($pantone-baby-blue);
+  }
+  &.md-monument{
+    @include dropdown-colors($pantone-monument);
+    @include toolbar-colors($pantone-monument);
+  }
+  &.md-stucco{
+    @include dropdown-colors($pantone-stucco);
+    @include toolbar-colors($pantone-stucco);
+  }
+  &.md-peach-quartz{
+    @include dropdown-colors($pantone-peach-quartz);
+    @include toolbar-colors($pantone-peach-quartz);
+  }
+  &.md-cornhusk{
+    @include dropdown-colors($pantone-cornhusk);
+    @include toolbar-colors($pantone-cornhusk);
+  }
 
   &.navbar-transparent{
       background-color: transparent;

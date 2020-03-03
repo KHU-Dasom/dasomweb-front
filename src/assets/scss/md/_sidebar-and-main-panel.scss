@@ -288,6 +288,31 @@
     &[data-color="purple"]{
         @include set-background-color-button($brand-primary);
     }
+    // Pantone Colors (from _variables.scss)
+    &[data-color="pantone-ultra-violet"]{
+      @include set-background-color-button($pantone-ultra-violet);
+    }
+    &[data-color="pantone-classic-blue"]{
+      @include set-background-color-button($pantone-classic-blue);
+    }
+    &[data-color="pantone-provence"]{
+      @include set-background-color-button($pantone-provence);
+    }
+    &[data-color="pantone-baby-blue"]{
+      @include set-background-color-button($pantone-baby-blue);
+    }
+    &[data-color="pantone-monument"]{
+      @include set-background-color-button($pantone-monument);
+    }
+    &[data-color="pantone-stucco"]{
+      @include set-background-color-button($pantone-stucco);
+    }
+    &[data-color="pantone-peach-quartz"]{
+      @include set-background-color-button($pantone-peach-quartz);
+    }
+    &[data-color="pantone-cornhusk"]{
+      @include set-background-color-button($pantone-cornhusk);
+    }
 }
 
 .off-canvas-sidebar{

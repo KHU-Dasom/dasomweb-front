@@ -242,6 +242,49 @@
         @include shadow-big-color($brand-danger);
     }
 
+    // Pantone Colors
+    [data-background-color="pantone-ultra-violet"],
+    .md-tabs.md-danger .md-tabs-navigation{
+        background: linear-gradient(60deg, $pantone-ultra-violet, $pantone-ultra-violet);
+        @include shadow-big-color($pantone-ultra-violet);
+    }
+    [data-background-color="pantone-classic-blue"],
+    .md-tabs.md-danger .md-tabs-navigation{
+        background: linear-gradient(60deg, $pantone-classic-blue, $pantone-classic-blue);
+        @include shadow-big-color($pantone-classic-blue);
+    }
+    [data-background-color="pantone-provence"],
+    .md-tabs.md-danger .md-tabs-navigation{
+        background: linear-gradient(60deg, $pantone-provence, $pantone-provence);
+        @include shadow-big-color($pantone-provence);
+    }
+    [data-background-color="pantone-baby-blue"],
+    .md-tabs.md-danger .md-tabs-navigation{
+        background: linear-gradient(60deg, $pantone-baby-blue, $pantone-baby-blue);
+        @include shadow-big-color($pantone-baby-blue);
+    }
+    [data-background-color="pantone-monument"],
+    .md-tabs.md-danger .md-tabs-navigation{
+        background: linear-gradient(60deg, $pantone-monument, $pantone-monument);
+        @include shadow-big-color($pantone-monument);
+    }
+    [data-background-color="pantone-stucco"],
+    .md-tabs.md-danger .md-tabs-navigation{
+        background: linear-gradient(60deg, $pantone-stucco, $pantone-stucco);
+        @include shadow-big-color($pantone-stucco);
+    }
+    [data-background-color="pantone-peach-quartz"],
+    .md-tabs.md-danger .md-tabs-navigation{
+        background: linear-gradient(60deg, $pantone-peach-quartz, $pantone-peach-quartz);
+        @include shadow-big-color($pantone-peach-quartz);
+    }
+    [data-background-color="pantone-cornhusk"],
+    .md-tabs.md-danger .md-tabs-navigation{
+        background: linear-gradient(60deg, $pantone-cornhusk, $pantone-cornhusk);
+        @include shadow-big-color($pantone-cornhusk);
+    }
+
+
     [data-background-color]{
         color: $white-color;
 

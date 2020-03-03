@@ -58,6 +58,31 @@
   &[table-header-color="green"] .md-table-head{
     color: $brand-success !important;
   }
+  // Pantone Colors (from _variables.scss)
+  &[table-header-color="pantone-ultra-violet"] .md-table-head{
+    color: $pantone-ultra-violet !important;
+  }
+  &[table-header-color="pantone-classic-blue"] .md-table-head{
+    color: $pantone-classic-blue !important;
+  }
+  &[table-header-color="pantone-provence"] .md-table-head{
+    color: $pantone-provence !important;
+  }
+  &[table-header-color="pantone-baby-blue"] .md-table-head{
+    color: $pantone-baby-blue !important;
+  }
+  &[table-header-color="pantone-monument"] .md-table-head{
+    color: $pantone-monument !important;
+  }
+  &[table-header-color="pantone-stucco"] .md-table-head{
+    color: $pantone-stucco !important;
+  }
+  &[table-header-color="pantone-peach-quartz"] .md-table-head{
+    color: $pantone-peach-quartz !important;
+  }
+  &[table-header-color="pantone-cornhusk"] .md-table-head{
+    color: $pantone-cornhusk !important;
+  }
 
   .md-table-row td{
     border-top-color: rgba(0,0,0,.06) !important;

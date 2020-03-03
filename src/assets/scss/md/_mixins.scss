@@ -166,6 +166,31 @@
     &.tag-rose{
       @include tag-color($brand-rose);
     }
+    // Pantone Colors
+    &.tag-ultra-violet{
+      @include tag-color($pantone-ultra-violet);
+    }
+    &.tag-classic-blue{
+      @include tag-color($pantone-classic-blue);
+    }
+    &.tag-provence{
+      @include tag-color($pantone-provence);
+    }
+    &.tag-baby-blue{
+      @include tag-color($pantone-baby-blue);
+    }
+    &.tag-monument{
+      @include tag-color($pantone-monument);
+    }
+    &.tag-stucco{
+      @include tag-color($pantone-stucco);
+    }
+    &.tag-peach-quartz{
+      @include tag-color($pantone-peach-quartz);
+    }
+    &.tag-cornhusk{
+      @include tag-color($pantone-cornhusk);
+    }
 }
 
 @mixin rotate-180(){
