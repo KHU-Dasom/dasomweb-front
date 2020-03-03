@@ -29,22 +29,28 @@ footer{
                     text-decoration: none;
                 }
             }
-
-          &:first-child a{
-            margin-left: -15px;
-          }
         }
     }
 
     .copyright{
         padding: 15px 0;
         margin: 0;
-        .md-icon{
-            font-size: 18px !important;
-            color: inherit !important;
-            width: auto !important;
-            min-width: auto !important;
-
+        .material-icons{
+            font-size: 18px;
+            position: relative;
+            top: 3px;
         }
     }
+
+    .btn{
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+}
+
+.container{
+  padding-right: 30px;
+  padding-left: 30px;
+  display: flex;
+  justify-content: space-between;
 }
