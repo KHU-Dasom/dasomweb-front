@@ -21,7 +21,7 @@ export default {
   props: {
     tableHeaderColor: {
       type: String,
-      default: ""
+      default: "pantone-provence"
     }
   },
   data() {

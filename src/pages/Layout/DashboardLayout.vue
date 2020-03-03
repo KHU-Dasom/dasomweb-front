@@ -98,6 +98,7 @@ export default {
             var icon = element.icon_class;
 
             vm.boards.push({
+              id: element.id,
               path: path,
               title: title,
               icon: icon

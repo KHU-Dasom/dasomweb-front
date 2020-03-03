@@ -5,7 +5,7 @@
         class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100"
       >
         <md-card class="md-card-plain">
-          <md-card-header data-background-color="green">
+          <md-card-header data-background-color="pantone-provence">
             <h4 class="title">{{ boardData.title }}</h4>
           </md-card-header>
           <md-card-content>
@@ -26,7 +26,6 @@ export default {
   },
   data() {
     return {
-      colorPagination: 1,
       boardID: "",
       boardData: {}
     };

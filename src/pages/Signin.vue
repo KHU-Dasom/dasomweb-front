@@ -7,12 +7,13 @@
       </div>
 
       <!-- 학번 필드 -->
-      <div class="form">
+      <div class="form form-provence">
         <md-field :class="getValidationClass('inputID')">
           <label for="input-id">ID (학번)</label>
           <md-input
             name="input-id"
             id="input-id"
+            class="md-provence"
             v-model="form.inputID"
             :disabled="sending"
             @keydown.enter="validateUser"
@@ -49,12 +50,12 @@
         </md-field>
       </div>
 
-      <div class="actions md-layout md-alignment-center-space-between">
-        <a href="#/">홈으로</a>
-        <a href="#/signup">회원가입</a>
+      <div class="actions md-layout md-alignment-center-space-between md-provence">
+        <a href="#/" class="md-provence">홈으로</a>
+        <a href="#/signup" class="md-provence">회원가입</a>
         <md-button
           type="submit"
-          class="md-raised md-primary"
+          class="md-raised md-primary md-provence"
           :disabled="sending"
           @click="validateUser"
           @keydown.enter="validateUser"

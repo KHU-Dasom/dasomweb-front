@@ -55,9 +55,9 @@ export default {
     },
     activeColor: {
       type: String,
-      default: "green",
+      default: "pantone-provence",
       validator: value => {
-        let acceptedValues = ["", "purple", "blue", "green", "orange", "red"];
+        let acceptedValues = ["", "purple", "blue", "green", "orange", "red", "pantone-provence", "pantone-ultra-violet", "pantone-classic-blue"];
         return acceptedValues.indexOf(value) !== -1;
       }
     },
