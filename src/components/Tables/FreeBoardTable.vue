@@ -29,7 +29,6 @@
       <md-button
         class="md-dense md-provence"
         @click="prevPage"
-        v-bind:disabled="pagination.prevPage"
         >이전</md-button
       >
       <span class="pagination-span md-body-1"
@@ -38,7 +37,6 @@
       <md-button
         class="md-dense md-provence"
         @click="nextPage"
-        v-bind:disabled="pagination.nextPage"
         >다음</md-button
       >
     </div>
@@ -59,9 +57,6 @@ export default {
       deep: true,
       handler() {
         this.fetchData();
-        this.pagination.prevDisable = (this.pagination.current == 0);
-        this.pagination.nextDisable =
-          (this.pagination.current == this.pagination.count - 1);
       }
     }
   },
@@ -72,9 +67,7 @@ export default {
       articles: [],
       pagination: {
         current: 0,
-        count: 1,
-        prevDisable: false,
-        nextDisable: false
+        count: 1
       }
     };
   },
@@ -93,6 +86,7 @@ export default {
       }
     },
     fetchData() {
+      console.log("뺴찌뗴이따")
       var vm = this;
 
       this.boardID = this.$route.params.board_id;

@@ -16,7 +16,6 @@
               id="input-id"
               v-model="form.inputID"
               :disabled="sending"
-              @blur="calcEnrollYear"
             />
             <span class="md-error" v-if="!$v.form.inputID.required"
               >값을 입력해주세요.</span
@@ -112,6 +111,7 @@
               id="input-enroll-year"
               v-model="form.inputEnrollYear"
               :disabled="sending"
+              value="exportedEnrollYear"
               readonly
             />
             <span class="md-error" v-if="!$v.form.inputEnrollYear.required"
@@ -133,10 +133,11 @@
       <!-- End Form -->
 
       <div class="actions md-layout md-alignment-center-space-between">
-        <a href="/">홈으로</a>
+        <a href="/" class="md-provence">홈으로</a>
+        <a href="#/signup" class="md-provence">회원가입</a>
         <md-button
           type="submit"
-          class="md-raised md-primary"
+          class="md-raised md-provence"
           :disabled="sending"
           @click="validateUser"
           >회원가입</md-button
@@ -182,8 +183,7 @@ export default {
       inputBirth: "1998-04-25"
     },
     userSaved: false,
-    sending: false,
-    lastUser: null
+    sending: false
   }),
   validations: {
     form: {
@@ -217,12 +217,16 @@ export default {
       }
     }
   },
+  watch: {
+    "form.inputID": {
+      handler: function() {
+        var id = String(this.form.inputID);
+        var enrollYear = id.slice(2, 4);
+        this.form.inputEnrollYear = enrollYear;
+      }
+    }
+  },
   methods: {
-    calcEnrollYear() {
-      var id = String(this.form.inputID);
-      var enrollYear = id.slice(2, 4);
-      this.form.inputEnrollYear = enrollYear;
-    },
     getValidationClass(fieldName) {
       const field = this.$v.form[fieldName];
 
