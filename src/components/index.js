@@ -9,6 +9,7 @@ import OrderedTable from "./Tables/OrderedTable.vue";
 import SimpleTable from "./Tables/SimpleTable.vue";
 
 import FreeBoardTable from "./Tables/FreeBoardTable.vue";
+import ArticleTable from "./Tables/ArticleTable.vue";
 import ProfileTable from "./Tables/ProfileTable.vue";
 
 export {
@@ -19,5 +20,6 @@ export {
   OrderedTable,
   SimpleTable,
   FreeBoardTable,
-  ProfileTable
+  ProfileTable,
+  ArticleTable
 };
