@@ -53,10 +53,20 @@ export default {
     }
   },
   watch: {
-    pagination: {
-      deep: true,
-      handler() {
-        this.fetchData();
+    "pagination.current": {
+      handler: function() {
+        this.$router
+          .push({
+            path: "/boards/" + this.boardID,
+            query: {
+              page: this.pagination.current
+            }
+          })
+          .catch(error => {
+            if (error.name != "NavigationDuplicated") {
+              throw error;
+            }
+          });
       }
     }
   },
@@ -86,16 +96,17 @@ export default {
       }
     },
     fetchData() {
-      console.log("뺴찌뗴이따")
       var vm = this;
 
+      // Router Parameters
       this.boardID = this.$route.params.board_id;
+      this.pagination.current = this.$route.query.page;
+
       var url =
         "http://api.dasom.io/boards/" +
         this.boardID +
         "/articles?page=" +
         this.pagination.current;
-      console.log(url);
 
       var token = localStorage.getItem("accessToken");
       let config = {
@@ -107,14 +118,19 @@ export default {
       this.$http
         .get(url, config)
         .then(res => {
-          console.log(res);
           vm.articles = res.data.data.articles;
           vm.pagination.count = res.data.data.page_counts;
+          vm.pagination.current = res.data.data.page;
         })
         .catch(error => {
           if (error.response.request.status == 401) {
             alert("로그인 세션이 만료되었습니다.");
-            vm.$router.push("/signin");
+            vm.$router.push({
+              path: "/signin",
+              query: {
+                redirectPath: encodeURI(vm.$route.path)
+              }
+            });
           }
         });
     },

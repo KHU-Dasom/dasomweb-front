@@ -72,12 +72,12 @@ const routes = [
         beforeEnter: requireAuth()
       },
       {
-         // 게시글 출력
-         path: "/boards/:board_id/articles/:article_id",
-         name: "ArticleShow",
-         component: ArticleShow,
-         beforeEnter: requireAuth()
-       }
+        // 게시글 출력
+        path: "/boards/:board_id/articles/:article_id",
+        name: "ArticleShow",
+        component: ArticleShow,
+        beforeEnter: requireAuth()
+      }
     ]
   },
   {

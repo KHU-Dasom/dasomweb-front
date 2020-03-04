@@ -73,7 +73,12 @@ export default {
             vm.$router.push("/");
           } else if (error.response.request.status == 401) {
             alert("로그인 세션이 만료되었습니다.");
-            vm.$router.push("/signin");
+            vm.$router.push({
+              path: "/signin",
+              query: {
+                redirectPath: encodeURI(vm.$route.path)
+              }
+            });
           }
         });
     }

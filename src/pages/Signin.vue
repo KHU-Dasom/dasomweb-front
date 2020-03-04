@@ -159,7 +159,14 @@ export default {
       }, 1000);
     },
     redirect() {
-      this.$router.push("/");
+      var query = this.$router.query;
+      var redirectPath = "/";
+      if (query == undefined) {
+        redirectPath = "/";
+      } else {
+        redirectPath = decodeURI(query.redirectPath);
+      }
+      this.$router.push(redirectPath);
     }
   },
   created() {
