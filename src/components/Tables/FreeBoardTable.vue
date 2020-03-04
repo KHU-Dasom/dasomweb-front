@@ -81,7 +81,7 @@ export default {
       }
     },
     prevPage() {
-      if (this.pagination.current > this.pagination.count - 1) {
+      if (this.pagination.current > 0) {
         this.pagination.current -= 1;
       }
     },

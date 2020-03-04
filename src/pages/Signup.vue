@@ -168,11 +168,13 @@ import {
 export default {
   name: "Signup",
   mixins: [validationMixin],
-  data: () => ({
+  props: {
     imgLogo: {
       type: String,
       default: require("@/assets/img/dasom_logo_pink.png")
     },
+  },
+  data: () => ({
     loading: false,
     form: {
       inputID: null,
