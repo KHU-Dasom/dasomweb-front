@@ -27,15 +27,15 @@
     <!-- 페이지네이션 -->
     <div class="pagination-wrapper" :key="pagination.current">
       <md-button
-        class="md-dense md-provence"
+        class="md-dense md-provence pagination-button"
         @click="prevPage"
         >이전</md-button
       >
-      <span class="pagination-span md-body-1"
+      <span class="pagination-span"
         >{{ pagination.current + 1 }} / {{ pagination.count }}</span
       >
       <md-button
-        class="md-dense md-provence"
+        class="md-dense md-provence pagination-button"
         @click="nextPage"
         >다음</md-button
       >
@@ -131,7 +131,12 @@ export default {
   margin-top: 1.5rem;
 }
 
+.pagination-button {
+  vertical-align: -webkit-baseline-middle;
+}
+
 .pagination-span {
+  vertical-align: sub;
   padding: 0 1rem;
 }
 </style>
