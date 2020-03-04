@@ -7,7 +7,10 @@
           <h4 class="title">{{ article.title }}</h4>
         </md-card-header>
         <md-card-content>
-        <div>{{ article.published_at_kor }} {{article.author_name}}({{ enrollyear }}) </div>
+        <div class="md-alignment-top-right alignright">
+          <span>{{ article.published_at_kor }} {{article.author_name}}({{ enrollyear }})
+          </span>
+        </div>
           <md-divider></md-divider>
           <p><span v-html="article.content"></span></p>
           <div id="typography">
@@ -191,3 +194,9 @@ export default {
   }
 };
 </script>
+
+<style>
+.alignright {
+    text-align: right;
+}
+</style>
