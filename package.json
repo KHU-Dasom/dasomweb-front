@@ -22,6 +22,7 @@
     "vue-jwt-decode": "^0.1.0",
     "vue-material": "^1.0.0-beta-11",
     "vue-momentjs": "^0.1.2",
+    "vue-perfect-scrollbar": "^0.2.1",
     "vue-quick-chat": "^1.0.9",
     "vue-router": "^3.1.5",
     "vue-social-sharing": "2.4.7",

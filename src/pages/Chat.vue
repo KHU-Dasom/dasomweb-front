@@ -1,92 +1,66 @@
 <template>
-    <div class="content">
-      <Chat
-       :participants="participants"
-       :myself="myself"
-       :messages="messages"
-       :onType="onType"
-       :onMessageSubmit="onMessageSubmit"
-       :chatTitle="chatTitle"
-       :placeholder="placeholder"
-       :colors="colors"
-       :borderStyle="borderStyle"
-       :hideCloseButton="hideCloseButton"
-       :closeButtonIconSize="closeButtonIconSize"
-       :submitIconSize="submitIconSize"/>
-   </div>
+  <div class="content">
+    <md-card>
+      <md-card-header>
+        <div class="md-title">Card without hover effect</div>
+      </md-card-header>
+      <md-card-content>
+        <div>안녕하세요 채팅시작</div>
+        <div>안녕하세요 채팅시작</div>
+        <div>안녕하세요 채팅시작</div>
+        <div>안녕하세요 채팅시작</div>
+        <div>안녕하세요 채팅시작</div>
+        <div>안녕하세요 채팅시작</div>
+        <div>안녕하세요 채팅시작</div>
+        <div>안녕하세요 채팅시작</div>
+        <div>안녕하세요 채팅시작</div>
+        <div>안녕하세요 채팅시작</div>
+        
+      </md-card-content>
+    </md-card>
+    <md-field>
+        <md-textarea style="resize:unset; min-height:50px; height:50px"></md-textarea>
+
+        <md-button class="md-dense md-provence pagination-button">send</md-button>
+    </md-field>
+
+  </div>
 </template>
 
 <script>
-import { Chat } from 'vue-quick-chat'
 export default {
   components: {
-    Chat
+
   },
   data(){
     return {
-      participants: [
-        {
-          name: 'Arnaldo',
-          id: 1
-        },
-        {
-          name: 'José',
-          id: 2
-        }
-      ],
-      myself: {
-        name: 'Matheus S.',
-        id: 3
-      },
-      messages: [
-        {
-          content: 'received messages',
-          myself: false,
-          participantId: 1,
-          timestamp: { year: 2019, month: 3, day: 5, hour: 20, minute: 10, second: 3, millisecond: 123 }
-        },
-        {
-          content: 'sent messages',
-          myself: true,
-          participantId: 3,
-          timestamp: { year: 2019, month: 4, day: 5, hour: 19, minute: 10, second: 3, millisecond:123 }
-        },
-        {
-          content: 'other received messages',
-          myself: false,
-          participantId: 2,
-          timestamp: { year: 2019, month: 5, day: 5, hour: 10, minute: 10, second: 3, millisecond: 123 }
-        }
-      ],
-      chatTitle: 'My chat title',
-      placeholder: 'send your message',
-      colors:{
-        header:{
-          bg: '#d30303',
-          text: '#fff'
-        },
-        message:{
-          myself: {
-            bg: '#fff',
-            text: '#bdb8b8'
-          },
-          others: {
-            bg: '#fb4141',
-            text: '#fff'
-          }
-        },
-        submitIcon: '#b91010'
-      },
-      borderStyle: {
-        topLeft: "10px",
-        topRight: "10px",
-        bottomLeft: "10px",
-        bottomRight: "10px",
-      },
-      hideCloseButton: false,
-      submitIconSize: "20px",
-      closeButtonIconSize: "20px"
+    }
+  },
+  methods: {
+    sendmsg() {
+      alert("sdfsdf")
     }
   }
 };
+
 </script>
+
+<style>
+#log {
+    background: white;
+    margin: 0;
+    padding: 0.5em 0.5em 0.5em 0.5em;
+    top: 0.5em;
+    left: 0.5em;
+    right: 0.5em;
+    bottom: 3em;
+    overflow: auto;
+    height: 50em;
+    width: 90em;
+}
+
+.md-textarea {
+  resize: unset;
+}
+
+</style>
