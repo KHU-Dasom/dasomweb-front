@@ -12,9 +12,10 @@
         md-selectable="single"
         :key="item.id"
       >
+        <!--
         <md-table-cell md-label="ID" @click="onclickArticle()">{{
           item.id
-        }}</md-table-cell>
+        }}</md-table-cell>-->
         <md-table-cell md-label="제목">{{ item.short_title }}</md-table-cell>
         <md-table-cell md-label="작성 시간">{{
           item.published_at_kor
@@ -24,7 +25,13 @@
       </md-table-row>
     </md-table>
 
+    <!-- 글쓰기 -->
+    <div class="buttons-wrapper">
+      <md-button class="md-dense md-provence" @click="newArticle">새로운 글</md-button>
+    </div>
+
     <!-- 페이지네이션 -->
+    <md-divider></md-divider>
     <div class="pagination-wrapper" :key="pagination.current">
       <md-button
         class="md-dense md-provence pagination-button"
@@ -85,6 +92,14 @@ export default {
     this.fetchData();
   },
   methods: {
+    newArticle() {
+      this.$router.push({
+        path: "/newarticle",
+        query: {
+          board_id: this.boardID
+        }
+      });
+    },
     nextPage() {
       if (this.pagination.current < this.pagination.count - 1) {
         this.pagination.current += 1;
@@ -142,9 +157,14 @@ export default {
 </script>
 
 <style scoped>
+.buttons-wrapper {
+  text-align: right;
+  margin: 0 1rem;
+}
+
 .pagination-wrapper {
   text-align: center;
-  margin-top: 1.5rem;
+  margin-top: 1rem;
 }
 
 .pagination-button {
