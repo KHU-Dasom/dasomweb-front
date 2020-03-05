@@ -12,6 +12,9 @@ import FreeBoardTable from "./Tables/FreeBoardTable.vue";
 import ArticleTable from "./Tables/ArticleTable.vue";
 import ProfileTable from "./Tables/ProfileTable.vue";
 
+// Icons for tiptap editor
+import EditorIcon from "./EditorIcon/EditorIcon.vue";
+
 export {
   ChartCard,
   NavTabsCard,
@@ -21,5 +24,6 @@ export {
   SimpleTable,
   FreeBoardTable,
   ProfileTable,
-  ArticleTable
+  ArticleTable,
+  EditorIcon
 };

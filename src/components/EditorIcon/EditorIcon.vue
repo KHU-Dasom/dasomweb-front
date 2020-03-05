@@ -1,25 +1,27 @@
 <template>
   <div class="icon" :class="[`icon--${name}`, `icon--${size}`, { 'has-align-fix': fixAlign }]">
-    <svg class="icon__svg">
-      <use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#icon--' + name"></use>
-    </svg>
+    <img :src="require(`./../../assets/icons/${name}.svg`)" :alt="`${name}`" />
   </div>
 </template>
 
 <script>
 export default {
+  name: "editor-icon",
   props: {
     name: {},
     size: {
-      default: 'normal',
+      default: "normal"
     },
     modifier: {
-      default: null,
+      default: null
     },
     fixAlign: {
-      default: true,
-    },
+      default: true
+    }
   },
+  created: function() {
+    console.log("icon 생성됨.");
+  }
 }
 </script>
 
@@ -30,8 +32,8 @@ export default {
   vertical-align: middle;
   width: 0.8rem;
   height: 0.8rem;
-  margin: 0 .3rem;
-  top: -.05rem;
+  margin: 0 0.3rem;
+  top: -0.05rem;
   fill: currentColor;
   // &.has-align-fix {
   // 	top: -.1rem;
@@ -60,7 +62,7 @@ symbol {
     fill: currentColor;
     stroke: none;
   }
-  *[d="M0 0h24v24H0z"] {
+  *[d='M0 0h24v24H0z'] {
     display: none;
   }
 }

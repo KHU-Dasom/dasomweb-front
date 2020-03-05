@@ -1,51 +1,66 @@
 <template>
   <div>
-    <!-- 테이블 -->
-    <md-table
-      v-model="articles"
-      @md-selected="onSelect"
-      :table-header-color="tableHeaderColor"
-    >
-      <md-table-row
-        slot="md-table-row"
-        slot-scope="{ item }"
-        md-selectable="single"
-        :key="item.id"
-      >
-        <!--
-        <md-table-cell md-label="ID" @click="onclickArticle()">{{
-          item.id
-        }}</md-table-cell>-->
-        <md-table-cell md-label="제목">{{ item.short_title }}</md-table-cell>
-        <md-table-cell md-label="작성 시간">{{
-          item.published_at_kor
-        }}</md-table-cell>
-        <md-table-cell md-label="작성자">{{ item.author_name }}</md-table-cell>
-        <md-table-cell md-label="조회수">{{ item.views }}</md-table-cell>
-      </md-table-row>
-    </md-table>
+    <div v-if="articles.length == 0">
+      <md-empty-state
+        md-icon="priority_high"
+        md-label="게시물이 존재하지 않습니다."
+        md-description="새로운 게시물을 작성해서 dasom.io를 풍요롭게 만들어주세요 용사님들!">
 
-    <!-- 글쓰기 -->
-    <div class="buttons-wrapper">
-      <md-button class="md-dense md-provence" @click="newArticle">새로운 글</md-button>
+        <!-- 글쓰기 -->
+        <div class="buttons-wrapper">
+        <md-button class="md-dense md-provence" @click="newArticle">새로운 글</md-button>
+      </div>
+      </md-empty-state>
     </div>
 
-    <!-- 페이지네이션 -->
-    <md-divider></md-divider>
-    <div class="pagination-wrapper" :key="pagination.current">
-      <md-button
-        class="md-dense md-provence pagination-button"
-        @click="prevPage"
-        >이전</md-button
+    <div v-else>
+      <!-- 테이블 -->
+      <md-table
+        v-model="articles"
+        @md-selected="onSelect"
+        :table-header-color="tableHeaderColor"
       >
-      <span class="pagination-span"
-        >{{ pagination.current + 1 }} / {{ pagination.count }}</span
-      >
-      <md-button
-        class="md-dense md-provence pagination-button"
-        @click="nextPage"
-        >다음</md-button
-      >
+        <md-table-row
+          slot="md-table-row"
+          slot-scope="{ item }"
+          md-selectable="single"
+          :key="item.id"
+        >
+          <!--
+          <md-table-cell md-label="ID" @click="onclickArticle()">{{
+            item.id
+          }}</md-table-cell>-->
+          <md-table-cell md-label="제목">{{ item.short_title }}</md-table-cell>
+          <md-table-cell md-label="작성 시간">{{
+            item.published_at_kor
+          }}</md-table-cell>
+          <md-table-cell md-label="작성자">{{ item.author_name }}</md-table-cell>
+          <md-table-cell md-label="조회수">{{ item.views }}</md-table-cell>
+        </md-table-row>
+      </md-table>
+
+      <!-- 글쓰기 -->
+      <div class="buttons-wrapper">
+        <md-button class="md-dense md-provence" @click="newArticle">새로운 글</md-button>
+      </div>
+
+      <!-- 페이지네이션 -->
+      <md-divider></md-divider>
+      <div class="pagination-wrapper" :key="pagination.current">
+        <md-button
+          class="md-dense md-provence pagination-button"
+          @click="prevPage"
+          >이전</md-button
+        >
+        <span class="pagination-span"
+          >{{ pagination.current + 1 }} / {{ pagination.count }}</span
+        >
+        <md-button
+          class="md-dense md-provence pagination-button"
+          @click="nextPage"
+          >다음</md-button
+        >
+      </div>
     </div>
   </div>
 </template>
@@ -116,6 +131,9 @@ export default {
       // Router Parameters
       this.boardID = this.$route.params.board_id;
       this.pagination.current = this.$route.query.page;
+      if (this.pagination.current == undefined) {
+        this.pagination.current = 0;
+      }
 
       var url =
         "http://api.dasom.io/boards/" +

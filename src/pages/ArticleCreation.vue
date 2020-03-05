@@ -3,11 +3,12 @@
     <div class="md-layout">
       <div class="md-layout-item">
         <md-card>
+
           <md-card-header data-background-color="pantone-provence">
             <h4 class="title">제목 없음</h4>
           </md-card-header>
-          <md-card-content>
 
+          <md-card-content>
             <!-- Menu Bar -->
             <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
               <div class="menubar">
@@ -16,7 +17,7 @@
                   :class="{ 'is-active': isActive.bold() }"
                   @click="commands.bold"
                 >
-                  <icon name="bold" />
+                  <editor-icon name="bold" />
                 </button>
 
                 <button
@@ -24,7 +25,7 @@
                   :class="{ 'is-active': isActive.italic() }"
                   @click="commands.italic"
                 >
-                  <icon name="italic" />
+                  <EditorIcon name="italic" />
                 </button>
 
                 <button
@@ -32,7 +33,7 @@
                   :class="{ 'is-active': isActive.strike() }"
                   @click="commands.strike"
                 >
-                  <icon name="strike" />
+                  <EditorIcon name="strike" />
                 </button>
 
                 <button
@@ -40,7 +41,7 @@
                   :class="{ 'is-active': isActive.underline() }"
                   @click="commands.underline"
                 >
-                  <icon name="underline" />
+                  <EditorIcon name="underline" />
                 </button>
 
                 <button
@@ -48,7 +49,7 @@
                   :class="{ 'is-active': isActive.code() }"
                   @click="commands.code"
                 >
-                  <icon name="code" />
+                  <EditorIcon name="code" />
                 </button>
 
                 <button
@@ -56,7 +57,7 @@
                   :class="{ 'is-active': isActive.paragraph() }"
                   @click="commands.paragraph"
                 >
-                  <icon name="paragraph" />
+                  <EditorIcon name="paragraph" />
                 </button>
 
                 <button
@@ -88,7 +89,7 @@
                   :class="{ 'is-active': isActive.bullet_list() }"
                   @click="commands.bullet_list"
                 >
-                  <icon name="ul" />
+                  <EditorIcon name="ul" />
                 </button>
 
                 <button
@@ -96,7 +97,7 @@
                   :class="{ 'is-active': isActive.ordered_list() }"
                   @click="commands.ordered_list"
                 >
-                  <icon name="ol" />
+                  <EditorIcon name="ol" />
                 </button>
 
                 <button
@@ -104,7 +105,7 @@
                   :class="{ 'is-active': isActive.blockquote() }"
                   @click="commands.blockquote"
                 >
-                  <icon name="quote" />
+                  <EditorIcon name="quote" />
                 </button>
 
                 <button
@@ -112,43 +113,36 @@
                   :class="{ 'is-active': isActive.code_block() }"
                   @click="commands.code_block"
                 >
-                  <icon name="code" />
+                  <EditorIcon name="code" />
                 </button>
 
                 <button
                   class="menubar__button"
                   @click="commands.horizontal_rule"
                 >
-                  <icon name="hr" />
+                  <EditorIcon name="hr" />
                 </button>
 
-                <button
-                  class="menubar__button"
-                  @click="commands.undo"
-                >
-                  <icon name="undo" />
+                <button class="menubar__button" @click="commands.undo">
+                  <EditorIcon name="undo" />
                 </button>
 
-                <button
-                  class="menubar__button"
-                  @click="commands.redo"
-                >
-                  <icon name="redo" />
+                <button class="menubar__button" @click="commands.redo">
+                  <EditorIcon name="redo" />
                 </button>
 
                 <button
                   class="menubar__button"
                   @click="showImagePrompt(commands.image)"
                 >
-                  <icon name="image" />
+                  <EditorIcon name="image" />
                 </button>
-
               </div>
-            </editor-menu-bar> <!-- Menu Bar Ended -->
+            </editor-menu-bar>
+            <!-- Menu Bar Ended -->
 
             <!-- Editor Content -->
             <editor-content class="editor__content" :editor="editor" />
-
           </md-card-content>
         </md-card>
       </div>
@@ -158,7 +152,7 @@
 
 <script>
 // Import the basic building blocks
-import Icon from "@/components/Icon";
+import EditorIcon from "@/components";
 import { Editor, EditorContent, EditorMenuBar } from "tiptap";
 import {
   Blockquote,
@@ -183,17 +177,26 @@ import {
 
 export default {
   components: {
-    Icon,
+    EditorIcon,
     EditorContent,
     EditorMenuBar
   },
   created: function() {
     this.boardID = this.$route.query.board_id;
+
+    var vm = this;
+    this.html = this.editor.getHTML();
+    this.json = this.editor.getJSON();
+    this.editor.on("update", () => {
+      vm.html = vm.editor.getHTML();
+      vm.json = vm.editor.getJSON();
+      vm.$emit("update", vm.html);
+    });
   },
   data() {
     return {
       board_id: null,
-      // Create an `Editor` instance with some default content. The editor is 
+      // Create an `Editor` instance with some default content. The editor is
       // then passed to the `EditorContent` component as a `prop`
       editor: new Editor({
         extensions: [
@@ -216,9 +219,9 @@ export default {
           new History(),
           new Image()
         ],
-        content: `<p>다솜은 사랑입니다~!</p><pre><code> std::string dasom = "LOVE"; </code></pre>`,
-      }),
-    }
+        content: `<p>다솜은 사랑입니다~!</p><pre><code> std::string dasom = "LOVE"; </code></pre><p>- dasom.io</p>`
+      })
+    };
   },
   beforeDestroy() {
     // Always destroy your editor instance when it's no longer needed
@@ -226,13 +229,13 @@ export default {
   },
   methods: {
     showImagePrompt(command) {
-      const src = prompt('Enter the url of your image here')
+      const src = prompt("Enter the url of your image here");
       if (src !== null) {
-        command({ src })
+        command({ src });
       }
     }
   }
-}
+};
 </script>
 
 <style scoped>
