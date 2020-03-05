@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="!loading">
     <div v-if="articles.length == 0">
       <md-empty-state
         md-icon="priority_high"
@@ -94,6 +94,7 @@ export default {
   },
   data() {
     return {
+      loading: true,
       boardID: null,
       selected: [],
       articles: [],
@@ -127,6 +128,7 @@ export default {
     },
     fetchData() {
       var vm = this;
+      this.loading = true;
 
       // Router Parameters
       this.boardID = this.$route.params.board_id;
@@ -151,6 +153,7 @@ export default {
       this.$http
         .get(url, config)
         .then(res => {
+          vm.loading = false;
           vm.articles = res.data.data.articles;
           vm.pagination.count = res.data.data.page_counts;
           vm.pagination.current = res.data.data.page;
@@ -158,6 +161,7 @@ export default {
         .catch(error => {
           if (error.response.request.status == 401) {
             alert("로그인 세션이 만료되었습니다.");
+            vm.loading = false;
             vm.$router.push({
               path: "/signin",
               query: {
@@ -166,6 +170,7 @@ export default {
             });
           }
         });
+      this.loading = false;
     },
     onSelect(item) {
       this.$router.push(this.boardID + "/articles/" + item.id);

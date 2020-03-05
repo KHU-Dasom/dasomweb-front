@@ -3,148 +3,166 @@
     <div class="md-layout">
       <div class="md-layout-item">
         <md-card>
-
           <md-card-header data-background-color="pantone-provence">
-            <h4 class="title">제목 없음</h4>
+            <h4 class="title">
+              <input
+                class="input-tag-title"
+                v-model="input_title"
+                placeholder="제목을 입력해주세요 ..."
+              />
+            </h4>
           </md-card-header>
 
           <md-card-content>
-            <!-- Menu Bar -->
-            <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
-              <div class="menubar">
-                <button
-                  class="menubar__button"
-                  :class="{ 'is-active': isActive.bold() }"
-                  @click="commands.bold"
-                >
-                  <editor-icon name="bold" />
-                </button>
+            <div class="editor-wrapper">
+              <!-- Menu Bar -->
+              <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
+                <div class="menubar menuber-align">
+                  <button
+                    class="menubar__button"
+                    :class="{ 'is-active': isActive.bold() }"
+                    @click="commands.bold"
+                  >
+                    <editor-icon name="bold" />
+                  </button>
 
-                <button
-                  class="menubar__button"
-                  :class="{ 'is-active': isActive.italic() }"
-                  @click="commands.italic"
-                >
-                  <EditorIcon name="italic" />
-                </button>
+                  <button
+                    class="menubar__button"
+                    :class="{ 'is-active': isActive.italic() }"
+                    @click="commands.italic"
+                  >
+                    <EditorIcon name="italic" />
+                  </button>
 
-                <button
-                  class="menubar__button"
-                  :class="{ 'is-active': isActive.strike() }"
-                  @click="commands.strike"
-                >
-                  <EditorIcon name="strike" />
-                </button>
+                  <button
+                    class="menubar__button"
+                    :class="{ 'is-active': isActive.strike() }"
+                    @click="commands.strike"
+                  >
+                    <EditorIcon name="strike" />
+                  </button>
 
-                <button
-                  class="menubar__button"
-                  :class="{ 'is-active': isActive.underline() }"
-                  @click="commands.underline"
-                >
-                  <EditorIcon name="underline" />
-                </button>
+                  <button
+                    class="menubar__button"
+                    :class="{ 'is-active': isActive.underline() }"
+                    @click="commands.underline"
+                  >
+                    <EditorIcon name="underline" />
+                  </button>
 
-                <button
-                  class="menubar__button"
-                  :class="{ 'is-active': isActive.code() }"
-                  @click="commands.code"
-                >
-                  <EditorIcon name="code" />
-                </button>
+                  <button
+                    class="menubar__button"
+                    :class="{ 'is-active': isActive.code() }"
+                    @click="commands.code"
+                  >
+                    <EditorIcon name="code" />
+                  </button>
 
-                <button
-                  class="menubar__button"
-                  :class="{ 'is-active': isActive.paragraph() }"
-                  @click="commands.paragraph"
-                >
-                  <EditorIcon name="paragraph" />
-                </button>
+                  <button
+                    class="menubar__button"
+                    :class="{ 'is-active': isActive.paragraph() }"
+                    @click="commands.paragraph"
+                  >
+                    <EditorIcon name="paragraph" />
+                  </button>
 
-                <button
-                  class="menubar__button"
-                  :class="{ 'is-active': isActive.heading({ level: 1 }) }"
-                  @click="commands.heading({ level: 1 })"
-                >
-                  H1
-                </button>
+                  <button
+                    class="menubar__button"
+                    :class="{ 'is-active': isActive.heading({ level: 1 }) }"
+                    @click="commands.heading({ level: 1 })"
+                  >
+                    H1
+                  </button>
 
-                <button
-                  class="menubar__button"
-                  :class="{ 'is-active': isActive.heading({ level: 2 }) }"
-                  @click="commands.heading({ level: 2 })"
-                >
-                  H2
-                </button>
+                  <button
+                    class="menubar__button"
+                    :class="{ 'is-active': isActive.heading({ level: 2 }) }"
+                    @click="commands.heading({ level: 2 })"
+                  >
+                    H2
+                  </button>
 
-                <button
-                  class="menubar__button"
-                  :class="{ 'is-active': isActive.heading({ level: 3 }) }"
-                  @click="commands.heading({ level: 3 })"
-                >
-                  H3
-                </button>
+                  <button
+                    class="menubar__button"
+                    :class="{ 'is-active': isActive.heading({ level: 3 }) }"
+                    @click="commands.heading({ level: 3 })"
+                  >
+                    H3
+                  </button>
 
-                <button
-                  class="menubar__button"
-                  :class="{ 'is-active': isActive.bullet_list() }"
-                  @click="commands.bullet_list"
-                >
-                  <EditorIcon name="ul" />
-                </button>
+                  <button
+                    class="menubar__button"
+                    :class="{ 'is-active': isActive.bullet_list() }"
+                    @click="commands.bullet_list"
+                  >
+                    <EditorIcon name="ul" />
+                  </button>
 
-                <button
-                  class="menubar__button"
-                  :class="{ 'is-active': isActive.ordered_list() }"
-                  @click="commands.ordered_list"
-                >
-                  <EditorIcon name="ol" />
-                </button>
+                  <button
+                    class="menubar__button"
+                    :class="{ 'is-active': isActive.ordered_list() }"
+                    @click="commands.ordered_list"
+                  >
+                    <EditorIcon name="ol" />
+                  </button>
 
-                <button
-                  class="menubar__button"
-                  :class="{ 'is-active': isActive.blockquote() }"
-                  @click="commands.blockquote"
-                >
-                  <EditorIcon name="quote" />
-                </button>
+                  <button
+                    class="menubar__button"
+                    :class="{ 'is-active': isActive.blockquote() }"
+                    @click="commands.blockquote"
+                  >
+                    <EditorIcon name="quote" />
+                  </button>
 
-                <button
-                  class="menubar__button"
-                  :class="{ 'is-active': isActive.code_block() }"
-                  @click="commands.code_block"
-                >
-                  <EditorIcon name="code" />
-                </button>
+                  <button
+                    class="menubar__button"
+                    :class="{ 'is-active': isActive.code_block() }"
+                    @click="commands.code_block"
+                  >
+                    <EditorIcon name="code" />
+                  </button>
 
-                <button
-                  class="menubar__button"
-                  @click="commands.horizontal_rule"
-                >
-                  <EditorIcon name="hr" />
-                </button>
+                  <button
+                    class="menubar__button"
+                    @click="commands.horizontal_rule"
+                  >
+                    <EditorIcon name="hr" />
+                  </button>
 
-                <button class="menubar__button" @click="commands.undo">
-                  <EditorIcon name="undo" />
-                </button>
+                  <button class="menubar__button" @click="commands.undo">
+                    <EditorIcon name="undo" />
+                  </button>
 
-                <button class="menubar__button" @click="commands.redo">
-                  <EditorIcon name="redo" />
-                </button>
+                  <button class="menubar__button" @click="commands.redo">
+                    <EditorIcon name="redo" />
+                  </button>
 
-                <button
-                  class="menubar__button"
-                  @click="showImagePrompt(commands.image)"
-                >
-                  <EditorIcon name="image" />
-                </button>
-              </div>
-            </editor-menu-bar>
-            <!-- Menu Bar Ended -->
+                  <button
+                    class="menubar__button"
+                    @click="showImagePrompt(commands.image)"
+                  >
+                    <EditorIcon name="image" />
+                  </button>
+                </div>
+              </editor-menu-bar>
+              <!-- Menu Bar Ended -->
 
-            <!-- Editor Content -->
-            <editor-content class="editor__content" :editor="editor" />
+              <!-- Editor Content -->
+              <editor-content class="editor__content" :editor="editor" />
+            </div>
+            <!-- Editor Wrapper End -->
+
+            <md-divider></md-divider>
+
+            <!-- Buttons -->
+            <div class="buttons-wrapper">
+              <md-button class="md-dense md-provence">취소</md-button>
+              <md-button class="md-dense md-provence">저장</md-button>
+            </div>
+
           </md-card-content>
         </md-card>
+        <!-- Card End -->
       </div>
     </div>
   </div>
@@ -152,7 +170,7 @@
 
 <script>
 // Import the basic building blocks
-import EditorIcon from "@/components";
+import EditorIcon from "@/components/EditorIcon/EditorIcon.vue";
 import { Editor, EditorContent, EditorMenuBar } from "tiptap";
 import {
   Blockquote,
@@ -196,6 +214,7 @@ export default {
   data() {
     return {
       board_id: null,
+      input_title: "",
       // Create an `Editor` instance with some default content. The editor is
       // then passed to the `EditorContent` component as a `prop`
       editor: new Editor({
@@ -238,12 +257,210 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+.editor-wrapper {
+  padding: 10px 0;
+}
+
+.input-tag-title {
+  background-color: #658dc6;
+  border-color: #658dc6;
+  border-style: none;
+  font-size: 1em;
+  vertical-align: sub;
+  color: #ffffff;
+}
+.input-tag-title::placeholder {
+  color: #e6e6e6;
+  font-style: oblique;
+}
+
+.menuber-align {
+  text-align: center;
+}
+
+.buttons-wrapper {
+  text-align: right;
+  margin: 0 1rem;
+}
+
 .ProseMirror [contenteditable="false"] {
   white-space: normal;
 }
 
 .ProseMirror [contenteditable="true"] {
   white-space: pre-wrap;
+}
+
+// Color Variabls
+$color-black: #000000;
+$color-white: #ffffff;
+$color-grey: #dddddd;
+
+// Menubar Styles
+.menubar {
+  margin-bottom: 1rem;
+  transition: visibility 0.2s 0.4s, opacity 0.2s 0.4s;
+
+  &.is-hidden {
+    visibility: hidden;
+    opacity: 0;
+  }
+
+  &.is-focused {
+    visibility: visible;
+    opacity: 1;
+    transition: visibility 0.2s, opacity 0.2s;
+  }
+
+  &__button {
+    font-weight: bold;
+    display: inline-flex;
+    background: transparent;
+    border: 0;
+    color: $color-black;
+    padding: 0.2rem 0.5rem;
+    margin-right: 0.2rem;
+    border-radius: 3px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: rgba($color-black, 0.05);
+    }
+
+    &.is-active {
+      background-color: rgba($color-black, 0.1);
+    }
+  }
+
+  span#{&}__button {
+    font-size: 13.3333px;
+  }
+}
+
+// Editor Styles
+.editor {
+  position: relative;
+  max-width: 30rem;
+  margin: 0 auto 3.5rem auto;
+
+  &__content,
+  .ProseMirror {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+
+    * {
+      caret-color: currentColor;
+    }
+
+    pre {
+      padding: 0.7rem 1rem;
+      border-radius: 5px;
+      background: $color-black;
+      color: $color-white;
+      font-size: 0.8rem;
+      overflow-x: auto;
+
+      code {
+        display: block;
+      }
+    }
+
+    p code {
+      display: inline-block;
+      padding: 0 0.4rem;
+      border-radius: 5px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      background: rgba($color-black, 0.1);
+      color: rgba($color-black, 0.8);
+    }
+
+    ul,
+    ol {
+      padding-left: 1rem;
+    }
+
+    li > p,
+    li > ol,
+    li > ul {
+      margin: 0;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    blockquote {
+      border-left: 3px solid rgba($color-black, 0.1);
+      color: rgba($color-black, 0.8);
+      padding-left: 0.8rem;
+      font-style: italic;
+
+      p {
+        margin: 0;
+      }
+    }
+
+    img {
+      max-width: 100%;
+      border-radius: 3px;
+    }
+
+    table {
+      border-collapse: collapse;
+      table-layout: fixed;
+      width: 100%;
+      margin: 0;
+      overflow: hidden;
+
+      td, th {
+        min-width: 1em;
+        border: 2px solid $color-grey;
+        padding: 3px 5px;
+        vertical-align: top;
+        box-sizing: border-box;
+        position: relative;
+        > * {
+          margin-bottom: 0;
+        }
+      }
+
+      th {
+        font-weight: bold;
+        text-align: left;
+      }
+
+      .selectedCell:after {
+        z-index: 2;
+        position: absolute;
+        content: "";
+        left: 0; right: 0; top: 0; bottom: 0;
+        background: rgba(200, 200, 255, 0.4);
+        pointer-events: none;
+      }
+
+      .column-resize-handle {
+        position: absolute;
+        right: -2px; top: 0; bottom: 0;
+        width: 4px;
+        z-index: 20;
+        background-color: #adf;
+        pointer-events: none;
+      }
+    }
+
+    .tableWrapper {
+      margin: 1em 0;
+      overflow-x: auto;
+    }
+
+    .resize-cursor {
+      cursor: ew-resize;
+      cursor: col-resize;
+    }
+
+  }
 }
 </style>

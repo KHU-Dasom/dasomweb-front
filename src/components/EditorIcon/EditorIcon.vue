@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: "editor-icon",
+  name: "EditorIcon",
   props: {
     name: {},
     size: {
@@ -18,9 +18,6 @@ export default {
     fixAlign: {
       default: true
     }
-  },
-  created: function() {
-    console.log("icon 생성됨.");
   }
 }
 </script>
