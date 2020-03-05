@@ -14,6 +14,7 @@ import Notifications from "@/pages/Notifications.vue";
 import FreeBoard from "@/pages/FreeBoard.vue";
 import ArticleShow from "@/pages/ArticleShow.vue";
 import ArticleCreation from "@/pages/ArticleCreation.vue";
+import Chat from "@/pages/Chat.vue";
 
 import Signin from "@/pages/Signin.vue";
 import Signup from "@/pages/Signup.vue";
@@ -85,6 +86,12 @@ const routes = [
         path: "/newarticle",
         name: "ArticleCreation",
         component: ArticleCreation,
+        beforeEnter: requireAuth()
+      },
+      {
+        path: "/chat",
+        name: "Chat",
+        component: Chat,
         beforeEnter: requireAuth()
       }
     ]

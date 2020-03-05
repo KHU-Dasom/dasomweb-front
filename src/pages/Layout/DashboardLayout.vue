@@ -14,6 +14,11 @@
         <p>{{ board.title }}</p>
       </sidebar-link>
 
+      <sidebar-link to="/chat">
+        <md-icon>send</md-icon>
+        <p>채팅</p>
+      </sidebar-link>
+
       <sidebar-link to="/extralinks">
         <md-icon>dashboard</md-icon>
         <p>추가 기능</p>
@@ -92,7 +97,6 @@ export default {
         .get("http://api.dasom.io/boards")
         .then(res => {
           res.data.data.boards.forEach(element => {
-
             var path = "/boards/" + String(element.id);
             var title = element.title;
             var icon = element.icon_class;
