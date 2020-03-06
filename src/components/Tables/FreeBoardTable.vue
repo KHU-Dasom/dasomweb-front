@@ -1,6 +1,6 @@
 <template>
-  <div v-if="!loading">
-    <div v-if="articles.length == 0">
+  <div>
+    <div v-show="articles.length == 0">
       <md-empty-state
         md-icon="priority_high"
         md-label="게시물이 존재하지 않습니다."
@@ -8,12 +8,12 @@
 
         <!-- 글쓰기 -->
         <div class="buttons-wrapper">
-        <md-button class="md-dense md-provence" @click="newArticle">새로운 글</md-button>
-      </div>
+          <md-button class="md-dense md-provence" @click="newArticle">새로운 글</md-button>
+        </div>
       </md-empty-state>
     </div>
 
-    <div v-else>
+    <div v-show="articles.length != 0">
       <!-- 테이블 -->
       <md-table
         v-model="articles"
@@ -31,11 +31,11 @@
             item.id
           }}</md-table-cell>-->
           <md-table-cell md-label="제목">{{ item.short_title }}</md-table-cell>
-          <md-table-cell md-label="작성 시간">{{
+          <md-table-cell md-label="작성 시간" width="90px">{{
             item.published_at_kor
           }}</md-table-cell>
-          <md-table-cell md-label="작성자">{{ item.author_name }}</md-table-cell>
-          <md-table-cell md-label="조회수">{{ item.views }}</md-table-cell>
+          <md-table-cell md-label="작성자" width="90px">{{ item.author_name }}</md-table-cell>
+          <md-table-cell md-label="조회수" width="55px">{{ item.views }}</md-table-cell>
         </md-table-row>
       </md-table>
 
@@ -44,8 +44,9 @@
         <md-button class="md-dense md-provence" @click="newArticle">새로운 글</md-button>
       </div>
 
-      <!-- 페이지네이션 -->
       <md-divider></md-divider>
+
+      <!-- 페이지네이션 -->
       <div class="pagination-wrapper" :key="pagination.current">
         <md-button
           class="md-dense md-provence pagination-button"
@@ -180,6 +181,15 @@ export default {
 </script>
 
 <style scoped>
+.md-table .md-table-cell.md-numeric .md-table-cell-container {
+  display: inline;
+}
+.md-table .md-table-cell[width] .md-table-cell-container {
+  width: inherit;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
 .buttons-wrapper {
   text-align: right;
   margin: 0 1rem;

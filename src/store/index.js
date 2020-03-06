@@ -7,11 +7,18 @@ import axios from "axios";
 // JWT
 import VueJwtDecode from "vue-jwt-decode";
 
+import createPersistedState from "vuex-persistedstate";
+
 Vue.use(Vuex);
 
 const resourceHost = "http://api.dasom.io";
 
 export default new Vuex.Store({
+  plugins: [
+    createPersistedState({
+      storage: window.sessionStorage
+    })
+  ],
   // data for holding
   state: {
     // tokens
