@@ -15,7 +15,6 @@
           </md-card-header>
 
           <md-card-content>
-
             <div class="editor editor-wrapper">
               <!-- Menu Bar -->
               <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
@@ -156,16 +155,21 @@
 
             <md-divider></md-divider>
 
-            <FileUploadTable v-on:upload-completed="uploadCompleted"></FileUploadTable>
+            <FileUploadTable
+              v-on:upload-completed="uploadCompleted"
+            ></FileUploadTable>
 
             <md-divider></md-divider>
 
             <!-- Buttons -->
             <div class="buttons-wrapper">
-              <md-button class="md-dense md-provence" @click="cancelEditing">취소</md-button>
-              <md-button class="md-dense md-provence" @click="saveEditing">저장</md-button>
+              <md-button class="md-dense md-provence" @click="cancelEditing"
+                >취소</md-button
+              >
+              <md-button class="md-dense md-provence" @click="saveEditing"
+                >저장</md-button
+              >
             </div>
-
           </md-card-content>
         </md-card>
         <!-- Card End -->
@@ -177,7 +181,6 @@
             :md-stroke="2"
           ></md-progress-spinner>
         </div>
-
       </div>
     </div>
   </div>
@@ -451,7 +454,6 @@ $color-grey: #dddddd;
   margin: 0 auto 3.5rem auto;
 
   &__content {
-
     overflow-wrap: break-word;
     word-wrap: break-word;
     word-break: break-word;
@@ -544,14 +546,19 @@ $color-grey: #dddddd;
         z-index: 2;
         position: absolute;
         content: "";
-        left: 0; right: 0; top: 0; bottom: 0;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
         background: rgba(200, 200, 255, 0.4);
         pointer-events: none;
       }
 
       .column-resize-handle {
         position: absolute;
-        right: -2px; top: 0; bottom: 0;
+        right: -2px;
+        top: 0;
+        bottom: 0;
         width: 4px;
         z-index: 20;
         background-color: #adf;

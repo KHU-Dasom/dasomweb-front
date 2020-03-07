@@ -12,7 +12,7 @@ export default {
   props: {
     dataBackgroundColor: {
       type: String,
-      default: ""
+      default: "pantone-provence"
     }
   }
 };
