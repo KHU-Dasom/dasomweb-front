@@ -7,14 +7,16 @@
             <h4 class="title">
               <input
                 class="input-tag-title"
-                v-model="input_title"
+                v-model="inputTitle"
                 placeholder="제목을 입력해주세요 ..."
+                required
               />
             </h4>
           </md-card-header>
 
           <md-card-content>
-            <div class="editor-wrapper">
+
+            <div class="editor editor-wrapper">
               <!-- Menu Bar -->
               <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
                 <div class="menubar menuber-align">
@@ -145,7 +147,7 @@
                   </button>
                 </div>
               </editor-menu-bar>
-              <!-- Menu Bar Ended -->
+              <!-- Menu Bar End -->
 
               <!-- Editor Content -->
               <editor-content class="editor__content" :editor="editor" />
@@ -156,13 +158,22 @@
 
             <!-- Buttons -->
             <div class="buttons-wrapper">
-              <md-button class="md-dense md-provence">취소</md-button>
-              <md-button class="md-dense md-provence">저장</md-button>
+              <md-button class="md-dense md-provence" @click="cancelEditing">취소</md-button>
+              <md-button class="md-dense md-provence" @click="saveEditing">저장</md-button>
             </div>
 
           </md-card-content>
         </md-card>
         <!-- Card End -->
+
+        <!-- Loading Overlay -->
+        <div class="loading-overlay" v-if="loading">
+          <md-progress-spinner
+            md-mode="indeterminate"
+            :md-stroke="2"
+          ></md-progress-spinner>
+        </div>
+
       </div>
     </div>
   </div>
@@ -204,19 +215,20 @@ export default {
 
     var vm = this;
     this.html = this.editor.getHTML();
-    this.json = this.editor.getJSON();
+    // this.json = this.editor.getJSON();
     this.editor.on("update", () => {
       vm.html = vm.editor.getHTML();
-      vm.json = vm.editor.getJSON();
+      // vm.json = vm.editor.getJSON();
       vm.$emit("update", vm.html);
     });
   },
   data() {
     return {
+      loading: false,
       board_id: null,
-      input_title: "",
-      // Create an `Editor` instance with some default content. The editor is
-      // then passed to the `EditorContent` component as a `prop`
+      inputTitle: "",
+      content_html: "",
+      // content_json: "",
       editor: new Editor({
         extensions: [
           new Blockquote(),
@@ -243,21 +255,79 @@ export default {
     };
   },
   beforeDestroy() {
-    // Always destroy your editor instance when it's no longer needed
+    // 다른 페이지로 넘어가기 전 항상 destroy 호출
     this.editor.destroy();
   },
   methods: {
+    // 이미지 링크거는 용도
     showImagePrompt(command) {
       const src = prompt("Enter the url of your image here");
       if (src !== null) {
         command({ src });
       }
+    },
+    // 수정 취소 후 리다이렉트
+    cancelEditing() {
+      const result = confirm("수정을 취소하고 이전 페이지로 돌아갑니다.");
+      if (result) {
+        this.$router.go(-1);
+      }
+    },
+    // 수정 완료 후 저장
+    saveEditing() {
+      var vm = this;
+      this.loading = true;
+
+      // 제목 작성 체크
+      if (this.inputTitle == "") {
+        alert("제목을 입력해주세요.");
+        this.loading = false;
+        return;
+      }
+
+      // 글 내용 저장
+      this.html = this.editor.getHTML();
+
+      // 요청
+      const url = "http://api.dasom.io/boards/" + this.boardID + "/articles";
+      const author = Number(localStorage.getItem("userID"));
+      var token = localStorage.getItem("accessToken");
+      var config = {
+        headers: {
+          Authorization: token,
+          "Content-Type": "application/json"
+        }
+      };
+      setTimeout(() => {
+        this.$http
+          .post(
+            url,
+            {
+              title: this.inputTitle,
+              content: this.html,
+              author_id: author
+              // upload_ids: []
+            }, config
+          )
+          .then(res => {
+            vm.loading = false;
+
+            console.log(res);
+            alert("수정이 완료되었습니다.");
+            vm.$router.go(-1);
+          })
+          .catch(({ message }) => {
+            console.log(message);
+            alert("수정이 실패하였습니다 : " + message);
+            vm.loading = false;
+          });
+      }, 700);
     }
   }
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .editor-wrapper {
   padding: 10px 0;
 }
@@ -285,7 +355,6 @@ export default {
   margin: 0 1rem;
 }
 
-/*
 .ProseMirror [contenteditable="false"] {
   white-space: normal;
 }
@@ -293,7 +362,6 @@ export default {
 .ProseMirror [contenteditable="true"] {
   white-space: pre-wrap;
 }
-*/
 
 // Color Variabls
 $color-black: #000000;
@@ -302,7 +370,7 @@ $color-grey: #dddddd;
 
 // Menubar Styles
 .menubar {
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   transition: visibility 0.2s 0.4s, opacity 0.2s 0.4s;
 
   &.is-hidden {
@@ -342,132 +410,130 @@ $color-grey: #dddddd;
 }
 
 // Editor Styles
-/*
+
 .editor {
   position: relative;
-  max-width: 30rem;
+  max-width: 45rem;
   margin: 0 auto 3.5rem auto;
-*/
 
-.editor__content,
-.ProseMirror {
+  &__content {
 
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  word-break: break-word;
-  white-space: pre-wrap;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+    white-space: pre-wrap;
 
-  * {
-    caret-color: currentColor;
-  }
-
-  pre {
-    padding: 0.7rem 1rem;
-    border-radius: 5px;
-    background: $color-black;
-    color: $color-white;
-    font-size: 0.8rem;
-    overflow-x: auto;
-
-    code {
-      display: block;
+    * {
+      caret-color: currentColor;
     }
-  }
 
-  p code {
-    display: inline-block;
-    padding: 0 0.4rem;
-    border-radius: 5px;
-    font-size: 0.8rem;
-    font-weight: bold;
-    background: rgba($color-black, 0.1);
-    color: rgba($color-black, 0.8);
-  }
+    pre {
+      padding: 0.7rem 1rem;
+      border-radius: 5px;
+      background: $color-black;
+      color: $color-white;
+      font-size: 0.8rem;
+      overflow-x: auto;
 
-  ul,
-  ol {
-    padding-left: 1rem;
-  }
-
-  li > p,
-  li > ol,
-  li > ul {
-    margin: 0;
-  }
-
-  a {
-    color: inherit;
-  }
-
-  blockquote {
-    border-left: 3px solid rgba($color-black, 0.1);
-    color: rgba($color-black, 0.8);
-    padding-left: 0.8rem;
-    font-style: italic;
-
-    p {
-      margin: 0;
-    }
-  }
-
-  img {
-    max-width: 100%;
-    border-radius: 3px;
-  }
-
-  table {
-    border-collapse: collapse;
-    table-layout: fixed;
-    width: 100%;
-    margin: 0;
-    overflow: hidden;
-
-    td,
-    th {
-      min-width: 1em;
-      border: 2px solid $color-grey;
-      padding: 3px 5px;
-      vertical-align: top;
-      box-sizing: border-box;
-      position: relative;
-      > * {
-        margin-bottom: 0;
+      code {
+        display: block;
       }
     }
 
-    th {
+    p code {
+      display: inline-block;
+      padding: 0 0.4rem;
+      border-radius: 5px;
+      font-size: 0.8rem;
       font-weight: bold;
-      text-align: left;
+      background: rgba($color-black, 0.1);
+      color: rgba($color-black, 0.8);
     }
 
-    .selectedCell:after {
-      z-index: 2;
-      position: absolute;
-      content: "";
-      left: 0; right: 0; top: 0; bottom: 0;
-      background: rgba(200, 200, 255, 0.4);
-      pointer-events: none;
+    ul,
+    ol {
+      padding-left: 1rem;
     }
 
-    .column-resize-handle {
-      position: absolute;
-      right: -2px; top: 0; bottom: 0;
-      width: 4px;
-      z-index: 20;
-      background-color: #adf;
-      pointer-events: none;
+    li > p,
+    li > ol,
+    li > ul {
+      margin: 0;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    blockquote {
+      border-left: 3px solid rgba($color-black, 0.1);
+      color: rgba($color-black, 0.8);
+      padding-left: 0.8rem;
+      font-style: italic;
+
+      p {
+        margin: 0;
+      }
+    }
+
+    img {
+      max-width: 100%;
+      border-radius: 3px;
+    }
+
+    table {
+      border-collapse: collapse;
+      table-layout: fixed;
+      width: 100%;
+      margin: 0;
+      overflow: hidden;
+
+      td,
+      th {
+        min-width: 1em;
+        border: 2px solid $color-grey;
+        padding: 3px 5px;
+        vertical-align: top;
+        box-sizing: border-box;
+        position: relative;
+        > * {
+          margin-bottom: 0;
+        }
+      }
+
+      th {
+        font-weight: bold;
+        text-align: left;
+      }
+
+      .selectedCell:after {
+        z-index: 2;
+        position: absolute;
+        content: "";
+        left: 0; right: 0; top: 0; bottom: 0;
+        background: rgba(200, 200, 255, 0.4);
+        pointer-events: none;
+      }
+
+      .column-resize-handle {
+        position: absolute;
+        right: -2px; top: 0; bottom: 0;
+        width: 4px;
+        z-index: 20;
+        background-color: #adf;
+        pointer-events: none;
+      }
+    }
+
+    .tableWrapper {
+      margin: 1em 0;
+      overflow-x: auto;
+    }
+
+    .resize-cursor {
+      cursor: ew-resize;
+      cursor: col-resize;
     }
   }
-
-  .tableWrapper {
-    margin: 1em 0;
-    overflow-x: auto;
-  }
-
-  .resize-cursor {
-    cursor: ew-resize;
-    cursor: col-resize;
-  }
-
 }
 </style>
