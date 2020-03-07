@@ -29,7 +29,8 @@ export default new Vuex.Store({
     userBirth: null,
     userEmail: null,
     userLevel: null,
-    userEnrollYear: null
+    userEnrollYear: null,
+    msgDatas: []
   },
   getters: {},
   mutations: {
@@ -77,6 +78,9 @@ export default new Vuex.Store({
 
       // localStorage에 들어있는 token들 모두 제거.
       localStorage.clear();
+    },
+    PushMsgData(state, {message, from}) {
+      state.msgDatas.push({"message": message, "from": from});
     }
   },
   actions: {

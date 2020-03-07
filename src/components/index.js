@@ -13,6 +13,7 @@ import ArticleTable from "./Tables/ArticleTable.vue";
 import ProfileTable from "./Tables/ProfileTable.vue";
 import FileUploadTable from "./Tables/FileUploadTable.vue";
 import FileAttachmentsTable from "./Tables/FileAttachmentsTable.vue";
+import ChatMsgTable from "./Tables/ChatMsgTable.vue";
 
 // Icons for tiptap editor
 import EditorIcon from "./EditorIcon/EditorIcon.vue";
@@ -29,5 +30,6 @@ export {
   ArticleTable,
   FileUploadTable,
   FileAttachmentsTable,
-  EditorIcon
+  EditorIcon,
+  ChatMsgTable
 };
