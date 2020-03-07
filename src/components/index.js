@@ -11,6 +11,7 @@ import SimpleTable from "./Tables/SimpleTable.vue";
 import FreeBoardTable from "./Tables/FreeBoardTable.vue";
 import ArticleTable from "./Tables/ArticleTable.vue";
 import ProfileTable from "./Tables/ProfileTable.vue";
+import FileUploadTable from "./Tables/FileUploadTable.vue";
 
 // Icons for tiptap editor
 import EditorIcon from "./EditorIcon/EditorIcon.vue";
@@ -25,5 +26,6 @@ export {
   FreeBoardTable,
   ProfileTable,
   ArticleTable,
+  FileUploadTable,
   EditorIcon
 };

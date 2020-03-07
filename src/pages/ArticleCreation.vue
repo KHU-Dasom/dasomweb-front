@@ -156,6 +156,10 @@
 
             <md-divider></md-divider>
 
+            <FileUploadTable v-on:upload-completed="uploadCompleted"></FileUploadTable>
+
+            <md-divider></md-divider>
+
             <!-- Buttons -->
             <div class="buttons-wrapper">
               <md-button class="md-dense md-provence" @click="cancelEditing">취소</md-button>
@@ -167,7 +171,7 @@
         <!-- Card End -->
 
         <!-- Loading Overlay -->
-        <div class="loading-overlay" v-if="loading">
+        <div class="creation-loading-overlay" v-if="loading">
           <md-progress-spinner
             md-mode="indeterminate"
             :md-stroke="2"
@@ -180,7 +184,9 @@
 </template>
 
 <script>
-// Import the basic building blocks
+import { FileUploadTable } from "@/components";
+
+// Editor
 import EditorIcon from "@/components/EditorIcon/EditorIcon.vue";
 import { Editor, EditorContent, EditorMenuBar } from "tiptap";
 import {
@@ -206,6 +212,7 @@ import {
 
 export default {
   components: {
+    FileUploadTable,
     EditorIcon,
     EditorContent,
     EditorMenuBar
@@ -226,6 +233,7 @@ export default {
     return {
       loading: false,
       board_id: null,
+      uploadIDs: null,
       inputTitle: "",
       content_html: "",
       // content_json: "",
@@ -259,6 +267,10 @@ export default {
     this.editor.destroy();
   },
   methods: {
+    // 업로드된 파일 ID들
+    uploadCompleted(uploadIDs) {
+      this.uploadIDs = uploadIDs;
+    },
     // 이미지 링크거는 용도
     showImagePrompt(command) {
       const src = prompt("Enter the url of your image here");
@@ -298,17 +310,18 @@ export default {
           "Content-Type": "application/json"
         }
       };
+      var payload = {
+        title: this.inputTitle,
+        content: this.html,
+        author_id: author
+      };
+      if (this.uploadIDs.length != 0) {
+        payload.upload_ids = this.uploadIDs;
+      }
+      console.log(payload);
       setTimeout(() => {
         this.$http
-          .post(
-            url,
-            {
-              title: this.inputTitle,
-              content: this.html,
-              author_id: author
-              // upload_ids: []
-            }, config
-          )
+          .post(url, payload, config)
           .then(res => {
             vm.loading = false;
 
@@ -328,6 +341,27 @@ export default {
 </script>
 
 <style lang="scss">
+.creation-loading-overlay {
+  z-index: 10;
+  top: 0;
+  left: 0;
+  right: 0;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .md-progress-bar {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+  }
+}
+
 .editor-wrapper {
   padding: 10px 0;
 }
@@ -413,7 +447,7 @@ $color-grey: #dddddd;
 
 .editor {
   position: relative;
-  max-width: 45rem;
+  max-width: 55rem;
   margin: 0 auto 3.5rem auto;
 
   &__content {
