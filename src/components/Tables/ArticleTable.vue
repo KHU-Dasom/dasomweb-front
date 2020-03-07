@@ -3,134 +3,31 @@
   <div class="md-layout">
     <div class="md-layout-item">
       <md-card>
+
         <md-card-header data-background-color="pantone-provence">
           <h4 class="title">{{ article.title }}</h4>
         </md-card-header>
+
+        <!-- Card-Content -->
         <md-card-content>
-        <div class="md-alignment-top-right alignright">
-          <span>{{ article.published_at_kor }} {{article.author_name}}({{ enrollyear }})
-          </span>
-        </div>
-          <md-divider></md-divider>
-          <p><span v-html="article.content"></span></p>
-          <div id="typography">
-            <div class="title">
-              <h2>Typography</h2>
-            </div>
-            <div class="row">
-              <div class="tim-typo">
-                <h1>
-                  <span class="tim-note">Header 1</span>The Life of Material
-                  Dashboard
-                </h1>
-              </div>
-              <div class="tim-typo">
-                <h2>
-                  <span class="tim-note">Header 2</span>The life of Material
-                  Dashboard
-                </h2>
-              </div>
-              <div class="tim-typo">
-                <h3>
-                  <span class="tim-note">Header 3</span>The life of Material
-                  Dashboard
-                </h3>
-              </div>
-              <div class="tim-typo">
-                <h4>
-                  <span class="tim-note">Header 4</span>The life of Material
-                  Dashboard
-                </h4>
-              </div>
-              <div class="tim-typo">
-                <h5>
-                  <span class="tim-note">Header 5</span>The life of Material
-                  Dashboard
-                </h5>
-              </div>
-              <div class="tim-typo">
-                <h6>
-                  <span class="tim-note">Header 6</span>The life of Material
-                  Dashboard
-                </h6>
-              </div>
-              <div class="tim-typo">
-                <p>
-                  <span class="tim-note">Paragraph</span>
-                  I will be the leader of a company that ends up being worth
-                  billions of dollars, because I got the answers. I understand
-                  culture. I am the nucleus. I think that’s a responsibility
-                  that I have, to push possibilities, to show people, this is
-                  the level that things could be at.
-                </p>
-              </div>
-              <div class="tim-typo">
-                <span class="tim-note">Quote</span>
-                <blockquote>
-                  <p>
-                    I will be the leader of a company that ends up being worth
-                    billions of dollars, because I got the answers. I
-                    understand culture. I am the nucleus. I think that’s a
-                    responsibility that I have, to push possibilities, to show
-                    people, this is the level that things could be at.
-                  </p>
-                  <small>
-                    Kanye West, Musician
-                  </small>
-                </blockquote>
-              </div>
-              <div class="tim-typo">
-                <span class="tim-note">Muted Text</span>
-                <p class="text-muted">
-                  I will be the leader of a company that ends up being worth
-                  billions of dollars, because I got the answers...
-                </p>
-              </div>
-              <div class="tim-typo">
-                <span class="tim-note">Primary Text</span>
-                <p class="text-primary">
-                  I will be the leader of a company that ends up being worth
-                  billions of dollars, because I got the answers...
-                </p>
-              </div>
-              <div class="tim-typo">
-                <span class="tim-note">Info Text</span>
-                <p class="text-info">
-                  I will be the leader of a company that ends up being worth
-                  billions of dollars, because I got the answers...
-                </p>
-              </div>
-              <div class="tim-typo">
-                <span class="tim-note">Success Text</span>
-                <p class="text-success">
-                  I will be the leader of a company that ends up being worth
-                  billions of dollars, because I got the answers...
-                </p>
-              </div>
-              <div class="tim-typo">
-                <span class="tim-note">Warning Text</span>
-                <p class="text-warning">
-                  I will be the leader of a company that ends up being worth
-                  billions of dollars, because I got the answers...
-                </p>
-              </div>
-              <div class="tim-typo">
-                <span class="tim-note">Danger Text</span>
-                <p class="text-danger">
-                  I will be the leader of a company that ends up being worth
-                  billions of dollars, because I got the answers...
-                </p>
-              </div>
-              <div class="tim-typo">
-                <h2>
-                  <span class="tim-note">Small Tag</span>
-                  Header with small subtitle
-                  <br />
-                  <small>Use "small" tag for the headers</small>
-                </h2>
-              </div>
-            </div>
+          <div class="md-alignment-top-right alignright">
+            <span>{{ article.published_at_kor }} {{article.author_name}}({{ enrollyear }})
+            </span>
           </div>
+
+          <md-divider></md-divider>
+          <br>
+
+          <!-- Editor -->
+          <div class="editor editor-wrapper">
+            <editor-content class="editor__content" :editor="editor" />
+          </div>
+
+          <md-divider></md-divider>
+
+          <!-- File Attachments -->
+          <FileAttachmentsTable></FileAttachmentsTable>
+
         </md-card-content>
       </md-card>
     </div>
@@ -139,8 +36,36 @@
 </template>
 
 <script>
+import FileAttachmentsTable from "@/components"
+
+import { Editor, EditorContent } from "tiptap";
+import {
+  Blockquote,
+  CodeBlock,
+  HardBreak,
+  Heading,
+  HorizontalRule,
+  OrderedList,
+  BulletList,
+  ListItem,
+  TodoItem,
+  TodoList,
+  Bold,
+  Code,
+  Italic,
+  Link,
+  Strike,
+  Underline,
+  History,
+  Image
+} from "tiptap-extensions";
+
 export default {
   name: "article-table",
+  components: {
+    EditorContent,
+    FileAttachmentsTable
+  },
   props: {
     tableHeaderColor: {
       type: String,
@@ -152,11 +77,39 @@ export default {
       boardID: null,
       articleID: null,
       article: {},
-      enrollyear: null
+      enrollyear: null,
+      // Editor
+      editor: new Editor({
+        editable: false,
+        extensions: [
+          new Blockquote(),
+          new BulletList(),
+          new CodeBlock(),
+          new HardBreak(),
+          new Heading({ levels: [1, 2, 3] }),
+          new HorizontalRule(),
+          new ListItem(),
+          new OrderedList(),
+          new TodoItem(),
+          new TodoList(),
+          new Link(),
+          new Bold(),
+          new Code(),
+          new Italic(),
+          new Strike(),
+          new Underline(),
+          new History(),
+          new Image()
+        ],
+        content: ""
+      })
     };
   },
   created() {
     this.fetchData();
+  },
+  beforeDestroy() {
+    this.editor.destroy();
   },
   methods: {
     fetchData() {
@@ -182,7 +135,7 @@ export default {
         .then(res => {
           vm.article = res.data.data;
           vm.enrollyear = String(vm.article.author_id).slice(2, 4);
-          console.log(res.data.data);
+          vm.editor.setContent(vm.article.content);
         })
         .catch(error => {
           if (error.response.request.status == 401) {
@@ -195,8 +148,152 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 .alignright {
-    text-align: right;
+  text-align: right;
+}
+
+.editor-wrapper {
+  padding: 10px 0;
+}
+
+.ProseMirror [contenteditable="false"] {
+  white-space: normal;
+}
+
+.ProseMirror [contenteditable="true"] {
+  white-space: pre-wrap;
+}
+
+// Color Variabls
+$color-black: #000000;
+$color-white: #ffffff;
+$color-grey: #dddddd;
+
+// Editor Styles
+.editor {
+  position: relative;
+  max-width: 55rem;
+  margin: 0 auto 3.5rem auto;
+
+  &__content {
+
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+    white-space: pre-wrap;
+
+    * {
+      caret-color: currentColor;
+    }
+
+    pre {
+      padding: 0.7rem 1rem;
+      border-radius: 5px;
+      background: $color-black;
+      color: $color-white;
+      font-size: 0.8rem;
+      overflow-x: auto;
+
+      code {
+        display: block;
+      }
+    }
+
+    p code {
+      display: inline-block;
+      padding: 0 0.4rem;
+      border-radius: 5px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      background: rgba($color-black, 0.1);
+      color: rgba($color-black, 0.8);
+    }
+
+    ul,
+    ol {
+      padding-left: 1rem;
+    }
+
+    li > p,
+    li > ol,
+    li > ul {
+      margin: 0;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    blockquote {
+      border-left: 3px solid rgba($color-black, 0.1);
+      color: rgba($color-black, 0.8);
+      padding-left: 0.8rem;
+      font-style: italic;
+
+      p {
+        margin: 0;
+      }
+    }
+
+    img {
+      max-width: 100%;
+      border-radius: 3px;
+    }
+
+    table {
+      border-collapse: collapse;
+      table-layout: fixed;
+      width: 100%;
+      margin: 0;
+      overflow: hidden;
+
+      td,
+      th {
+        min-width: 1em;
+        border: 2px solid $color-grey;
+        padding: 3px 5px;
+        vertical-align: top;
+        box-sizing: border-box;
+        position: relative;
+        > * {
+          margin-bottom: 0;
+        }
+      }
+
+      th {
+        font-weight: bold;
+        text-align: left;
+      }
+
+      .selectedCell:after {
+        z-index: 2;
+        position: absolute;
+        content: "";
+        left: 0; right: 0; top: 0; bottom: 0;
+        background: rgba(200, 200, 255, 0.4);
+        pointer-events: none;
+      }
+
+      .column-resize-handle {
+        position: absolute;
+        right: -2px; top: 0; bottom: 0;
+        width: 4px;
+        z-index: 20;
+        background-color: #adf;
+        pointer-events: none;
+      }
+    }
+
+    .tableWrapper {
+      margin: 1em 0;
+      overflow-x: auto;
+    }
+
+    .resize-cursor {
+      cursor: ew-resize;
+      cursor: col-resize;
+    }
+  }
 }
 </style>
