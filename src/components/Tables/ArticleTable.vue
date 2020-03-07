@@ -1,42 +1,47 @@
 <template>
-<div class="content">
-  <div class="md-layout">
-    <div class="md-layout-item">
-      <md-card>
+  <div class="content">
+    <div class="md-layout">
+      <div class="md-layout-item">
+        <md-card>
+          <md-card-header data-background-color="pantone-provence">
+            <h4 class="title">{{ article.title }}</h4>
+          </md-card-header>
 
-        <md-card-header data-background-color="pantone-provence">
-          <h4 class="title">{{ article.title }}</h4>
-        </md-card-header>
+          <!-- Card-Content -->
+          <md-card-content>
+            <div class="md-alignment-top-right alignright">
+              <span
+                >{{ article.published_at_kor }} {{ article.author_name }}({{
+                  enrollyear
+                }})
+              </span>
+            </div>
 
-        <!-- Card-Content -->
-        <md-card-content>
-          <div class="md-alignment-top-right alignright">
-            <span>{{ article.published_at_kor }} {{article.author_name}}({{ enrollyear }})
-            </span>
-          </div>
+            <md-divider></md-divider>
+            <br />
 
-          <md-divider></md-divider>
-          <br>
+            <!-- Editor -->
+            <div class="editor editor-wrapper">
+              <editor-content class="editor__content" :editor="editor" />
+            </div>
 
-          <!-- Editor -->
-          <div class="editor editor-wrapper">
-            <editor-content class="editor__content" :editor="editor" />
-          </div>
+            <md-divider></md-divider>
 
-          <md-divider></md-divider>
+            <!-- File Attachments -->
+            <file-attachments-table
+              v-bind:attachments="attachments"
+            ></file-attachments-table>
 
-          <!-- File Attachments -->
-          <FileAttachmentsTable></FileAttachmentsTable>
-
-        </md-card-content>
-      </md-card>
+          </md-card-content>
+        </md-card>
+      </div>
     </div>
   </div>
-</div>
 </template>
 
 <script>
-import FileAttachmentsTable from "@/components"
+//import FileAttachmentsTable from "@/components";
+import FileAttachmentsTable from "./FileAttachmentsTable.vue";
 
 import { Editor, EditorContent } from "tiptap";
 import {
@@ -69,7 +74,7 @@ export default {
   props: {
     tableHeaderColor: {
       type: String,
-      default: ""
+      default: "pantone-provence"
     }
   },
   data() {
@@ -78,6 +83,7 @@ export default {
       articleID: null,
       article: {},
       enrollyear: null,
+      attachments: [],
       // Editor
       editor: new Editor({
         editable: false,
@@ -136,6 +142,11 @@ export default {
           vm.article = res.data.data;
           vm.enrollyear = String(vm.article.author_id).slice(2, 4);
           vm.editor.setContent(vm.article.content);
+
+          // 첨부파일들
+          vm.article.attachments.forEach(element => {
+            vm.attachments.push(element);
+          });
         })
         .catch(error => {
           if (error.response.request.status == 401) {
@@ -177,7 +188,6 @@ $color-grey: #dddddd;
   margin: 0 auto 3.5rem auto;
 
   &__content {
-
     overflow-wrap: break-word;
     word-wrap: break-word;
     word-break: break-word;
@@ -270,14 +280,19 @@ $color-grey: #dddddd;
         z-index: 2;
         position: absolute;
         content: "";
-        left: 0; right: 0; top: 0; bottom: 0;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
         background: rgba(200, 200, 255, 0.4);
         pointer-events: none;
       }
 
       .column-resize-handle {
         position: absolute;
-        right: -2px; top: 0; bottom: 0;
+        right: -2px;
+        top: 0;
+        bottom: 0;
         width: 4px;
         z-index: 20;
         background-color: #adf;
