@@ -32,6 +32,12 @@
               v-bind:attachments="attachments"
             ></file-attachments-table>
 
+            <!-- 댓글 -->
+            <comments-table
+              v-bind:comments="comments"
+              v-on:comment_updated="fetchCommentsData"
+            ></comments-table>
+
           </md-card-content>
         </md-card>
       </div>
@@ -40,8 +46,8 @@
 </template>
 
 <script>
-//import FileAttachmentsTable from "@/components";
 import FileAttachmentsTable from "./FileAttachmentsTable.vue";
+import CommentsTable from "./CommentsTable.vue";
 
 import { Editor, EditorContent } from "tiptap";
 import {
@@ -69,6 +75,7 @@ export default {
   name: "article-table",
   components: {
     EditorContent,
+    CommentsTable,
     FileAttachmentsTable
   },
   props: {
@@ -84,6 +91,7 @@ export default {
       article: {},
       enrollyear: null,
       attachments: [],
+      comments: [],
       // Editor
       editor: new Editor({
         editable: false,
@@ -144,9 +152,55 @@ export default {
           vm.editor.setContent(vm.article.content);
 
           // 첨부파일들
-          vm.article.attachments.forEach(element => {
-            vm.attachments.push(element);
-          });
+          if (vm.article.attachment_counts > 0) {
+            vm.article.attachments.forEach(element => {
+              vm.attachments.push(element);
+            });
+          }
+
+          // 댓글들
+          if (vm.article.comment_counts > 0) {
+            vm.article.comments.forEach(element => {
+              vm.comments.push(element);
+            });
+          }
+        })
+        .catch(error => {
+          if (error.response.request.status == 401) {
+            alert("로그인 세션이 만료되었습니다.");
+            vm.$router.push("/signin");
+          }
+        });
+    },
+    // 댓글창 다시 로딩
+    fetchCommentsData() {
+      var vm = this;
+
+      this.boardID = this.$route.params.board_id;
+      this.articleID = this.$route.params.article_id;
+      var url =
+        "http://api.dasom.io/boards/" +
+        this.boardID +
+        "/articles/" +
+        this.articleID + "/comments";
+
+      var token = localStorage.getItem("accessToken");
+      let config = {
+        headers: {
+          Authorization: token,
+          "Content-Type": "application/json"
+        }
+      };
+      this.$http
+        .get(url, config)
+        .then(res => {
+          // 댓글들
+          if (res.data.data.article.comment_counts > 0) {
+            vm.comments = [];
+            res.data.data.article.comments.forEach(element => {
+              vm.comments.push(element);
+            });
+          }
         })
         .catch(error => {
           if (error.response.request.status == 401) {
