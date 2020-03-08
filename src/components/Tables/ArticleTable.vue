@@ -1,47 +1,51 @@
 <template>
-  <div class="content">
-    <div class="md-layout">
-      <div class="md-layout-item">
-        <md-card>
-          <md-card-header data-background-color="pantone-provence">
-            <h4 class="title">{{ article.title }}</h4>
-          </md-card-header>
+  <div>
+    <div class="content article-table">
+      <div class="md-layout">
+        <div class="md-layout-item">
+          <md-card>
+            <md-card-header data-background-color="pantone-provence">
+              <h4 class="title">{{ article.title }}</h4>
+            </md-card-header>
 
-          <!-- Card-Content -->
-          <md-card-content>
-            <div class="md-alignment-top-right alignright">
-              <span
-                >{{ article.published_at_kor }} {{ article.author_name }}({{
-                  enrollyear
-                }})
-              </span>
-            </div>
+            <!-- Card-Content -->
+            <md-card-content>
+              <div class="md-alignment-top-right alignright">
+                <span
+                  >{{ article.published_at_kor }} {{ article.author_name }}({{
+                    enrollyear
+                  }})
+                </span>
+              </div>
 
-            <md-divider></md-divider>
-            <br />
+              <md-divider></md-divider>
+              <br />
 
-            <!-- Editor -->
-            <div class="editor editor-wrapper">
-              <editor-content class="editor__content" :editor="editor" />
-            </div>
+              <!-- Editor -->
+              <div class="editor editor-wrapper">
+                <editor-content class="editor__content" :editor="editor" />
+              </div>
 
-            <md-divider></md-divider>
+              <md-divider></md-divider>
 
-            <!-- File Attachments -->
-            <file-attachments-table
-              v-bind:attachments="attachments"
-            ></file-attachments-table>
+              <!-- File Attachments -->
+              <file-attachments-table
+                v-bind:attachments="attachments"
+                v-show="attachment_counts != 0"
+              ></file-attachments-table>
 
-            <!-- 댓글 -->
-            <comments-table
-              v-bind:comments="comments"
-              v-on:comment_updated="fetchCommentsData"
-            ></comments-table>
-
-          </md-card-content>
-        </md-card>
+              <md-divider v-show="attachment_counts != 0"></md-divider>
+            </md-card-content>
+          </md-card>
+        </div>
       </div>
     </div>
+
+    <!-- 댓글 -->
+    <comments-table
+      v-bind:comments="comments"
+      v-on:comment_updated="fetchCommentsData"
+    ></comments-table>
   </div>
 </template>
 
@@ -182,7 +186,8 @@ export default {
         "http://api.dasom.io/boards/" +
         this.boardID +
         "/articles/" +
-        this.articleID + "/comments";
+        this.articleID +
+        "/comments";
 
       var token = localStorage.getItem("accessToken");
       let config = {
@@ -214,6 +219,12 @@ export default {
 </script>
 
 <style lang="scss">
+.article-table {
+  position: relative;
+  max-width: 55rem;
+  margin: 0 auto;
+}
+
 .alignright {
   text-align: right;
 }
