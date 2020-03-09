@@ -7,7 +7,8 @@
         <md-card style="margin-top: 0">
           <md-card-content>
             <div class="title">
-              <label>댓글</label>
+              <label v-show="noComments">댓글</label>
+              <label v-show="!noComments">댓글 ({{ comments.length }})</label>
             </div>
 
             <!-- 댓글 리스트 -->
