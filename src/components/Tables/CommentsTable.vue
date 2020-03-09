@@ -1,5 +1,5 @@
 <template>
-  <div class="content comments-table">
+  <div class="content main-content">
     <div class="md-layout">
       <div
         class="md-layout-item  md-medium-size-100 md-xsmall-size-100 md-size-100"
@@ -10,17 +10,24 @@
               <label>댓글</label>
             </div>
 
-            <md-list v-show="!noComments">
+            <!-- 댓글 리스트 -->
+            <md-list class="md-double-line" v-show="!noComments" v-model="comments">
               <md-list-item v-for="(comm, idx) in comments" v-bind:key="idx">
-                <span class="md-list-item-text">{{ comm.comment }}</span>
+                <md-icon class="">mode_comment</md-icon>
+                <div class="md-list-item-text">
+                  <span>{{ comm.comment }}</span>
+                  <span>{{ comm.author_name }}({{ comm.author_enroll_year }}) | {{ comm.published_at_kor }}</span>
+                </div>
               </md-list-item>
             </md-list>
 
+            <!-- 댓글 작성 폼 -->
             <md-field>
               <md-input
                 v-model="newComment"
                 style="resize:unset; min-height:50px; height:50px"
                 placeholder="댓글을 입력해주세요."
+                v-on:keyup.enter="commentUpload"
               ></md-input>
               <md-button class="md-dense md-provence" @click="commentUpload"
                 >등록</md-button
@@ -31,33 +38,6 @@
       </div>
     </div>
   </div>
-
-  <!--
-  <div class="comments-table">
-    <div class="title">
-      <label>댓글</label>
-    </div>
-
-    <md-list v-show="!noComments">
-      <md-list-item v-for="(comm, idx) in comments" v-bind:key="idx">
-        <span class="md-list-item-text">{{ comm.comment }}</span>
-      </md-list-item>
-    </md-list>
-
-    <md-field>
-      <md-input
-        v-model="newComment"
-        style="resize:unset; min-height:50px; height:50px"
-        placeholder="댓글을 입력해주세요."
-      ></md-input>
-      <md-button
-        class="md-dense md-provence pagination-button"
-        @click="commentUpload"
-        >등록</md-button
-      >
-    </md-field>
-  </div>
--->
 </template>
 
 <script>
@@ -79,6 +59,8 @@ export default {
   },
   methods: {
     commentUpload: function() {
+      var vm = this;
+
       var boardID = this.$route.params.board_id;
       var articleID = this.$route.params.article_id;
 
@@ -101,32 +83,27 @@ export default {
         })
         .then(res => {
           console.log(res);
-          this.$emit("comment_updated", "updated");
+          vm.$emit("comment_updated", "updated");
         })
         .catch(({ message }) => {
           alert("댓글 등록이 실패하였습니다. : " + message);
         });
+      this.newComment = null;
     }
   }
 };
 </script>
 
 <style lang="scss" scoped>
-.comments-table {
-  position: relative;
-  max-width: 55rem;
-  margin: 0 auto;
+.title {
+  margin-top: 0;
+  margin-bottom: 1rem;
 
-  .title {
-    margin-top: 0;
-    margin-bottom: 1rem;
-
-    label {
-      font-size: 1.3rem;
-      display: inline-block;
-      vertical-align: middle;
-      margin-right: 10px;
-    }
+  label {
+    font-size: 1.3rem;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 10px;
   }
 }
 </style>

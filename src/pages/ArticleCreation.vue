@@ -451,7 +451,7 @@ $color-grey: #dddddd;
 .editor {
   position: relative;
   max-width: 55rem;
-  margin: 0 auto 3.5rem auto;
+  margin: 0 auto 2.5rem auto;
 
   &__content {
     overflow-wrap: break-word;

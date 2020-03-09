@@ -1,10 +1,10 @@
 <template>
-  <div class="content" :key="$route">
+  <div class="content main-content" :key="$route">
     <div class="md-layout">
       <div
         class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100"
       >
-        <md-card class="md-card-plain">
+        <md-card>
           <md-card-header data-background-color="pantone-provence">
             <h4 class="title">{{ boardData.title }}</h4>
           </md-card-header>

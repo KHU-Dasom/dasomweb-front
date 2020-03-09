@@ -35,6 +35,17 @@ import MaterialDashboard from "./material-dashboard";
 import Chartist from "chartist";
 import axios from "axios";
 
+// 반응형 미디어쿼리
+import VueMq from "vue-mq";
+
+Vue.use(VueMq, {
+  breakpoints: {
+    mobile: 480,
+    tablet: 991,
+    desktop: Infinity
+  }
+});
+
 // configure router
 const router = new VueRouter({
   routes, // short for routes: routes

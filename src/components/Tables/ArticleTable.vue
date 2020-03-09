@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="content article-table">
+    <div class="content main-content">
       <div class="md-layout">
         <div class="md-layout-item">
           <md-card>
@@ -12,9 +12,8 @@
             <md-card-content>
               <div class="md-alignment-top-right alignright">
                 <span
-                  >{{ article.published_at_kor }} {{ article.author_name }}({{
-                    enrollyear
-                  }})
+                  >{{ article.author_name }}({{ enrollyear }}) |
+                  {{ article.published_at_kor }} | 조회수 : {{ article.views }}
                 </span>
               </div>
 
@@ -26,7 +25,7 @@
                 <editor-content class="editor__content" :editor="editor" />
               </div>
 
-              <md-divider></md-divider>
+              <md-divider v-show="attachment_counts != 0"></md-divider>
 
               <!-- File Attachments -->
               <file-attachments-table
@@ -34,7 +33,6 @@
                 v-show="attachment_counts != 0"
               ></file-attachments-table>
 
-              <md-divider v-show="attachment_counts != 0"></md-divider>
             </md-card-content>
           </md-card>
         </div>
@@ -96,6 +94,7 @@ export default {
       enrollyear: null,
       attachments: [],
       comments: [],
+      attachment_counts: 0,
       // Editor
       editor: new Editor({
         editable: false,
@@ -156,6 +155,7 @@ export default {
           vm.editor.setContent(vm.article.content);
 
           // 첨부파일들
+          vm.attachment_counts = vm.article.attachment_counts;
           if (vm.article.attachment_counts > 0) {
             vm.article.attachments.forEach(element => {
               vm.attachments.push(element);
@@ -200,14 +200,15 @@ export default {
         .get(url, config)
         .then(res => {
           // 댓글들
-          if (res.data.data.article.comment_counts > 0) {
+          if (res.data.data.comment_counts > 0) {
             vm.comments = [];
-            res.data.data.article.comments.forEach(element => {
+            res.data.data.comments.forEach(element => {
               vm.comments.push(element);
             });
           }
         })
         .catch(error => {
+          console.log(error);
           if (error.response.request.status == 401) {
             alert("로그인 세션이 만료되었습니다.");
             vm.$router.push("/signin");
@@ -227,6 +228,7 @@ export default {
 
 .alignright {
   text-align: right;
+  cursor: default;
 }
 
 .editor-wrapper {
@@ -250,7 +252,7 @@ $color-grey: #dddddd;
 .editor {
   position: relative;
   max-width: 55rem;
-  margin: 0 auto 3.5rem auto;
+  margin: 0 auto 2.5rem auto;
 
   &__content {
     overflow-wrap: break-word;

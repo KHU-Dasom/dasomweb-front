@@ -14,11 +14,13 @@
     </div>
 
     <div v-show="articles.length != 0">
-      <!-- 테이블 -->
+
+      <!-- 데스크탑용 테이블 -->
       <md-table
         v-model="articles"
         @md-selected="onSelect"
         :table-header-color="tableHeaderColor"
+        v-show="!isMobile"
       >
         <md-table-row
           slot="md-table-row"
@@ -26,18 +28,30 @@
           md-selectable="single"
           :key="item.id"
         >
-          <!--
-          <md-table-cell md-label="ID" @click="onclickArticle()">{{
-            item.id
-          }}</md-table-cell>-->
-          <md-table-cell md-label="제목">{{ item.short_title }}</md-table-cell>
+          <md-table-cell md-label="제목" class="table-title">{{ item.title }}</md-table-cell>
           <md-table-cell md-label="작성 시간" width="90px">{{
             item.published_at_kor
           }}</md-table-cell>
           <md-table-cell md-label="작성자" width="90px">{{ item.author_name }}</md-table-cell>
-          <md-table-cell md-label="조회수" width="55px">{{ item.views }}</md-table-cell>
+          <md-table-cell md-numeric md-label="조회수" width="55px">{{ item.views }}</md-table-cell>
         </md-table-row>
       </md-table>
+
+      <!-- 모바일용 리스트 -->
+      <md-list class="md-triple-line" v-model="articles" v-show="isMobile">
+        <md-list-item
+          v-for="(artc, idx) in articles"
+          v-bind:key="idx"
+          @click="onSelect(artc)"
+        >
+          <md-icon class="">library_books</md-icon>
+          <div class="md-list-item-text">
+            <span>{{ artc.title }}</span>
+            <span>{{ artc.author_name }}</span>
+            <p>{{ artc.published_at_kor }} | 조회수 : {{ artc.views }}</p>
+          </div>
+        </md-list-item>
+      </md-list>
 
       <!-- 글쓰기 -->
       <div class="buttons-wrapper">
@@ -73,6 +87,11 @@ export default {
     tableHeaderColor: {
       type: String,
       default: "pantone-provence"
+    }
+  },
+  computed: {
+    isMobile: function() {
+      return this.$mq === "mobile" ? true : false;
     }
   },
   watch: {
@@ -188,6 +207,11 @@ export default {
   width: inherit;
   text-overflow: ellipsis;
   overflow: hidden;
+}
+
+.table-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .buttons-wrapper {

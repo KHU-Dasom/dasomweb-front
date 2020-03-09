@@ -1,14 +1,13 @@
 <template>
-  <div class="file-table">
+  <div class="main-content file-table">
     <div class="title">
       <label>첨부파일</label>
-      <!--<md-button class="md-provence md-sm button-upload" :disabled="noFiles" @click="uploadAll">모두 업로드</md-button>-->
     </div>
 
     <!-- List -->
     <md-list>
-      <md-list-item v-for="(attachment, idx) in attachments" v-bind:key="idx">
-        <md-icon>attach_file</md-icon>
+      <md-list-item v-for="(attachment, idx) in attachments" v-bind:key="idx" class="left-align">
+        <md-icon>get_app</md-icon>
         <a v-bind:href="attachment.url">
           <span class="md-list-item-text">{{ attachment.file_name }}</span>
         </a>
@@ -32,11 +31,9 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .file-table {
-  position: relative;
-  max-width: 55rem;
-  margin: 0 auto;
+  padding-top: 1rem;
 
   .title {
     margin-top: 1rem;
@@ -47,15 +44,10 @@ export default {
       vertical-align: middle;
       margin-right: 10px;
     }
-    .button-upload {
-      display: inline-block;
-      vertical-align: middle;
-    }
   }
 
-  .md-file {
-    width: 80%;
-    max-width: 500px;
+  .left-align .md-list-item-container .md-list-item-content {
+    justify-content: left;
   }
 }
 </style>
