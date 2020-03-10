@@ -157,7 +157,7 @@ export default {
 <style lang="scss" scoped>
 .profile-table {
   text-align: center;
-  padding-top: 5px;
+  padding-top: 10px;
   padding-bottom: 10px;
   cursor: default;
 

@@ -181,13 +181,19 @@
             :md-stroke="2"
           ></md-progress-spinner>
         </div>
+
+        <!-- Image Modal -->
+        <image-upload-modal
+          :show-modal="showImageModal"
+          v-on:updateImageModal="updateImageModal($event)"
+        ></image-upload-modal>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { FileUploadTable } from "@/components";
+import { FileUploadTable, ImageUploadModal } from "@/components";
 
 // Editor
 import EditorIcon from "@/components/EditorIcon/EditorIcon.vue";
@@ -218,7 +224,13 @@ export default {
     FileUploadTable,
     EditorIcon,
     EditorContent,
-    EditorMenuBar
+    EditorMenuBar,
+    ImageUploadModal
+  },
+  watch: {
+    showImageModal: function() {
+      console.log("showImageModal :", this.showImageModal);
+    }
   },
   created: function() {
     this.boardID = this.$route.query.board_id;
@@ -234,6 +246,7 @@ export default {
   },
   data() {
     return {
+      showImageModal: false,
       loading: false,
       board_id: null,
       uploadIDs: null,
@@ -261,7 +274,7 @@ export default {
           new History(),
           new Image()
         ],
-        content: `<p>다솜은 사랑입니다~!</p><pre><code> std::string dasom = "LOVE"; </code></pre><p>- dasom.io</p>`
+        content: ``
       })
     };
   },
@@ -274,12 +287,17 @@ export default {
     uploadCompleted(uploadIDs) {
       this.uploadIDs = uploadIDs;
     },
+    // 이미지 modal의 show 상태를 결정
+    updateImageModal(param) {
+      this.showImageModal = param;
+    },
     // 이미지 링크거는 용도
-    showImagePrompt(command) {
-      const src = prompt("Enter the url of your image here");
-      if (src !== null) {
-        command({ src });
-      }
+    showImagePrompt() {
+      //command) {
+      this.showImageModal = true;
+      // if (src !== null) {
+      //   command({ src });
+      // }
     },
     // 수정 취소 후 리다이렉트
     cancelEditing() {

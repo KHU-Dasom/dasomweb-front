@@ -18,6 +18,9 @@ import ChatMsgTable from "./Tables/ChatMsgTable.vue";
 // Icons for tiptap editor
 import EditorIcon from "./EditorIcon/EditorIcon.vue";
 
+// Modals
+import ImageUploadModal from "./Modals/ImageUploadModal.vue";
+
 export {
   ChartCard,
   NavTabsCard,
@@ -31,5 +34,6 @@ export {
   FileUploadTable,
   FileAttachmentsTable,
   EditorIcon,
-  ChatMsgTable
+  ChatMsgTable,
+  ImageUploadModal
 };
