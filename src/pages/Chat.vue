@@ -43,7 +43,7 @@ export default {
   },
   methods: {
     wsconnect() {
-      this.socket = new WebSocket("ws://localhost:8081/ws");
+      this.socket = new WebSocket("ws://222.251.229.213:8081/ws");
       this.socket.onopen = () => {
         this.status = "connected"
 
@@ -64,9 +64,8 @@ export default {
       }
       var realmsg = {
         message: this.message,
-        from: localStorage.userName.slice(1,3)
+        from: localStorage.userName.slice(1,3),
       };
-
       this.socket.send(JSON.stringify(realmsg));
       this.message="";
       return false;

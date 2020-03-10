@@ -80,7 +80,7 @@ export default new Vuex.Store({
       localStorage.clear();
     },
     PushMsgData(state, {message}) {
-      state.msgDatas.push({"message": message.message, "from": message.from});
+      state.msgDatas.push({"message": message.message, "from": message.from, "sendtime": message.sendtime});
     }
   },
   actions: {
