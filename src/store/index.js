@@ -32,7 +32,11 @@ export default new Vuex.Store({
     userEnrollYear: null,
     msgDatas: []
   },
-  getters: {},
+  getters: {
+    getAccessToken: state => {
+      return state.accessToken;
+    }
+  },
   mutations: {
     LOGIN(
       state,

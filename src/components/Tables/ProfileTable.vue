@@ -57,8 +57,13 @@ export default {
       return (this.$store.state.userName);
     }
   },
-  mounted() {
-    this.calcTime();
+  created() {
+    this.startTimer();
+    this.$store.watch(() => this.$store.getters.getAccessToken, accessToken => {
+      console.log("새로운 Access Token :", accessToken);
+      this.clearTimer();
+      this.startTimer();
+    })
   },
   data() {
     return {
@@ -67,7 +72,7 @@ export default {
     }
   },
   methods: {
-    calcTime() {
+    startTimer() {
       if (this.$store.state.accessToken != null) {
         var vm = this;
 
@@ -93,6 +98,9 @@ export default {
         }, 1000);
       }
     },
+    clearTimer() {
+      clearInterval(this.timer);
+    },
     onClickSignin() {
       this.$router.push("/signin");
     },
@@ -100,11 +108,11 @@ export default {
       this.$router.push("/signout");
     },
     onClickRefresh() {
-      clearInterval(this.timer);
+      this.clearTimer();
       var refresh_token = this.$store.state.refreshToken;
       this.$store.dispatch("REFRESH", { refresh_token });
 
-      this.calcTime();
+      this.startTimer();
     },
     makeTimeFormat(sec) {
       var seconds = sec % 60;
