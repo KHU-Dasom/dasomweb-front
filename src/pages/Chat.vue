@@ -43,15 +43,13 @@ export default {
   },
   methods: {
     wsconnect() {
-      this.socket = new WebSocket("ws://222.251.229.213:8081/ws");
+      this.socket = new WebSocket("ws://222.251.229.213.:8081/ws");
       this.socket.onopen = () => {
         this.status = "connected"
 
         this.socket.onmessage = ({data}) => {
           var message = JSON.parse(data);
-          //var from = localStorage.userName.slice(1,3);
           this.$store.commit("PushMsgData", {message})
-          console.log(message.message)
         }
       }
     },
@@ -62,9 +60,26 @@ export default {
       if (this.message == null) {
         return false;
       }
+      //var sendtime = this.$moment(new Date()).format("HH:mm a");
+      var d = new Date();
+      var hour = d.getHours();
+      var minute = d.getMinutes();
+      if (minute < 10) {
+        minute = "0" + String(minute);
+      }
+      var time;
+      if (hour == 12) {
+        time = "오후 " + String(hour) + ":" + minute;
+      } else if (hour > 12) {
+        time = "오후 " + String(hour-12) + ":" + minute;
+      } else {
+        time = "오전 " + String(hour) + ":" + minute;
+      }
       var realmsg = {
+        id: localStorage.userID,
         message: this.message,
         from: localStorage.userName.slice(1,3),
+        sendtime: time
       };
       this.socket.send(JSON.stringify(realmsg));
       this.message="";
