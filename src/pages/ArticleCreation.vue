@@ -318,8 +318,10 @@ export default {
         content: this.html,
         author_id: author
       };
-      if (this.uploadIDs.length != 0) {
-        payload.upload_ids = this.uploadIDs;
+      if (this.uploadIDs != null) {
+        if (this.uploadIDs.length != 0) {
+          payload.upload_ids = this.uploadIDs;
+        }
       }
       console.log(payload);
       setTimeout(() => {
@@ -328,7 +330,6 @@ export default {
           .then(res => {
             vm.loading = false;
 
-            console.log(res);
             alert("수정이 완료되었습니다.");
             vm.$router.go(-1);
           })

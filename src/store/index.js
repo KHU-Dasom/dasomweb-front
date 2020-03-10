@@ -127,6 +127,47 @@ export default new Vuex.Store({
     },
     LOGOUT({ commit }) {
       commit("LOGOUT");
+    },
+    REFRESH({ commit }, { refresh_token }) {
+      return axios
+        .post(
+          `${resourceHost}/auth/refresh`,
+          {
+            refresh_token: refresh_token
+          },
+          {
+            headers: {
+              "Content-Type": "application/json"
+            }
+          }
+        )
+        .then(res => {
+          var parsedData = res.data.data;
+          var atoken = VueJwtDecode.decode(parsedData.access_token);
+          var user_name = decodeURIComponent(escape(atoken.user_name));
+          console.log("Refresh succeed. Welcome, %s.", user_name);
+
+          // commit LOGIN Action
+          commit("LOGIN", {
+            accessToken: parsedData.access_token,
+            refreshToken: refresh_token,
+            userID: atoken.user_id,
+            userName: user_name,
+            userBirth: atoken.user_birth,
+            userEmail: atoken.user_email,
+            userLevel: atoken.user_level,
+            userEnrollYear: atoken.user_enroll_year,
+            accessTokenExpiry: atoken.exp
+          });
+          axios.defaults.headers.common[
+            "Authorization"
+          ] = `${parsedData.accessToken}`;
+        })
+      .catch(error => {
+        console.log("Refresh 실패.");
+        console.log(error);
+        alert("세션 연장 실패.", error);
+      })
     }
   }
 });

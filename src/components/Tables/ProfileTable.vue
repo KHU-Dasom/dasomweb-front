@@ -1,18 +1,37 @@
 <template>
-  <div>
-    <md-table v-model="profile" :table-header-color="tableHeaderColor">
-      <md-table-row slot="md-table-row" slot-scope="{ item }">
-        <div v-if="login">
-          <li><a>{{ item.name }}</a></li>
-          <li><a>{{ item.enrollYear }}</a></li>
-          <li><a><button @click="onClickSignout()">로그아웃</button></a></li>
-        </div>
-        <div v-else>
-          <li><a><button @click="onClickSignin()">로그인</button></a></li>
-        </div>
-      </md-table-row>
-    </md-table>
-  </div>
+  <ul class="dropdown-menu dropdown-menu-right profile-table">
+
+    <!-- 프로필 -->
+    <li v-if="isLogin">
+      <md-list class="md-double-line center-align">
+        <!-- 유저 정보 -->
+        <md-list-item>
+          <md-avatar class="md-avatar-icon" style="font-size: 16px;">{{ userName.slice(1, 3) }}</md-avatar>
+
+          <div class="md-list-item-text">
+            <span class="">{{ userName }} ({{ userEnrollYear }})</span>
+            <span class="">{{ userID }}</span>
+          </div>
+        </md-list-item>
+
+        <!-- 세션 만료 시간 -->
+        <md-list-item>
+          <div class="md-list-item-text">
+            <span class="">{{ expiryDiffStr }}</span>
+          </div>
+        </md-list-item>
+      </md-list>
+    </li>
+
+    <li v-if="isLogin">
+      <md-button class="md-provence md-sm profile-buttons" @click="onClickSignout">로그아웃</md-button>
+      <md-button class="md-provence md-sm profile-buttons" @click="onClickRefresh">세션 연장</md-button>
+    </li>
+
+    <li v-else>
+      <md-button class="md-provence md-sm profile-buttons" @click="onClickSignin">로그인</md-button>
+    </li>
+  </ul>
 </template>
 
 <script>
@@ -24,24 +43,54 @@ export default {
       default: "pantone-provence"
     }
   },
+  computed: {
+    isLogin: function() {
+      return (this.$store.state.accessToken !== null);
+    },
+    userID: function() {
+      return (this.$store.state.userID);
+    },
+    userEnrollYear: function() {
+      return (this.$store.state.userEnrollYear);
+    },
+    userName: function() {
+      return (this.$store.state.userName);
+    }
+  },
+  mounted() {
+    this.calcTime();
+  },
   data() {
     return {
-      profile: [
-        {
-          login: null,
-          name: localStorage.getItem("userName"),
-          enrollYear: localStorage.getItem("userEnrollYear")
-        }
-      ]
-    };
+      expiryDiffStr: "",
+      timer: null
+    }
   },
   methods: {
-    getProfile() {
-      if ( localStorage.getItem("userName") != null ) {
-        this.login = true;
-      }
-      else {
-        this.login = false;
+    calcTime() {
+      if (this.$store.state.accessToken != null) {
+        var vm = this;
+
+        var expiry = this.$store.state.accessTokenExpiry;
+        var target = this.$moment.unix(expiry);
+        var now = this.$moment(new Date()).unix() * 1000;
+        var diff = target.diff(now) / 1000; // seconds
+
+        this.timer = setInterval(function() {
+          vm.expiryDiffStr = vm.makeTimeFormat(diff);
+          diff -= 1;
+
+          if (diff < 1) {
+            clearInterval(vm.timer);
+            alert("로그인 세션이 만료되었습니다.");
+            vm.$router.push({
+              path: "/signin",
+              query: {
+                redirectPath: encodeURI(vm.$route.path)
+              }
+            });
+          }
+        }, 1000);
       }
     },
     onClickSignin() {
@@ -49,10 +98,55 @@ export default {
     },
     onClickSignout() {
       this.$router.push("/signout");
+    },
+    onClickRefresh() {
+      clearInterval(this.timer);
+      var refresh_token = this.$store.state.refreshToken;
+      this.$store.dispatch("REFRESH", { refresh_token });
+
+      this.calcTime();
+    },
+    makeTimeFormat(sec) {
+      var seconds = sec % 60;
+      var minutes = (sec - seconds) / 60;
+
+      var result = "";
+      if (minutes < 10) {
+        result += ("0" + minutes);
+      } else {
+        result += String(minutes);
+      }
+
+      if (seconds < 10) {
+        result += (":0" + seconds);
+      } else {
+        result += (":" + seconds);
+      }
+
+      return result;
     }
-  },
-  created() {
-    this.getProfile();
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.profile-table {
+  text-align: center;
+  padding-top: 5px;
+  padding-bottom: 10px;
+  cursor: default;
+
+  a {
+    background: none;
+  }
+
+  .profile-buttons {
+    margin: 0 5px;
+    cursor: pointer;
+  }
+}
+
+.center-align {
+  text-align: center;
+}
+</style>
