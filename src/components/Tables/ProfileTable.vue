@@ -1,12 +1,13 @@
 <template>
   <ul class="dropdown-menu dropdown-menu-right profile-table">
-
     <!-- 프로필 -->
     <li v-if="isLogin">
       <md-list class="md-double-line center-align">
         <!-- 유저 정보 -->
         <md-list-item>
-          <md-avatar class="md-avatar-icon" style="font-size: 16px;">{{ userName.slice(1, 3) }}</md-avatar>
+          <md-avatar class="md-avatar-icon" style="font-size: 16px;">{{
+            userName.slice(1, 3)
+          }}</md-avatar>
 
           <div class="md-list-item-text">
             <span class="">{{ userName }} ({{ userEnrollYear }})</span>
@@ -24,12 +25,24 @@
     </li>
 
     <li v-if="isLogin">
-      <md-button class="md-provence md-sm profile-buttons" @click="onClickSignout">로그아웃</md-button>
-      <md-button class="md-provence md-sm profile-buttons" @click="onClickRefresh">세션 연장</md-button>
+      <md-button
+        class="md-provence md-sm profile-buttons"
+        @click="onClickSignout"
+        >로그아웃</md-button
+      >
+      <md-button
+        class="md-provence md-sm profile-buttons"
+        @click="onClickRefresh"
+        >세션 연장</md-button
+      >
     </li>
 
     <li v-else>
-      <md-button class="md-provence md-sm profile-buttons" @click="onClickSignin">로그인</md-button>
+      <md-button
+        class="md-provence md-sm profile-buttons"
+        @click="onClickSignin"
+        >로그인</md-button
+      >
     </li>
   </ul>
 </template>
@@ -45,31 +58,35 @@ export default {
   },
   computed: {
     isLogin: function() {
-      return (this.$store.state.accessToken !== null);
+      return this.$store.state.accessToken !== null;
     },
     userID: function() {
-      return (this.$store.state.userID);
+      return this.$store.state.userID;
     },
     userEnrollYear: function() {
-      return (this.$store.state.userEnrollYear);
+      return this.$store.state.userEnrollYear;
     },
     userName: function() {
-      return (this.$store.state.userName);
+      return this.$store.state.userName;
     }
   },
   created() {
     this.startTimer();
-    this.$store.watch(() => this.$store.getters.getAccessToken, accessToken => {
-      console.log("새로운 Access Token :", accessToken);
-      this.clearTimer();
-      this.startTimer();
-    })
+    this.$store.watch(
+      () => this.$store.getters.getAccessToken,
+      accessToken => {
+        if (accessToken !== null) {
+          this.clearTimer();
+          this.startTimer();
+        }
+      }
+    );
   },
   data() {
     return {
       expiryDiffStr: "",
       timer: null
-    }
+    };
   },
   methods: {
     startTimer() {
@@ -120,15 +137,15 @@ export default {
 
       var result = "";
       if (minutes < 10) {
-        result += ("0" + minutes);
+        result += "0" + minutes;
       } else {
         result += String(minutes);
       }
 
       if (seconds < 10) {
-        result += (":0" + seconds);
+        result += ":0" + seconds;
       } else {
-        result += (":" + seconds);
+        result += ":" + seconds;
       }
 
       return result;
