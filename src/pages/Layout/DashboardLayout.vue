@@ -86,12 +86,12 @@ export default {
       boards: []
     };
   },
-  props: {
-    backgroundImage: {
-      type: String,
-      default: require("@/assets/img/background-khu-cherryblossom.jpg")
-    }
-  },
+  // props: {
+  //   backgroundImage: {
+  //     type: String,
+  //     default: require("@/assets/img/background-khu-cherryblossom.jpg")
+  //   }
+  // },
   created() {
     this.fetchData();
   },
@@ -125,15 +125,15 @@ export default {
 </script>
 
 <style lang="scss">
-.background:before {
-  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url("./../../assets/img/background-khu-cherryblossom.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
+// .background-khu:before {
+//   background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url("./../../assets/img/background-khu-cherryblossom.jpg");
+//   background-repeat: no-repeat;
+//   background-size: cover;
 
-  filter: blur(3px);
+//   filter: blur(3px);
 
-  top:0; left:0; right: 0; bottom: 0;
-  position: absolute; 
-  content: "";
-}
+//   top:0; left:0; right: 0; bottom: 0;
+//   position: absolute; 
+//   content: "";
+// }
 </style>

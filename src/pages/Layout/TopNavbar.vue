@@ -84,17 +84,13 @@
                       <md-icon>person</md-icon>
                       <p class="hidden-lg hidden-md">Profile</p>
                     </md-button>
-                    <ul class="dropdown-menu dropdown-menu-right">
-                      <md-card-content>
-                        <ProfileTable></ProfileTable>
-                      </md-card-content>
+                      <ProfileTable></ProfileTable>
                       <!-- <li><a>Mike John responded to your email</a></li>
                       <li><a>You have 5 new tasks</a></li>
                       <li><a>You're now friend with Andrew</a></li>
                       <li><a>Another Notification</a></li>
                       <li><a>Another One</a></li>
                       -->
-                    </ul>
                   </drop-down>
                 </div>
               </a>

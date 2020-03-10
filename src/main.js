@@ -35,6 +35,10 @@ import MaterialDashboard from "./material-dashboard";
 import Chartist from "chartist";
 import axios from "axios";
 
+// Moment
+import moment from "moment";
+import VueMomentJS from "vue-momentjs";
+
 // 반응형 미디어쿼리
 import VueMq from "vue-mq";
 
@@ -61,6 +65,7 @@ Vue.use(MaterialDashboard);
 Vue.use(GlobalComponents);
 Vue.use(GlobalDirectives);
 Vue.use(Notifications);
+Vue.use(VueMomentJS, moment);
 
 /* eslint-disable no-new */
 new Vue({

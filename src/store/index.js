@@ -44,7 +44,8 @@ export default new Vuex.Store({
         userBirth,
         userEmail,
         userLevel,
-        userEnrollYear
+        userEnrollYear,
+        accessTokenExpiry
       }
     ) {
       state.accessToken = accessToken;
@@ -55,6 +56,7 @@ export default new Vuex.Store({
       state.userEmail = userEmail;
       state.userLevel = userLevel;
       state.userEnrollYear = userEnrollYear;
+      state.accessTokenExpiry = accessTokenExpiry;
 
       // localStorage에 token 저장.
       localStorage.accessToken = accessToken;
@@ -65,6 +67,7 @@ export default new Vuex.Store({
       localStorage.userEmail = userEmail;
       localStorage.userLevel = userLevel;
       localStorage.userEnrollYear = userEnrollYear;
+      localStorage.accessTokenExpiry = accessTokenExpiry;
     },
     LOGOUT(state) {
       state.accessToken = null;
@@ -75,6 +78,7 @@ export default new Vuex.Store({
       state.userEmail = null;
       state.userLevel = null;
       state.userEnrollYear = null;
+      state.accessTokenExpiry = null;
 
       // localStorage에 들어있는 token들 모두 제거.
       localStorage.clear();
@@ -113,7 +117,8 @@ export default new Vuex.Store({
             userBirth: atoken.user_birth,
             userEmail: atoken.user_email,
             userLevel: atoken.user_level,
-            userEnrollYear: atoken.user_enroll_year
+            userEnrollYear: atoken.user_enroll_year,
+            accessTokenExpiry: atoken.exp
           });
           axios.defaults.headers.common[
             "Authorization"
