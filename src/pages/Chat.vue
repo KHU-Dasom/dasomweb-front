@@ -48,9 +48,10 @@ export default {
         this.status = "connected"
 
         this.socket.onmessage = ({data}) => {
-          var message = data;
-          var from = localStorage.userName.slice(1,3);
-          this.$store.commit("PushMsgData", {message, from})
+          var message = JSON.parse(data);
+          //var from = localStorage.userName.slice(1,3);
+          this.$store.commit("PushMsgData", {message})
+          console.log(message.message)
         }
       }
     },
@@ -61,7 +62,11 @@ export default {
       if (this.message == null) {
         return false;
       }
-      this.socket.send(this.message)
+      var realmsg = {
+        message: this.message,
+        from: localStorage.userName.slice(1,3),
+      };
+      this.socket.send(JSON.stringify(realmsg));
       this.message="";
       return false;
     }

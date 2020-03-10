@@ -83,8 +83,8 @@ export default new Vuex.Store({
       // localStorage에 들어있는 token들 모두 제거.
       localStorage.clear();
     },
-    PushMsgData(state, {message, from}) {
-      state.msgDatas.push({"message": message, "from": from});
+    PushMsgData(state, {message}) {
+      state.msgDatas.push({"message": message.message, "from": message.from, "sendtime": message.sendtime});
     }
   },
   actions: {
