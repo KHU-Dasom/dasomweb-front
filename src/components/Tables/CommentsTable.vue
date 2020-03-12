@@ -60,6 +60,11 @@ export default {
   },
   methods: {
     commentUpload: function() {
+      if (this.newComment == "" || this.newComment === null) {
+        alert("댓글을 입력해주세요.");
+        return;
+      }
+
       var vm = this;
 
       var boardID = this.$route.params.board_id;

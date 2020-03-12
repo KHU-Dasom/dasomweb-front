@@ -69,14 +69,6 @@
 
                   <button
                     class="menubar__button"
-                    :class="{ 'is-active': isActive.heading({ level: 1 }) }"
-                    @click="commands.heading({ level: 1 })"
-                  >
-                    H1
-                  </button>
-
-                  <button
-                    class="menubar__button"
                     :class="{ 'is-active': isActive.heading({ level: 2 }) }"
                     @click="commands.heading({ level: 2 })"
                   >
@@ -89,6 +81,14 @@
                     @click="commands.heading({ level: 3 })"
                   >
                     H3
+                  </button>
+
+                  <button
+                    class="menubar__button"
+                    :class="{ 'is-active': isActive.heading({ level: 4 }) }"
+                    @click="commands.heading({ level: 4 })"
+                  >
+                    H4
                   </button>
 
                   <button
@@ -184,8 +184,9 @@
 
         <!-- Image Modal -->
         <image-upload-modal
+          ref="imageModal"
           :show-modal="showImageModal"
-          v-on:updateImageModal="updateImageModal($event)"
+          v-on:onConfirm="addCommand"
         ></image-upload-modal>
       </div>
     </div>
@@ -227,11 +228,11 @@ export default {
     EditorMenuBar,
     ImageUploadModal
   },
-  watch: {
-    showImageModal: function() {
-      console.log("showImageModal :", this.showImageModal);
-    }
-  },
+  // watch: {
+  //   showImageModal: function() {
+  //     console.log("showImageModal :", this.showImageModal);
+  //   }
+  // },
   created: function() {
     this.boardID = this.$route.query.board_id;
 
@@ -259,7 +260,7 @@ export default {
           new BulletList(),
           new CodeBlock(),
           new HardBreak(),
-          new Heading({ levels: [1, 2, 3] }),
+          new Heading({ levels: [2, 3, 4] }),
           new HorizontalRule(),
           new ListItem(),
           new OrderedList(),
@@ -292,12 +293,13 @@ export default {
       this.showImageModal = param;
     },
     // 이미지 링크거는 용도
-    showImagePrompt() {
-      //command) {
-      this.showImageModal = true;
-      // if (src !== null) {
-      //   command({ src });
-      // }
+    showImagePrompt(command) {
+      this.$refs.imageModal.showModal(command);
+    },
+    addCommand(data) {
+      if (data.command !== null) {
+        data.command(data.data);
+      }
     },
     // 수정 취소 후 리다이렉트
     cancelEditing() {
@@ -480,6 +482,12 @@ $color-grey: #dddddd;
 
     * {
       caret-color: currentColor;
+    }
+
+    img {
+      width: auto;
+      display: block;
+      margin: 0 auto;
     }
 
     pre {
