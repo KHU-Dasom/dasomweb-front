@@ -20,10 +20,9 @@
               <md-divider></md-divider>
               
               <div class="md-alignment-top-right alignright">
-                <md-button class="md-provence md-sm" @click="modifyArticle">수정</md-button>
-                <md-button class="md-danger md-sm" @click="deleteArticle">삭제</md-button>
+                <md-button class="md-provence md-sm" @click="modifyArticle" :disabled="modifiable">수정</md-button>
+                <md-button class="md-danger md-sm" @click="deleteArticle" :disabled="modifiable">삭제</md-button>
               </div>
-
 
               <br />
 
@@ -101,6 +100,7 @@ export default {
       enrollyear: null,
       attachments: [],
       comments: [],
+      modifiable: false,
       attachment_counts: 0,
       // Editor
       editor: new Editor({
@@ -130,6 +130,7 @@ export default {
     };
   },
   created() {
+    // 데이터 불러오기.
     this.fetchData();
   },
   beforeDestroy() {
@@ -150,6 +151,13 @@ export default {
     },
     // 게시물 삭제
     deleteArticle() {
+      // 권한 체크
+      var user = this.$store.getters.getUserInfo;
+      if (user.id != this.article.author_id) {
+        alert("글 작성자만 삭제가 가능합니다.");
+        return;
+      }
+
       var promptStr = prompt(
         '게시물이 삭제되며 복구할 수 없습니다.\n삭제를 원하면 "삭제"를 입력해주세요.'
       );
@@ -245,6 +253,10 @@ export default {
             vm.$router.push("/signin");
           }
         });
+      
+      // 수정 및 삭제 권한 체크
+      var user = this.$store.getters.getUserInfo;
+      this.modifiable = (user.id == this.article.author_id);
     },
     // 댓글창 다시 로딩
     fetchCommentsData() {
