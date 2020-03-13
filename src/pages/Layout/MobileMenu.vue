@@ -1,58 +1,61 @@
 <template>
   <ul class="nav nav-mobile-menu">
+    <!-- 검색 기능 -->
     <li>
       <md-field>
         <label>Search</label>
         <md-input v-model="search" type="text"></md-input>
       </md-field>
     </li>
-    <li>
+
+    <!-- 대쉬보드 -->
+    <!-- <li>
       <a href="#" class="dropdown-toggle" data-toggle="dropdown">
         <i class="material-icons">dashboard</i>
         <p>Dashboard</p></a
       >
-    </li>
+    </li> -->
+
+    <!-- 알림 기능 -->
     <li>
       <drop-down>
         <a slot="title" class="dropdown-toggle" data-toggle="dropdown">
           <i class="material-icons">notifications</i>
-          <span class="notification">5</span>
-          <p>Notifications</p>
+          <!-- <span class="notification">5</span> -->
+          <p>알림</p>
         </a>
         <ul class="dropdown-menu dropdown-menu-right">
-          <li><a href="#">Mike John responded to your email</a></li>
-          <li><a href="#">You have 5 new tasks</a></li>
-          <li><a href="#">You're now friend with Andrew</a></li>
-          <li><a href="#">Another Notification</a></li>
-          <li><a href="#">Another One</a></li>
+          <li><a href="#">알림 기능은 나중에 추가됩니다.</a></li>
         </ul>
       </drop-down>
     </li>
+
+    <!-- 유저 프로필 -->
     <li>
-      <a href="#" data-toggle="dropdown" class="dropdown-toggle"
-        ><i class="material-icons">person</i>
-        <p>Profile</p></a
-      >
+      <drop-down>
+        <a slot="title" class="dropdown-toggle" data-toggle="dropdown">
+          <i class="material-icons">person</i>
+          <p>유저</p>
+        </a>
+        <ProfileTable isMobile="true"></ProfileTable>
+        <!-- <ul class="dropdown-menu dropdown-menu-right">
+          <li><a href="#">알림 기능은 나중에 추가됩니다.</a></li>
+        </ul> -->
+      </drop-down>
     </li>
   </ul>
 </template>
 <script>
+import { ProfileTable } from "@/components";
 export default {
+  components: {
+    ProfileTable
+  },
   data() {
     return {
       search: null,
-      selectedEmployee: null,
-      employees: [
-        "Jim Halpert",
-        "Dwight Schrute",
-        "Michael Scott",
-        "Pam Beesly",
-        "Angela Martin",
-        "Kelly Kapoor",
-        "Ryan Howard",
-        "Kevin Malone"
-      ]
-    };
+      selectedEmployee: null
+    }
   }
 };
 </script>

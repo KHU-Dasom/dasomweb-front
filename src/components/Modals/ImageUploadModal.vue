@@ -1,7 +1,7 @@
 <template>
   <div>
     <md-dialog
-      :md-fullscreen="false"
+      :md-fullscreen="true"
       :md-active.sync="show"
       v-on:md-closed="close"
       v-on:md-clicked-outside="close"
@@ -17,7 +17,10 @@
             </md-tab>
 
             <md-tab id="tab-url" md-label="URL" md-icon="http">
-              <p>URL 입력하는 곳</p>
+              <md-field>
+                <label>이미지 URL 입력</label>
+                <md-input v-model="imageSrc" ref="urlInput"></md-input>
+              </md-field>
             </md-tab>
           </md-tabs>
         </template>
@@ -48,6 +51,7 @@ export default {
   },
   methods: {
     close() {
+      this.imageSrc = null;
       this.show = false;
     },
     showModal(command) {

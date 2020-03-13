@@ -264,12 +264,6 @@ $color-grey: #dddddd;
       caret-color: currentColor;
     }
 
-    img {
-      width: auto;
-      display: block;
-      margin: 0 auto;
-    }
-
     pre {
       padding: 0.7rem 1rem;
       border-radius: 5px;
@@ -319,8 +313,12 @@ $color-grey: #dddddd;
       }
     }
 
-    img {
-      max-width: 100%;
+    img:not(.md-card) {
+      width: 100%;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+      max-width: 500px;
       border-radius: 3px;
     }
 
