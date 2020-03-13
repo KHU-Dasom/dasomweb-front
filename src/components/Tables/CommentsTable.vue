@@ -89,7 +89,7 @@ export default {
         })
         .then(res => {
           console.log(res);
-          vm.$emit("comment_updated", "updated");
+          vm.$emit("comment-updated", "updated");
         })
         .catch(({ message }) => {
           alert("댓글 등록이 실패하였습니다. : " + message);

@@ -26,10 +26,10 @@
             </md-autocomplete>
           </div>
           <md-list>
-            <md-list-item>
+            <!-- <md-list-item>
               <i class="material-icons">dashboard</i>
               <p class="hidden-lg hidden-md">Dashboard</p>
-            </md-list-item>
+            </md-list-item> -->
 
             <!-- <md-list-item href="#/notifications" class="dropdown">
               <drop-down>

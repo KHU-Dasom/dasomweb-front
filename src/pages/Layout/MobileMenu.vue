@@ -37,7 +37,7 @@
           <i class="material-icons">person</i>
           <p>유저</p>
         </a>
-        <ProfileTable isMobile="true"></ProfileTable>
+        <ProfileTable v-bind:isMobile="true"></ProfileTable>
         <!-- <ul class="dropdown-menu dropdown-menu-right">
           <li><a href="#">알림 기능은 나중에 추가됩니다.</a></li>
         </ul> -->

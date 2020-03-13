@@ -38,13 +38,13 @@
 
     <li v-if="isLogin">
       <md-button
-        :class="{'md-provence': !isMobile, 'md-simple': isMobile}"
+        :class="{ 'md-provence': !isMobile, 'md-simple': isMobile }"
         class="md-sm profile-buttons"
         @click="onClickSignout"
         >로그아웃</md-button
       >
       <md-button
-        :class="{'md-provence': !isMobile, 'md-simple': isMobile}"
+        :class="{ 'md-provence': !isMobile, 'md-simple': isMobile }"
         class="md-sm profile-buttons"
         @click="onClickRefresh"
         >세션 연장</md-button

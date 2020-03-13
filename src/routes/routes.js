@@ -89,6 +89,14 @@ const routes = [
         beforeEnter: requireAuth()
       },
       {
+        // 게시글 수정
+        path: "/modifyarticle",
+        name: "ArticleModify",
+        component: ArticleCreation,
+        beforeEnter: requireAuth()
+      },
+      {
+        // 채팅
         path: "/chat",
         name: "Chat",
         component: Chat,
