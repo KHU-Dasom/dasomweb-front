@@ -70,7 +70,7 @@ export default {
       var boardID = this.$route.params.board_id;
       var articleID = this.$route.params.article_id;
 
-      var token = localStorage.getItem("accessToken");
+      var token = this.$store.getters.getAccessToken;
       const url =
         "http://api.dasom.io/boards/" +
         boardID +

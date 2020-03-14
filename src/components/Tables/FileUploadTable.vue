@@ -59,7 +59,7 @@ export default {
       });
 
       // 파일 업로드 요청
-      var token = localStorage.getItem("accessToken");
+      var token = this.$store.getters.getAccessToken;
       const url = "http://api.dasom.io/uploads";
       this.$http
         .post(url, formData, {

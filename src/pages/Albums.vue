@@ -6,10 +6,10 @@
       >
         <md-card>
           <md-card-header data-background-color="pantone-provence">
-            <h4 class="title">{{ boardData.title }}</h4>
+            <h4 class="title">갤러리</h4>
           </md-card-header>
           <md-card-content :key="$route.fullPath">
-            <FreeBoardTable></FreeBoardTable>
+            <album-list-table></album-list-table>
           </md-card-content>
         </md-card>
       </div>
@@ -18,59 +18,53 @@
 </template>
 
 <script>
-import { FreeBoardTable } from "@/components";
+import { AlbumListTable } from "@/components";
 
 export default {
   components: {
-    FreeBoardTable
+    AlbumListTable
   },
   data() {
     return {
-      boardID: "",
-      boardData: {}
+      albums: []
     };
   },
   watch: {
     $route: "fetchData"
   },
   created() {
+    console.log(this.$route);
     this.fetchData();
   },
   methods: {
     fetchData() {
       let vm = this; // 화살표 함수 안 에서는 this가 정의되지 않음.
-      this.boardID = this.$route.params.board_id;
       var token = this.$store.getters.getAccessToken;
       let config = {
         headers: {
-          Authorization: token
+          Authorization: token,
+          "Content-Type": "application/json"
         }
       };
-      var userInfo = this.$store.getters.getUserInfo;
 
       this.$http.defaults.headers.get["Content-Type"] = "application/json";
       this.$http
-        .get("http://api.dasom.io/boards", config)
+        .get("http://api.dasom.io/albums", config)
         .then(res => {
-          var boards = res.data.data.boards;
+          var vm = this;
+          var data = res.data.data;
 
-          boards.forEach(function(element) {
-            // 일치하는 Board 조회
-            if (String(element.id) == vm.boardID) {
-              // 권한 체크
-              if (userInfo.level >= element.read_level) {
-                vm.boardData = element;
-              } else {
-                alert("해당 게시판의 읽기 권한이 부족합니다.");
-                vm.$router.push("/");
-              }
-            }
-          });
+          // 앨범 데이터 가져오기
+          if (data.album_counts > 0) {
+            data.albums.forEach(element => {
+              vm.albums.push(element);
+            });
+          }
         })
         .catch(error => {
           console.log("여기 error", error);
           if (error.response.request.status == 403) {
-            alert("해당 게시판의 읽기 권한이 부족합니다.");
+            alert("앨범의 읽기 권한이 부족합니다.");
             vm.$router.push("/");
           } else if (error.response.request.status == 401) {
             alert("로그인 세션이 만료되었습니다.");

@@ -271,7 +271,7 @@ export default {
         this.articleID +
         "/comments";
 
-      var token = localStorage.getItem("accessToken");
+      var token = this.$store.getters.getAccessToken;
       let config = {
         headers: {
           Authorization: token,

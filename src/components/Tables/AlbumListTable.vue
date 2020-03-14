@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-show="articles.length == 0">
+    <div v-show="albums.length == 0">
       <md-empty-state
         md-icon="priority_high"
         md-label="게시물이 존재하지 않습니다."
@@ -8,54 +8,48 @@
 
         <!-- 글쓰기 -->
         <div class="buttons-wrapper">
-          <md-button class="md-dense md-provence" @click="newArticle">새로운 글</md-button>
+          <md-button class="md-dense md-provence" @click="newAlbum">새로운 앨범</md-button>
         </div>
       </md-empty-state>
     </div>
 
-    <div v-show="articles.length != 0">
-
-      <!-- 데스크탑용 테이블 -->
-      <md-table
-        v-model="articles"
-        @md-selected="onSelect"
-        :table-header-color="tableHeaderColor"
-        v-show="!isMobile"
-      >
-        <md-table-row
-          slot="md-table-row"
-          slot-scope="{ item }"
-          md-selectable="single"
-          :key="item.id"
-        >
-          <md-table-cell md-label="제목" class="table-title">{{ item.title }}</md-table-cell>
-          <md-table-cell md-label="작성 시간" width="90px">{{
-            item.published_at_kor
-          }}</md-table-cell>
-          <md-table-cell md-label="작성자" width="90px">{{ item.author_name }}</md-table-cell>
-          <md-table-cell md-numeric md-label="조회수" width="55px">{{ item.views }}</md-table-cell>
-        </md-table-row>
-      </md-table>
+    <div v-show="albums.length != 0">
 
       <!-- 모바일용 리스트 -->
-      <md-list class="md-triple-line" v-model="articles" v-show="isMobile">
+      <!-- <md-list class="md-triple-line" v-model="albums">
         <md-list-item
-          v-for="(artc, idx) in articles"
+          v-for="(album, idx) in albums"
           v-bind:key="idx"
-          @click="onSelect(artc)"
+          @click="onSelect(album)"
         >
           <md-icon class="">library_books</md-icon>
           <div class="md-list-item-text">
-            <span>{{ artc.title }}</span>
-            <span>{{ artc.author_name }}</span>
-            <p>{{ artc.published_at_kor }} | 조회수 : {{ artc.views }}</p>
+            <span>{{ album.title }}</span>
+            <span>{{ album.author_name }}</span>
+            <p>{{ album.published_at_kor }} | 조회수 : {{ album.views }}</p>
           </div>
         </md-list-item>
-      </md-list>
+      </md-list> -->
+
+      <!-- 갤러리 카드들 -->
+      <div class="gallery-wrapper">
+        <md-card v-for="(album, idx) in albums" v-bind:key="idx" :class="{'album-card': true}">
+          <md-card-media-cover md-solid>
+            <md-card-media md-ratio="4:3">
+              <img :src="album.thumbnail" alt="Thumbnail" />
+            </md-card-media>
+
+            <md-card-area>
+              <span class="md-title gallery-title">{{ album.title }}</span>
+              <span class="md-subhead gallery-subhead">{{ album.author_name }} | {{ album.published_at_kor }}</span>
+            </md-card-area>
+          </md-card-media-cover>
+        </md-card>
+      </div>
 
       <!-- 글쓰기 -->
       <div class="buttons-wrapper">
-        <md-button class="md-dense md-provence" @click="newArticle">새로운 글</md-button>
+        <md-button class="md-dense md-provence" @click="newAlbum">새로운 앨범</md-button>
       </div>
 
       <md-divider></md-divider>
@@ -82,7 +76,7 @@
 
 <script>
 export default {
-  name: "freeboard-table",
+  name: "album-list-table",
   props: {
     tableHeaderColor: {
       type: String,
@@ -99,7 +93,7 @@ export default {
       handler: function() {
         this.$router
           .push({
-            path: "/boards/" + this.boardID,
+            path: "/albums",
             query: {
               page: this.pagination.current
             }
@@ -115,9 +109,8 @@ export default {
   data() {
     return {
       loading: true,
-      boardID: null,
       selected: [],
-      articles: [],
+      albums: [],
       pagination: {
         current: 0,
         count: 1
@@ -128,13 +121,8 @@ export default {
     this.fetchData();
   },
   methods: {
-    newArticle() {
-      this.$router.push({
-        path: "/newarticle",
-        query: {
-          board_id: this.boardID
-        }
-      });
+    newAlbum() {
+      this.$router.push("/newalbum");
     },
     nextPage() {
       if (this.pagination.current < this.pagination.count - 1) {
@@ -151,30 +139,25 @@ export default {
       this.loading = true;
 
       // Router Parameters
-      this.boardID = this.$route.params.board_id;
       this.pagination.current = this.$route.query.page;
       if (this.pagination.current == undefined) {
         this.pagination.current = 0;
       }
 
-      var url =
-        "http://api.dasom.io/boards/" +
-        this.boardID +
-        "/articles?page=" +
-        this.pagination.current;
+      var url = "http://api.dasom.io/albums?page=" + this.pagination.current;
 
       var token = this.$store.getters.getAccessToken;
       let config = {
         headers: {
-          Authorization: token
+          Authorization: token,
+          "Content-Type": "application/json"
         }
       };
-      this.$http.defaults.headers.get["Content-Type"] = "application/json";
       this.$http
         .get(url, config)
         .then(res => {
           vm.loading = false;
-          vm.articles = res.data.data.articles;
+          vm.albums = res.data.data.albums;
           vm.pagination.count = res.data.data.page_counts;
           vm.pagination.current = res.data.data.page;
         })
@@ -193,25 +176,33 @@ export default {
       this.loading = false;
     },
     onSelect(item) {
-      this.$router.push(this.boardID + "/articles/" + item.id);
+      this.$router.push("/albums/" + item.id);
     }
   }
 };
 </script>
 
-<style scoped>
-.md-table .md-table-cell.md-numeric .md-table-cell-container {
-  display: inline;
-}
-.md-table .md-table-cell[width] .md-table-cell-container {
-  width: inherit;
-  text-overflow: ellipsis;
-  overflow: hidden;
+<style lang="scss" scoped>
+.gallery-wrapper {
+  justify-content: center;
+  justify-items: center;
+  text-align: center;
+  margin: 0 auto;
 }
 
-.table-title {
-  overflow: hidden;
-  text-overflow: ellipsis;
+.album-card {
+  max-width: 300px;
+  margin: 10px;
+
+  cursor: pointer;
+
+  .gallery-title {
+    font-size: 18px;
+  }
+
+  .gallery-subhead {
+    font-size: 14px;
+  }
 }
 
 .buttons-wrapper {
