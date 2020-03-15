@@ -11,6 +11,7 @@ import SimpleTable from "./Tables/SimpleTable.vue";
 import FreeBoardTable from "./Tables/FreeBoardTable.vue";
 import ArticleTable from "./Tables/ArticleTable.vue";
 import AlbumListTable from "./Tables/AlbumListTable.vue";
+import AlbumViewTable from "./Tables/AlbumViewTable.vue";
 import ProfileTable from "./Tables/ProfileTable.vue";
 import FileUploadTable from "./Tables/FileUploadTable.vue";
 import FileAttachmentsTable from "./Tables/FileAttachmentsTable.vue";
@@ -37,5 +38,6 @@ export {
   FileAttachmentsTable,
   EditorIcon,
   ChatMsgTable,
-  ImageUploadModal
+  ImageUploadModal,
+  AlbumViewTable
 };

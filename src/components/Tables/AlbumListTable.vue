@@ -15,36 +15,26 @@
 
     <div v-show="albums.length != 0">
 
-      <!-- 모바일용 리스트 -->
-      <!-- <md-list class="md-triple-line" v-model="albums">
-        <md-list-item
+      <!-- 갤러리 카드들 -->
+      <div class="gallery-wrapper">
+        <div
           v-for="(album, idx) in albums"
           v-bind:key="idx"
           @click="onSelect(album)"
         >
-          <md-icon class="">library_books</md-icon>
-          <div class="md-list-item-text">
-            <span>{{ album.title }}</span>
-            <span>{{ album.author_name }}</span>
-            <p>{{ album.published_at_kor }} | 조회수 : {{ album.views }}</p>
-          </div>
-        </md-list-item>
-      </md-list> -->
+          <md-card :class="{'album-card': true}">
+            <md-card-media-cover md-solid>
+              <md-card-media md-ratio="4:3">
+                <img :src="album.thumbnail" alt="Thumbnail" crossorigin="anonymous" />
+              </md-card-media>
 
-      <!-- 갤러리 카드들 -->
-      <div class="gallery-wrapper">
-        <md-card v-for="(album, idx) in albums" v-bind:key="idx" :class="{'album-card': true}">
-          <md-card-media-cover md-solid>
-            <md-card-media md-ratio="4:3">
-              <img :src="album.thumbnail" alt="Thumbnail" />
-            </md-card-media>
-
-            <md-card-area>
-              <span class="md-title gallery-title">{{ album.title }}</span>
-              <span class="md-subhead gallery-subhead">{{ album.author_name }} | {{ album.published_at_kor }}</span>
-            </md-card-area>
-          </md-card-media-cover>
-        </md-card>
+              <md-card-area>
+                <span class="md-title gallery-title">{{ album.title }}</span>
+                <span class="md-subhead gallery-subhead">{{ album.author_name }} | {{ album.published_at_kor }}</span>
+              </md-card-area>
+            </md-card-media-cover>
+          </md-card>
+        </div>
       </div>
 
       <!-- 글쓰기 -->
@@ -121,6 +111,9 @@ export default {
     this.fetchData();
   },
   methods: {
+    onSelect(item) {
+      this.$router.push("/albums/" + item.id);
+    },
     newAlbum() {
       this.$router.push("/newalbum");
     },
@@ -174,9 +167,6 @@ export default {
           }
         });
       this.loading = false;
-    },
-    onSelect(item) {
-      this.$router.push("/albums/" + item.id);
     }
   }
 };

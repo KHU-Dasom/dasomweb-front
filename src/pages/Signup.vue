@@ -134,7 +134,7 @@
 
       <div class="actions md-layout md-alignment-center-space-between">
         <a href="/" class="md-provence">홈으로</a>
-        <a href="#/signup" class="md-provence">회원가입</a>
+        <a href="#/signin" class="md-provence">로그인</a>
         <md-button
           type="submit"
           class="md-raised md-provence"

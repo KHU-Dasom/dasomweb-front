@@ -6,6 +6,7 @@ import DashboardLayout from "@/pages/Layout/DashboardLayout.vue";
 import Dashboard from "@/pages/Dashboard.vue";
 
 import Albums from "@/pages/Albums.vue";
+import AlbumView from "@/pages/AlbumView.vue";
 import FreeBoard from "@/pages/FreeBoard.vue";
 import ArticleShow from "@/pages/ArticleShow.vue";
 import ArticleCreation from "@/pages/ArticleCreation.vue";
@@ -47,13 +48,13 @@ const routes = [
         component: Albums,
         beforeEnter: requireAuth()
       },
-      // {
-      //   // 앨범 갤러리
-      //   path: "/albums/:album_id",
-      //   name: "Albums",
-      //   component: Albums,
-      //   beforeEnter: requireAuth()
-      // },
+      {
+        // 앨범 갤러리
+        path: "/albums/:album_id",
+        name: "AlbumView",
+        component: AlbumView,
+        beforeEnter: requireAuth()
+      },
       {
         // 게시판 출력
         path: "/boards/:board_id",

@@ -33,7 +33,6 @@ export default {
     $route: "fetchData"
   },
   created() {
-    console.log(this.$route);
     this.fetchData();
   },
   methods: {
