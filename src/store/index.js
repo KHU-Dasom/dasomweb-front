@@ -29,8 +29,7 @@ export default new Vuex.Store({
     userBirth: null,
     userEmail: null,
     userLevel: null,
-    userEnrollYear: null,
-    msgDatas: []
+    userEnrollYear: null
   },
   getters: {
     getAccessToken: state => {
@@ -97,9 +96,15 @@ export default new Vuex.Store({
       // localStorage에 들어있는 token들 모두 제거.
       localStorage.clear();
     },
+    /*
     PushMsgData(state, {message}) {
-      state.msgDatas.push({"message": message.message, "from": message.from, "sendtime": message.sendtime});
-    }
+      //state.msgDatas.pop();
+      console.log(state.msgDatas);
+      var msg = {"message": message.message, "from": message.from, "sendtime": message.sendtime};
+      console.log("msg:", msg);
+      state.msgDatas.push(msg);
+      //state.msgDatas = {"message": message.message, "from": message.from, "sendtime": message.sendtime};
+    } */
   },
   actions: {
     LOGIN({ commit }, { id, password }) {
