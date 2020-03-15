@@ -8,9 +8,8 @@
           </md-card-header>
           <md-card-content class="md-scrollbar">
           <div>
-
+            <Infinite @infinite="infiniteHandler" spinner="waveDots"></Infinite>
             <md-list v-for="(msg, index) in msgs" v-bind:key="index">
-            <!--<infinite-loading direction="top" @infinite="infiniteHandler" spinner="waveDots"></infinite-loading>-->
               <md-list-item>
                 <md-avatar class="md-avatar-icon" style="font-size: 15px;">{{ msg.from.slice(1,3) }}</md-avatar>
                 <div class="md-list-item-text">
@@ -32,15 +31,21 @@
 </template>
 
 <script>
+import InfiniteLoading from "vue-infinite-loading";
+
 export default {
+  components: {
+   "Infinite": InfiniteLoading
+  },
   data(){
     return {
-      conn: null,
       sendmessage: "",
       status: "disconnected",
       msgData: "",
       idx: 0,
-      msgs: []
+      msgs: [],
+      isnew: false,
+      newmsgs: [],
     }
   },
   created() {
@@ -54,19 +59,32 @@ export default {
         this.getmsg();
 
         this.socket.onmessage = ({data}) => {
-
+        console.log(this.isnew)
+        if (this.isnew == true) {
           var templist = JSON.parse(data);
-          console.log(templist);
-          for(var i=0; i<templist.length; i++) {
+          for (var i=0; i<templist.length; i++) {
+            this.msgData = templist[i];
+            this.newmsgs.push(this.msgData);
+          }
+          for (i=0; i<this.msgs.length; i++) {
+            this.newmsgs.push(this.msgs[i])
+          }
+          this.msgs = this.newmsgs;
+          this.newmsgs = [];
+          this.isnew = false;
+          console.log(this.msgs)
+        } else if (this.isnew == false) {
+          templist = JSON.parse(data);
+          for(i=0; i<templist.length; i++) {
             this.msgData = templist[i]
             this.msgs.push(this.msgData);
-            console.log(this.msgData);
-          }
+            }
+        }
+
         }
       }
     },
     sendmsg() {
-      console.log(this.sendmessage)
       if (this.status == "disconnected") {
         return false;
       }
@@ -111,6 +129,21 @@ export default {
       this.idx = this.idx + 10;
 
       this.socket.send(JSON.stringify(realmsg));
+      return false;
+    },
+    infiniteHandler() {
+      setTimeout(() => {
+        var realmsg = {
+          type: "command",
+          data: {
+            idx: this.idx
+          }
+        }
+        this.idx = this.idx + 10;
+        this.isnew = true;
+        this.socket.send(JSON.stringify(realmsg));
+        console.log(this.idx);
+      }, 1000)
       return false;
     }
   }
