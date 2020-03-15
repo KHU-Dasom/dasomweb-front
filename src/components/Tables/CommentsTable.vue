@@ -60,12 +60,17 @@ export default {
   },
   methods: {
     commentUpload: function() {
+      if (this.newComment == "" || this.newComment === null) {
+        alert("댓글을 입력해주세요.");
+        return;
+      }
+
       var vm = this;
 
       var boardID = this.$route.params.board_id;
       var articleID = this.$route.params.article_id;
 
-      var token = localStorage.getItem("accessToken");
+      var token = this.$store.getters.getAccessToken;
       const url =
         "http://api.dasom.io/boards/" +
         boardID +
@@ -84,7 +89,7 @@ export default {
         })
         .then(res => {
           console.log(res);
-          vm.$emit("comment_updated", "updated");
+          vm.$emit("comment-updated", "updated");
         })
         .catch(({ message }) => {
           alert("댓글 등록이 실패하였습니다. : " + message);

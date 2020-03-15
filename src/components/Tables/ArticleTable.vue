@@ -18,6 +18,12 @@
               </div>
 
               <md-divider></md-divider>
+              
+              <div class="md-alignment-top-right alignright">
+                <md-button class="md-provence md-sm" @click="modifyArticle" :disabled="modifiable">수정</md-button>
+                <md-button class="md-danger md-sm" @click="deleteArticle" :disabled="modifiable">삭제</md-button>
+              </div>
+
               <br />
 
               <!-- Editor -->
@@ -42,7 +48,7 @@
     <!-- 댓글 -->
     <comments-table
       v-bind:comments="comments"
-      v-on:comment_updated="fetchCommentsData"
+      v-on:comment-updated="fetchCommentsData"
     ></comments-table>
   </div>
 </template>
@@ -94,6 +100,7 @@ export default {
       enrollyear: null,
       attachments: [],
       comments: [],
+      modifiable: false,
       attachment_counts: 0,
       // Editor
       editor: new Editor({
@@ -103,7 +110,7 @@ export default {
           new BulletList(),
           new CodeBlock(),
           new HardBreak(),
-          new Heading({ levels: [1, 2, 3] }),
+          new Heading({ levels: [2, 3, 4] }),
           new HorizontalRule(),
           new ListItem(),
           new OrderedList(),
@@ -123,12 +130,78 @@ export default {
     };
   },
   created() {
+    // 데이터 불러오기.
     this.fetchData();
   },
   beforeDestroy() {
     this.editor.destroy();
   },
   methods: {
+    // 게시글 수정으로 전달
+    modifyArticle() {
+      // 권한 체크
+      var user = this.$store.getters.getUserInfo;
+      if (user.id != this.article.author_id) {
+        alert("글 작성자만 수정이 가능합니다.");
+        return;
+      }
+
+      var path = "/modifyarticle?board_id=" + this.boardID + "&article_id=" + this.articleID;
+      this.$router.push(path);
+    },
+    // 게시물 삭제
+    deleteArticle() {
+      // 권한 체크
+      var user = this.$store.getters.getUserInfo;
+      if (user.id != this.article.author_id) {
+        alert("글 작성자만 삭제가 가능합니다.");
+        return;
+      }
+
+      var promptStr = prompt(
+        '게시물이 삭제되며 복구할 수 없습니다.\n삭제를 원하면 "삭제"를 입력해주세요.'
+      );
+      if (promptStr == null) {
+        return;
+      }
+
+      if (promptStr == "삭제") {
+        var vm = this;
+
+        this.boardID = this.$route.params.board_id;
+        this.articleID = this.$route.params.article_id;
+        var url =
+          "http://api.dasom.io/boards/" +
+          this.boardID +
+          "/articles/" +
+          this.articleID;
+        var token = this.$store.getters.getAccessToken;
+        let config = {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token
+          }
+        };
+
+        this.$http
+          .delete(url, config)
+          .then(() => {
+            alert("성공적으로 삭제되었습니다.");
+            vm.$router.push("/boards/" + this.boardID);
+          })
+          .catch(error => {
+            console.log(error);
+            if (error.response.request.status == 401) {
+              alert("로그인 세션이 만료되었습니다.");
+              vm.$router.push("/signin");
+            }
+          });
+      } else {
+        alert("정확하게 입력해주세요.");
+        return;
+      }
+    },
+    // 데이터 로딩
     fetchData() {
       var vm = this;
 
@@ -140,7 +213,7 @@ export default {
         "/articles/" +
         this.articleID;
 
-      var token = localStorage.getItem("accessToken");
+      var token = this.$store.getters.getAccessToken;
       let config = {
         headers: {
           Authorization: token
@@ -158,7 +231,12 @@ export default {
           vm.attachment_counts = vm.article.attachment_counts;
           if (vm.article.attachment_counts > 0) {
             vm.article.attachments.forEach(element => {
-              vm.attachments.push(element);
+              vm.attachments.push({
+                file_id: element.file_id,
+                file_name: element.file_name,
+                file_ext: element.file_ext,
+                url: element.url
+              });
             });
           }
 
@@ -175,6 +253,10 @@ export default {
             vm.$router.push("/signin");
           }
         });
+      
+      // 수정 및 삭제 권한 체크
+      var user = this.$store.getters.getUserInfo;
+      this.modifiable = (user.id == this.article.author_id);
     },
     // 댓글창 다시 로딩
     fetchCommentsData() {
@@ -189,7 +271,7 @@ export default {
         this.articleID +
         "/comments";
 
-      var token = localStorage.getItem("accessToken");
+      var token = this.$store.getters.getAccessToken;
       let config = {
         headers: {
           Authorization: token,
@@ -313,8 +395,12 @@ $color-grey: #dddddd;
       }
     }
 
-    img {
-      max-width: 100%;
+    img:not(.md-card) {
+      width: inherit;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+      max-width: 80%;
       border-radius: 3px;
     }
 

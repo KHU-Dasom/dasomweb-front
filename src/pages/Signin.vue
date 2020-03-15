@@ -1,6 +1,6 @@
 <template>
   <div class="centered-container">
-    <md-content class="md-elevation-3">
+    <md-content class="md-elevation-3" :class="{'mobile-full': isMobile}">
       <div class="title">
         <img :src="imgLogo" alt="" />
         <div class="md-title">dasom.io</div>
@@ -90,7 +90,12 @@ export default {
     imgLogo: {
       type: String,
       default: require("@/assets/img/dasom_logo_pink.png")
-    },
+    }
+  },
+  computed: {
+    isMobile: function() {
+      return this.$mq === "mobile" ? true : false;
+    }
   },
   data: () => ({
     loading: false,
@@ -170,7 +175,7 @@ export default {
     }
   },
   created() {
-    if (localStorage.getItem("accessToken") !== null) {
+    if (this.$store.getters.getAccessToken !== null) {
       this.$store.dispatch("LOGOUT");
     }
   }
@@ -178,6 +183,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.mobile-full {
+  width: 100%;
+}
+
 .md-progress-bar {
   position: absolute;
   top: 0;

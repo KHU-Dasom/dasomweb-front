@@ -5,6 +5,11 @@
     <side-bar>
       <mobile-menu slot="content"></mobile-menu>
 
+      <sidebar-link to="/albums">
+        <md-icon>photo_camera</md-icon>
+        <p>갤러리</p>
+      </sidebar-link>
+
       <sidebar-link
         v-for="board in boards"
         v-bind:to="board.path"

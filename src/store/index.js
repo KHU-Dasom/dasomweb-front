@@ -34,6 +34,16 @@ export default new Vuex.Store({
   getters: {
     getAccessToken: state => {
       return state.accessToken;
+    },
+    getUserInfo: state => {
+      return {
+        id: state.userID,
+        name: state.userName,
+        birth: state.userBirth,
+        email: state.userEmail,
+        level: state.userLevel,
+        userEnrollYear: state.userEnrollYear
+      };
     }
   },
   mutations: {

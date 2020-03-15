@@ -33,7 +33,7 @@ export default {
   data: () => ({
     newFileNames: null,
     newFiles: [],
-    uploadedFileIDs: [] // 업로드가 완료된 파일의 ID의 Array
+    uploadedFiles: [] // 업로드가 완료된 파일의 Array
   }),
   methods: {
     // 파일이 선택된 이벤트 발생 시
@@ -59,7 +59,7 @@ export default {
       });
 
       // 파일 업로드 요청
-      var token = localStorage.getItem("accessToken");
+      var token = this.$store.getters.getAccessToken;
       const url = "http://api.dasom.io/uploads";
       this.$http
         .post(url, formData, {
@@ -69,12 +69,19 @@ export default {
           }
         })
         .then(res => {
-          console.log("성공:", res);
           var uploads = res.data.data.uploads;
           uploads.forEach(element => {
-            vm.uploadedFileIDs.push(element.file_id);
+            vm.uploadedFiles.push({
+              file_id: element.file_id,
+              file_name: element.file_name,
+              file_ext: element.file_ext,
+              url: element.download_link
+            });
           });
-          vm.$emit("upload-completed", vm.uploadedFileIDs);
+          vm.$emit("upload-completed", {
+            files: vm.uploadedFiles,
+            isNew: true
+          });
           alert("파일 업로드 완료.");
         })
         .catch(err => {

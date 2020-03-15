@@ -69,14 +69,6 @@
 
                   <button
                     class="menubar__button"
-                    :class="{ 'is-active': isActive.heading({ level: 1 }) }"
-                    @click="commands.heading({ level: 1 })"
-                  >
-                    H1
-                  </button>
-
-                  <button
-                    class="menubar__button"
                     :class="{ 'is-active': isActive.heading({ level: 2 }) }"
                     @click="commands.heading({ level: 2 })"
                   >
@@ -89,6 +81,14 @@
                     @click="commands.heading({ level: 3 })"
                   >
                     H3
+                  </button>
+
+                  <button
+                    class="menubar__button"
+                    :class="{ 'is-active': isActive.heading({ level: 4 }) }"
+                    @click="commands.heading({ level: 4 })"
+                  >
+                    H4
                   </button>
 
                   <button
@@ -155,6 +155,14 @@
 
             <md-divider></md-divider>
 
+            <!-- 수정 중인 경우에 노출되는 기존 첨부파일 리스트 -->
+            <FileAttachmentsTable
+              v-show="!isCreation"
+              v-bind:attachments="uploadFiles"
+              v-bind:isModify="!isCreation"
+              v-on:upload-completed="uploadCompleted"
+            ></FileAttachmentsTable>
+
             <FileUploadTable
               v-on:upload-completed="uploadCompleted"
             ></FileUploadTable>
@@ -166,8 +174,11 @@
               <md-button class="md-dense md-provence" @click="cancelEditing"
                 >취소</md-button
               >
-              <md-button class="md-dense md-provence" @click="saveEditing"
+              <md-button class="md-dense md-provence" @click="saveEditing" v-if="isCreation"
                 >저장</md-button
+              >
+              <md-button class="md-dense md-provence" @click="saveEditing" v-else
+                >수정 완료</md-button
               >
             </div>
           </md-card-content>
@@ -184,8 +195,9 @@
 
         <!-- Image Modal -->
         <image-upload-modal
+          ref="imageModal"
           :show-modal="showImageModal"
-          v-on:updateImageModal="updateImageModal($event)"
+          v-on:onConfirm="addCommand"
         ></image-upload-modal>
       </div>
     </div>
@@ -193,7 +205,7 @@
 </template>
 
 <script>
-import { FileUploadTable, ImageUploadModal } from "@/components";
+import { FileUploadTable, ImageUploadModal, FileAttachmentsTable } from "@/components";
 
 // Editor
 import EditorIcon from "@/components/EditorIcon/EditorIcon.vue";
@@ -222,34 +234,45 @@ import {
 export default {
   components: {
     FileUploadTable,
+    FileAttachmentsTable,
     EditorIcon,
     EditorContent,
     EditorMenuBar,
     ImageUploadModal
   },
-  watch: {
-    showImageModal: function() {
-      console.log("showImageModal :", this.showImageModal);
-    }
-  },
   created: function() {
-    this.boardID = this.$route.query.board_id;
+    // 게시글 생성인 경우
+    if (this.$route.name == "ArticleCreation") {
+      this.boardID = this.$route.query.board_id;
+      this.isCreation = true;
 
-    var vm = this;
-    this.html = this.editor.getHTML();
-    // this.json = this.editor.getJSON();
-    this.editor.on("update", () => {
-      vm.html = vm.editor.getHTML();
-      // vm.json = vm.editor.getJSON();
-      vm.$emit("update", vm.html);
-    });
+      var vm = this;
+      this.html = this.editor.getHTML();
+      // this.json = this.editor.getJSON();
+      this.editor.on("update", () => {
+        vm.html = vm.editor.getHTML();
+        // vm.json = vm.editor.getJSON();
+        vm.$emit("update", vm.html);
+      });
+    }
+    // 게시글 수정인 경우
+    else if (this.$route.name == "ArticleModify") {
+      this.boardID = this.$route.query.board_id;
+      this.articleID = this.$route.query.article_id;
+      this.isCreation = false;
+
+      // 기존 데이터 불러오기
+      this.fetchDataIfNotCreation();
+    }
   },
   data() {
     return {
       showImageModal: false,
       loading: false,
-      board_id: null,
-      uploadIDs: null,
+      boardID: null,
+      articleID: null,
+      isCreation: true,
+      uploadFiles: [],
       inputTitle: "",
       content_html: "",
       // content_json: "",
@@ -259,7 +282,7 @@ export default {
           new BulletList(),
           new CodeBlock(),
           new HardBreak(),
-          new Heading({ levels: [1, 2, 3] }),
+          new Heading({ levels: [2, 3, 4] }),
           new HorizontalRule(),
           new ListItem(),
           new OrderedList(),
@@ -284,20 +307,30 @@ export default {
   },
   methods: {
     // 업로드된 파일 ID들
-    uploadCompleted(uploadIDs) {
-      this.uploadIDs = uploadIDs;
+    uploadCompleted(obj) {
+      // 새로 업로드된 경우
+      if (obj.isNew == true) {
+        obj.files.forEach(element => {
+          this.uploadFiles.push(element);
+        });
+      } 
+      // 기존 파일이 삭제된 경우
+      else {
+        this.uploadFiles = obj.files;
+      }
     },
     // 이미지 modal의 show 상태를 결정
     updateImageModal(param) {
       this.showImageModal = param;
     },
     // 이미지 링크거는 용도
-    showImagePrompt() {
-      //command) {
-      this.showImageModal = true;
-      // if (src !== null) {
-      //   command({ src });
-      // }
+    showImagePrompt(command) {
+      this.$refs.imageModal.showModal(command);
+    },
+    addCommand(data) {
+      if (data.command !== null) {
+        data.command(data.data);
+      }
     },
     // 수정 취소 후 리다이렉트
     cancelEditing() {
@@ -322,9 +355,9 @@ export default {
       this.html = this.editor.getHTML();
 
       // 요청
-      const url = "http://api.dasom.io/boards/" + this.boardID + "/articles";
-      const author = Number(localStorage.getItem("userID"));
-      var token = localStorage.getItem("accessToken");
+      var url = "http://api.dasom.io/boards/" + this.boardID + "/articles";
+      const author = Number(this.$store.getters.getUserInfo.id);
+      var token = this.$store.getters.getAccessToken;
       var config = {
         headers: {
           Authorization: token,
@@ -336,27 +369,92 @@ export default {
         content: this.html,
         author_id: author
       };
-      if (this.uploadIDs != null) {
-        if (this.uploadIDs.length != 0) {
-          payload.upload_ids = this.uploadIDs;
+      if (this.uploadFiles != null) { // 업로드 파일 ID 리스트 생성.
+        if (this.uploadFiles.length != 0) {
+          var uploadIDs = [];
+          this.uploadFiles.forEach(element => {
+            uploadIDs.push(element.file_id);
+          });
+          payload.upload_ids = uploadIDs;
         }
       }
-      console.log(payload);
-      setTimeout(() => {
-        this.$http
-          .post(url, payload, config)
-          .then(() => {
-            vm.loading = false;
 
-            alert("수정이 완료되었습니다.");
-            vm.$router.go(-1);
-          })
-          .catch(({ message }) => {
-            console.log(message);
-            alert("수정이 실패하였습니다 : " + message);
-            vm.loading = false;
-          });
+      setTimeout(() => {
+        // 생성인 경우
+        if (this.isCreation) {
+          this.$http
+            .post(url, payload, config)
+            .then(() => {
+              vm.loading = false;
+
+              alert("게시글 생성이 완료되었습니다.");
+              vm.$router.go(-1);
+            })
+            .catch(({ message }) => {
+              alert("게시글 생성이 실패하였습니다 : " + message);
+              vm.loading = false;
+            });
+        } 
+        // 수정인 경우
+        else {
+          // 첨부파일 등록
+          var url2 = url + "/" + this.articleID;
+          this.$http
+            .put(url2, payload, config)
+            .then(() => {
+              vm.loading = false;
+              alert("게시글 수정이 완료되었습니다.");
+              vm.$router.go(-1);
+            })
+            .catch(({ message }) => {
+              alert("게시글 수정이 실패하였습니다 : " + message);
+              vm.loading = false;
+            });
+        }
       }, 700);
+    },
+    // 수정인 경우 기존 데이터를 불러옴
+    fetchDataIfNotCreation() {
+      var vm = this;
+
+      var url =
+        "http://api.dasom.io/boards/" +
+        this.boardID +
+        "/articles/" +
+        this.articleID;
+
+      var token = this.$store.getters.getAccessToken;
+      let config = {
+        headers: {
+          Authorization: token,
+          "Content-Type": "application/json"
+        }
+      };
+      this.$http
+        .get(url, config)
+        .then(res => {
+          var article = res.data.data;
+          vm.editor.setContent(article.content);
+          vm.inputTitle = article.title;
+
+          // 기존에 있던 첨부파일 리스트 불러오기
+          if (article.attachment_counts > 0) {
+            article.attachments.forEach(element => {
+              vm.uploadFiles.push({
+                file_id: element.file_id,
+                file_name: element.file_name,
+                file_ext: element.file_ext,
+                url: element.url
+              });
+            });
+          }
+        })
+        .catch(error => {
+          if (error.response.request.status == 401) {
+            alert("로그인 세션이 만료되었습니다.");
+            vm.$router.push("/signin");
+          }
+        });
     }
   }
 };
@@ -531,8 +629,12 @@ $color-grey: #dddddd;
       }
     }
 
-    img {
-      max-width: 100%;
+    img:not(.md-card) {
+      width: inherit;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+      max-width: 80%;
       border-radius: 3px;
     }
 

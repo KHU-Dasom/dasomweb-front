@@ -26,10 +26,10 @@
             </md-autocomplete>
           </div>
           <md-list>
-            <md-list-item>
+            <!-- <md-list-item>
               <i class="material-icons">dashboard</i>
               <p class="hidden-lg hidden-md">Dashboard</p>
-            </md-list-item>
+            </md-list-item> -->
 
             <!-- <md-list-item href="#/notifications" class="dropdown">
               <drop-down>
@@ -58,15 +58,11 @@
                       data-toggle="dropdown"
                     >
                       <md-icon>notifications</md-icon>
-                      <span class="notification">5</span>
+                      <!-- <span class="notification">5</span> -->
                       <p class="hidden-lg hidden-md">Notifications</p>
                     </md-button>
                     <ul class="dropdown-menu dropdown-menu-right">
-                      <li><a href="#">Mike John responded to your email</a></li>
-                      <li><a href="#">You have 5 new tasks</a></li>
-                      <li><a href="#">You're now friend with Andrew</a></li>
-                      <li><a href="#">Another Notification</a></li>
-                      <li><a href="#">Another One</a></li>
+                      <li><a href="#">개인 알림 기능은 나중에 추가됩니다.</a></li>
                     </ul>
                   </drop-down>
                 </div>
@@ -85,12 +81,6 @@
                       <p class="hidden-lg hidden-md">Profile</p>
                     </md-button>
                       <ProfileTable></ProfileTable>
-                      <!-- <li><a>Mike John responded to your email</a></li>
-                      <li><a>You have 5 new tasks</a></li>
-                      <li><a>You're now friend with Andrew</a></li>
-                      <li><a>Another Notification</a></li>
-                      <li><a>Another One</a></li>
-                      -->
                   </drop-down>
                 </div>
               </a>

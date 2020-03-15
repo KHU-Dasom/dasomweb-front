@@ -1,14 +1,26 @@
 <template>
-  <ul class="dropdown-menu dropdown-menu-right profile-table">
+  <ul
+    class="dropdown-menu dropdown-menu-right"
+    :class="{ 'profile-table': !isMobile, 'profile-table-mobile': isMobile }"
+  >
     <!-- 프로필 -->
     <li v-if="isLogin">
       <md-list class="md-double-line center-align">
-        <!-- 유저 정보 -->
-        <md-list-item>
+
+        <!-- 유저 정보 데스크탑 -->
+        <md-list-item v-if="!isMobile">
           <md-avatar class="md-avatar-icon" style="font-size: 16px;">{{
             userName.slice(1, 3)
           }}</md-avatar>
 
+          <div class="md-list-item-text">
+            <span class="">{{ userName }} ({{ userEnrollYear }})</span>
+            <span class="">{{ userID }}</span>
+          </div>
+        </md-list-item>
+
+        <!-- 유저 정보 모바일 -->
+        <md-list-item v-else>
           <div class="md-list-item-text">
             <span class="">{{ userName }} ({{ userEnrollYear }})</span>
             <span class="">{{ userID }}</span>
@@ -26,12 +38,14 @@
 
     <li v-if="isLogin">
       <md-button
-        class="md-provence md-sm profile-buttons"
+        :class="{ 'md-provence': !isMobile, 'md-simple': isMobile }"
+        class="md-sm profile-buttons"
         @click="onClickSignout"
         >로그아웃</md-button
       >
       <md-button
-        class="md-provence md-sm profile-buttons"
+        :class="{ 'md-provence': !isMobile, 'md-simple': isMobile }"
+        class="md-sm profile-buttons"
         @click="onClickRefresh"
         >세션 연장</md-button
       >
@@ -51,6 +65,10 @@
 export default {
   name: "profile-table",
   props: {
+    isMobile: {
+      type: Boolean,
+      default: false
+    },
     tableHeaderColor: {
       type: String,
       default: "pantone-provence"
@@ -155,6 +173,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.center-align {
+  text-align: center;
+}
+
 .profile-table {
   text-align: center;
   padding-top: 10px;
@@ -171,7 +193,23 @@ export default {
   }
 }
 
-.center-align {
+.profile-table-mobile {
   text-align: center;
+  color: white;
+  padding-top: 5px;
+  padding-bottom: 5px;
+
+  a {
+    background: none;
+  }
+
+  span {
+    text-align: center;
+    color: white;
+  }
+
+  .profile-buttons {
+    margin: 0 5px;
+  }
 }
 </style>

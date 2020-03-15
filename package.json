@@ -29,6 +29,7 @@
     "vue-quick-chat": "^1.0.9",
     "vue-router": "^3.1.5",
     "vue-social-sharing": "2.4.7",
+    "vue2-dropzone": "^3.6.0",
     "vuelidate": "^0.7.5",
     "vuex": "^3.1.2",
     "vuex-persistedstate": "^2.7.1"
