@@ -8,9 +8,11 @@
               <h4 class="title">{{ album.title }}</h4>
             </md-card-header>
 
+            <br />
+
             <md-card-media>
 
-              <!-- <swiper :options="swiperOption" class="swiper-box">
+              <swiper :options="swiperOption" class="swiper-box" ref="mySwiper" @someSwiperEvent="callback">
                 <swiper-slide
                   v-for="(image, idx) in images"
                   :key="idx"
@@ -20,7 +22,7 @@
                 <div class="swiper-pagination" slot="pagination"></div>
                 <div class="swiper-button-prev" slot="button-prev"></div>
                 <div class="swiper-button-next" slot="button-next"></div>
-              </swiper> -->
+              </swiper>
 
             </md-card-media>
           </md-card>
@@ -31,14 +33,14 @@
 </template>
 
 <script>
-// import { swiper, swiperSlide } from "vue-awesome-swiper";
-// import "swiper/dist/css/swiper.css";
+import { swiper, swiperSlide } from "vue-awesome-swiper";
+import "swiper/dist/css/swiper.css";
 
 export default {
   name: "album-view-table",
   components: {
-    // swiper,
-    // swiperSlide
+    swiper,
+    swiperSlide
   },
   data: () => {
     return {
@@ -46,13 +48,17 @@ export default {
       album: {},
       images: [],
       swiperOption: {
+        slidesPerView: "auto",
+        centeredSlides: true,
+        spaceBetween: 30,
+        loop: true,
         pagination: {
-          el: '.swiper-pagination',
-          type: 'fraction'
+          el: ".swiper-pagination",
+          clickable: true
         },
         navigation: {
-          nextEl: '.swiper-button-next',
-          prevEl: '.swiper-button-prev'
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev"
         }
       }
     };
@@ -70,7 +76,7 @@ export default {
       let config = {
         headers : {
           Authorization: this.$store.getters.getAccessToken,
-          "Content-Type": "application/josn"
+          "Content-Type": "application/json"
         }
       };
 
@@ -109,8 +115,7 @@ export default {
 // @import "./base.scss";
 
 .swiper-box {
-  width: 100%;
-  max-width: 100% !important;
+  width: 90%;
   margin: 0 auto;
 }
 
@@ -122,4 +127,5 @@ export default {
 .slide-image {
   max-width: 500px;
 }
+
 </style>
