@@ -12,7 +12,7 @@
 
             <md-card-media>
 
-              <swiper :options="swiperOption" class="swiper-box" ref="mySwiper" @someSwiperEvent="callback">
+              <swiper :options="swiperOption" class="swiper-box" ref="mySwiper">
                 <swiper-slide
                   v-for="(image, idx) in images"
                   :key="idx"

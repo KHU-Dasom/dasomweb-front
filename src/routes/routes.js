@@ -7,6 +7,7 @@ import Dashboard from "@/pages/Dashboard.vue";
 
 import Albums from "@/pages/Albums.vue";
 import AlbumView from "@/pages/AlbumView.vue";
+import AlbumCreation from "@/pages/AlbumCreation.vue";
 import FreeBoard from "@/pages/FreeBoard.vue";
 import ArticleShow from "@/pages/ArticleShow.vue";
 import ArticleCreation from "@/pages/ArticleCreation.vue";
@@ -53,6 +54,13 @@ const routes = [
         path: "/albums/:album_id",
         name: "AlbumView",
         component: AlbumView,
+        beforeEnter: requireAuth()
+      },
+      {
+        // 앨범 생성
+        path: "/newalbum",
+        name: "AlbumCreation",
+        component: AlbumCreation,
         beforeEnter: requireAuth()
       },
       {
