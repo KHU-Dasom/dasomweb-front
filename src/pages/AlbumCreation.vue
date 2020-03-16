@@ -143,7 +143,7 @@ export default {
       setTimeout(() => {
         this.$http
           .post(url, payload, config)
-          .then(res => {
+          .then(() => {
             vm.loading = false;
 
             alert("앨범 생성이 완료되었습니다.");
