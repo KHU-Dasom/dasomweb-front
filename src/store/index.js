@@ -35,6 +35,9 @@ export default new Vuex.Store({
     getAccessToken: state => {
       return state.accessToken;
     },
+    getRefreshToken: state => {
+      return state.refreshToken;
+    },
     getUserInfo: state => {
       return {
         id: state.userID,
