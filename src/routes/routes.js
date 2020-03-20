@@ -58,7 +58,7 @@ const routes = [
   },
   /* 사이드바가 있는 route들 (커뮤니티) */
   {
-    path: "/community",
+    path: "/",
     component: DashboardLayout,
     redirect: "/dashboard",
     children: [
