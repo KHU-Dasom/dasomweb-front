@@ -8,8 +8,8 @@
           </md-card-header>
           <md-card-content class="md-scrollbar">
           <div>
-            <Infinite @infinite="infiniteHandler" spinner="waveDots"></Infinite>
-            <md-list v-for="(msg, index) in msgs" v-bind:key="index">
+            <Infinite @infinite="infiniteHandler" direction="top" spinner="waveDots"></Infinite>
+            <md-list class="md-scrollbar" v-for="(msg, index) in msgs" v-bind:key="index">
               <md-list-item>
                 <md-avatar class="md-avatar-icon" style="font-size: 15px;">{{ msg.from.slice(1,3) }}</md-avatar>
                 <div class="md-list-item-text">
@@ -53,13 +53,13 @@ export default {
   },
   methods: {
     wsconnect() {
-      this.socket = new WebSocket("ws://222.251.229.213:8082/ws");
+      this.socket = new WebSocket("ws://163.180.173.171:8082/ws");
       this.socket.onopen = () => {
         this.status = "connected";
         this.getmsg();
 
         this.socket.onmessage = ({data}) => {
-        console.log(this.isnew)
+        //console.log(this.isnew)
         if (this.isnew == true) {
           var templist = JSON.parse(data);
           for (var i=0; i<templist.length; i++) {
@@ -72,7 +72,7 @@ export default {
           this.msgs = this.newmsgs;
           this.newmsgs = [];
           this.isnew = false;
-          console.log(this.msgs)
+          //console.log(this.msgs)
         } else if (this.isnew == false) {
           templist = JSON.parse(data);
           for(i=0; i<templist.length; i++) {
@@ -117,6 +117,8 @@ export default {
       this.socket.send(JSON.stringify(realmsg));
       this.sendmessage="";
       this.idx = this.idx + 1;
+      var el = this.$el.getElementsByClassName("md-scrollbar")[0];
+      el.scrollIntoView(false);
       return false;
     },
     getmsg() {
@@ -142,9 +144,9 @@ export default {
         this.idx = this.idx + 10;
         this.isnew = true;
         this.socket.send(JSON.stringify(realmsg));
-        console.log(this.idx);
+        //console.log(this.idx);
       }, 1000)
-      return false;
+
     }
   }
 };
@@ -158,6 +160,12 @@ export default {
 }
 
 .md-card-content {
+  max-width: 100%;
+  max-height: 600px;
+  overflow: auto;
+}
+
+.md-list {
   max-width: 100%;
   max-height: 600px;
   overflow: auto;
