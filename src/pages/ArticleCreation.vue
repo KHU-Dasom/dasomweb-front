@@ -1,5 +1,5 @@
 <template>
-  <div class="content">
+  <div class="content main-content">
     <div class="md-layout">
       <div class="md-layout-item">
         <md-card>

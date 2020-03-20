@@ -1,5 +1,7 @@
 <template>
-  <ArticleTable></ArticleTable>
+  <div class="content main-content">
+    <ArticleTable></ArticleTable>
+  </div>
 </template>
 
 <script>
