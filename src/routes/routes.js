@@ -32,13 +32,33 @@ const requireAuth = () => (from, to, next) => {
 };
 
 const routes = [
+  /* 사이드바가 없는 route들 */
   {
-    path: "/",
+    // 로그인
+    path: "/signin",
+    name: "Signin",
+    component: Signin
+  },
+  {
+    // 회원가입
+    path: "/signup",
+    name: "Signup",
+    component: Signup
+  },
+  {
+    // 로그아웃
+    path: "/signout",
+    name: "Signout",
+    component: Signout
+  },
+  /* 사이드바가 있는 route들 (커뮤니티) */
+  {
+    path: "/community",
     component: DashboardLayout,
     redirect: "/dashboard",
     children: [
       {
-        path: "dashboard",
+        path: "/dashboard",
         name: "Dashboard",
         component: Dashboard
       },
@@ -99,24 +119,6 @@ const routes = [
         beforeEnter: requireAuth()
       }
     ]
-  },
-  {
-    // 로그인
-    path: "/signin",
-    name: "Signin",
-    component: Signin
-  },
-  {
-    // 회원가입
-    path: "/signup",
-    name: "Signup",
-    component: Signup
-  },
-  {
-    // 로그아웃
-    path: "/signout",
-    name: "Signout",
-    component: Signout
   }
 ];
 

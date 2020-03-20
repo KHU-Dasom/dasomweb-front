@@ -50,8 +50,6 @@ export default {
       swiperOption: {
         slidesPerView: "auto",
         centeredSlides: true,
-        spaceBetween: 30,
-        loop: true,
         pagination: {
           el: ".swiper-pagination",
           clickable: true
@@ -125,7 +123,6 @@ export default {
 }
 
 .slide-image {
-  max-width: 500px;
 }
 
 </style>

@@ -18,6 +18,7 @@
       <!-- 갤러리 카드들 -->
       <div class="gallery-wrapper">
         <div
+          class="card-wrapper"
           v-for="(album, idx) in albums"
           v-bind:key="idx"
           @click="onSelect(album)"
@@ -178,20 +179,22 @@ export default {
   justify-items: center;
   text-align: center;
   margin: 0 auto;
-}
 
-.album-card {
-  max-width: 300px;
-  margin: 10px;
+  .card-wrapper {
+    max-width: 250px;
+    margin: 10px auto;
 
-  cursor: pointer;
+    cursor: pointer;
 
-  .gallery-title {
-    font-size: 18px;
-  }
+    .album-card {
+      .gallery-title {
+        font-size: 18px;
+      }
 
-  .gallery-subhead {
-    font-size: 14px;
+      .gallery-subhead {
+        font-size: 14px;
+      }
+    }
   }
 }
 
