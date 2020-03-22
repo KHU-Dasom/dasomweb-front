@@ -5,6 +5,13 @@
     <side-bar>
       <mobile-menu slot="content"></mobile-menu>
 
+      <!-- 관리자용 메뉴 -->
+      <sidebar-link to="/admin" v-if="isAdmin">
+        <md-icon>settings</md-icon>
+        <p>관리자 메뉴</p>
+      </sidebar-link>
+
+      <!-- 공통 메뉴 -->
       <sidebar-link to="/albums">
         <md-icon>photo_camera</md-icon>
         <p>갤러리</p>
@@ -29,38 +36,6 @@
         <p>추가 기능</p>
       </sidebar-link>
 
-      <!-- <sidebar-link to="/dashboard">
-        <md-icon>dashboard</md-icon>
-        <p>Dashboard</p>
-      </sidebar-link>
-      <sidebar-link to="/user">
-        <md-icon>person</md-icon>
-        <p>User Profile</p>
-      </sidebar-link>
-      <sidebar-link to="/table">
-        <md-icon>content_paste</md-icon>
-        <p>Table list</p>
-      </sidebar-link>
-      <sidebar-link to="/typography">
-        <md-icon>library_books</md-icon>
-        <p>Typography</p>
-      </sidebar-link>
-      <sidebar-link to="/icons">
-        <md-icon>bubble_chart</md-icon>
-        <p>Icons</p>
-      </sidebar-link>
-      <sidebar-link to="/maps">
-        <md-icon>location_on</md-icon>
-        <p>Maps</p>
-      </sidebar-link>
-      <sidebar-link to="/notifications">
-        <md-icon>notifications</md-icon>
-        <p>Notifications</p>
-      </sidebar-link>
-      <sidebar-link to="/boards/7">
-        <md-icon>content_paste</md-icon>
-        <p>자유 게시판 (임시)</p>
-      </sidebar-link> -->
     </side-bar>
 
     <div class="main-panel">
@@ -100,6 +75,12 @@ export default {
   created() {
     this.fetchData();
   },
+  computed: {
+    isAdmin: function() {
+      var userInfo = this.$store.getters.getUserInfo;
+      return userInfo.level == 999;
+    }
+  },
   methods: {
     fetchData() {
       var vm = this;
@@ -138,7 +119,7 @@ export default {
 //   filter: blur(3px);
 
 //   top:0; left:0; right: 0; bottom: 0;
-//   position: absolute; 
+//   position: absolute;
 //   content: "";
 // }
 </style>

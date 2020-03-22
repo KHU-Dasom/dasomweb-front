@@ -17,6 +17,11 @@ import Signin from "@/pages/Signin.vue";
 import Signup from "@/pages/Signup.vue";
 import Signout from "@/pages/Signout.vue";
 
+import Admin from "@/pages/Admin/Admin.vue";
+import AdminUsers from "@/pages/Admin/AdminUsers.vue";
+import AdminBoards from "@/pages/Admin/AdminBoards.vue";
+import AdminMainPage from "@/pages/Admin/AdminMainPage.vue";
+
 // 로그인이 필요한 Route는 이 함수를 먼저(beforeEnter) 실행한다.
 const requireAuth = () => (from, to, next) => {
   // 로그인이 되어있는 경우.
@@ -27,6 +32,31 @@ const requireAuth = () => (from, to, next) => {
     var refresh_token = store.getters.getRefreshToken;
     store.dispatch("REFRESH", { refresh_token });
     return next();
+  } 
+  // 로그인이 되어있지 않은 경우.
+  else {
+    console.log("Unauthorized.");
+    alert("로그인이 필요한 서비스입니다.");
+    next("/signin");
+  }
+};
+
+// 어드민만 접근 가능한 route에 적용.
+const adminAuth = () => (from, to, next) => {
+  // 로그인이 되어있는 경우.
+  if (
+    store.getters.getAccessToken !== null &&
+    localStorage.getItem("accessToken") !== null
+  ) {
+    if (store.getters.getUserInfo.level == 999) {
+      var refresh_token = store.getters.getRefreshToken;
+      store.dispatch("REFRESH", { refresh_token });
+      return next();
+    } else {
+      console.log("Unauthorized. (Only admins are authorized)");
+      alert("관리자용 메뉴입니다.");
+      next("/");
+    }
   } 
   // 로그인이 되어있지 않은 경우.
   else {
@@ -122,6 +152,35 @@ const routes = [
         name: "Chat",
         component: Chat,
         beforeEnter: requireAuth()
+      },
+      /* 어드민 메뉴들 */
+      {
+        // 어드민 메인
+        path: "/admin",
+        name: "Admin",
+        component: Admin,
+        beforeEnter: adminAuth()
+      },
+      {
+        // 어드민 유저 관리
+        path: "/admin/users",
+        name: "AdminUsers",
+        component: AdminUsers,
+        beforeEnter: adminAuth()
+      },
+      {
+        // 어드민 게시판 관리
+        path: "/admin/boards",
+        name: "AdminBoards",
+        component: AdminBoards,
+        beforeEnter: adminAuth()
+      },
+      {
+        // 어드민 메인 페이지 데이터 관리
+        path: "/admin/main-page",
+        name: "AdminMainPage",
+        component: AdminMainPage,
+        beforeEnter: adminAuth()
       }
     ]
   }

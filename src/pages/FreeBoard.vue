@@ -9,7 +9,7 @@
             <h4 class="title">{{ boardData.title }}</h4>
           </md-card-header>
           <md-card-content :key="$route.fullPath">
-            <FreeBoardTable></FreeBoardTable>
+            <FreeBoardTable v-bind:writeLevel="boardData.write_level"></FreeBoardTable>
           </md-card-content>
         </md-card>
       </div>

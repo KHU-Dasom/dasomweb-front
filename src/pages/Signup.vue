@@ -260,6 +260,12 @@ export default {
       setTimeout(() => {
         this.sending = true;
 
+        var _enrollYear = enrollYear;
+        if (enrollYear == null || enrollYear == 0) {
+          var _id = String(id);
+          _enrollYear = _id.slice(2, 4);
+        }
+
         this.$http
           .post(
             "http://api.dasom.io/signup",
@@ -269,7 +275,7 @@ export default {
               name: name,
               email: email,
               birth: birth,
-              enrollYear: enrollYear
+              enrollYear: _enrollYear
             },
             {
               "Content-Type": "application/json"

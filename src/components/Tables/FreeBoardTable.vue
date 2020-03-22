@@ -87,6 +87,9 @@ export default {
     tableHeaderColor: {
       type: String,
       default: "pantone-provence"
+    },
+    writeLevel: {
+      type: Number
     }
   },
   computed: {
@@ -129,6 +132,11 @@ export default {
   },
   methods: {
     newArticle() {
+      var userInfo = this.$store.getters.getUserInfo;
+      if (userInfo.level < this.writeLevel) {
+        alert("쓰기 권한이 부족합니다.");
+        return;
+      }
       this.$router.push({
         path: "/newarticle",
         query: {
