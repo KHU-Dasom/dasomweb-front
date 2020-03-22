@@ -53,7 +53,7 @@ Vue.use(VueMq, {
 // configure router
 const router = new VueRouter({
   routes, // short for routes: routes
-  linkExactActiveClass: "nav-item active"
+  linkActiveClass: "nav-item active"
 });
 
 Vue.prototype.$Chartist = Chartist;
