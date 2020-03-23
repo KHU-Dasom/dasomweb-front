@@ -23,6 +23,10 @@ import EditorIcon from "./EditorIcon/EditorIcon.vue";
 // Modals
 import ImageUploadModal from "./Modals/ImageUploadModal.vue";
 
+// Admin
+import AdminNewBoardTable from "./Tables/Admin/AdminNewBoardTable.vue";
+import AdminModifyBoardTable from "./Tables/Admin/AdminModifyBoardTable.vue";
+
 export {
   ChartCard,
   NavTabsCard,
@@ -39,5 +43,7 @@ export {
   EditorIcon,
   ChatMsgTable,
   ImageUploadModal,
-  AlbumViewTable
+  AlbumViewTable,
+  AdminNewBoardTable,
+  AdminModifyBoardTable
 };

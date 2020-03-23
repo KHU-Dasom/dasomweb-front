@@ -1,47 +1,65 @@
 <template>
-  <div class="content main-content">
-    <div class="md-layout">
-      <div
-        class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100"
-      >
-        <md-card>
-          <md-card-header data-background-color="pantone-provence">
-            <h4 class="title">게시판 관리</h4>
-          </md-card-header>
-          <md-card-content :key="$route.fullPath">
+  <div>
+    <div class="content main-content">
+      <div class="md-layout">
+        <div
+          class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100"
+        >
+          <md-card>
+            <md-card-header data-background-color="pantone-provence">
+              <h4 class="title">게시판 관리</h4>
+            </md-card-header>
+            <md-card-content :key="$route.fullPath">
 
-            <!-- 관리용 테이블 -->
-            <md-table v-model="boards" :table-header-color="tableHeaderColor">
-              <md-table-row
-                slot="md-table-row"
-                slot-scope="{ item }"
-                :key="item.id"
-              >
-                <md-table-cell md-label="ID" class="table-title">{{ item.id }}</md-table-cell>
-                <md-table-cell md-label="제목">{{ item.title }}</md-table-cell>
-                <md-table-cell md-label="읽기 권한">{{ translateLevel(item.read_level) }}</md-table-cell>
-                <md-table-cell md-label="쓰기 권한">{{ translateLevel(item.write_level) }}</md-table-cell>
-                <md-table-cell md-label="아이콘">{{ item.icon_class }}</md-table-cell>
-                <md-table-cell md-label="비고">
-                  <md-button class="md-provence md-sm" @click="modifyBoard(item)">수정</md-button>
-                  <md-button class="md-danger md-sm" @click="removeBoard(item)">삭제</md-button>
-                </md-table-cell>
-              </md-table-row>
-            </md-table>
+              <!-- 관리용 테이블 -->
+              <md-table v-model="boards" :table-header-color="tableHeaderColor">
+                <md-table-row
+                  slot="md-table-row"
+                  slot-scope="{ item }"
+                  :key="item.id"
+                >
+                  <md-table-cell md-label="ID" class="table-title">{{ item.id }}</md-table-cell>
+                  <md-table-cell md-label="제목">{{ item.title }}</md-table-cell>
+                  <md-table-cell md-label="읽기 권한">{{ translateLevel(item.read_level) }}</md-table-cell>
+                  <md-table-cell md-label="쓰기 권한">{{ translateLevel(item.write_level) }}</md-table-cell>
+                  <md-table-cell md-label="아이콘">{{ item.icon_class }}</md-table-cell>
+                  <md-table-cell md-label="비고">
+                    <md-button class="md-provence md-sm" @click="modifyBoard(item)">수정</md-button>
+                    <md-button class="md-danger md-sm" @click="removeBoard(item)">삭제</md-button>
+                  </md-table-cell>
+                </md-table-row>
+              </md-table>
 
-            <div class="buttons-wrapper">
-              <md-button class="md-dense md-provence md-sm" @click="newBoard">새로운 게시판</md-button>
-            </div>
+              <div class="buttons-wrapper">
+                <md-button
+                  class="md-dense md-provence md-sm"
+                  @click="newBoard"
+                  v-bind:key="newBoardButtonValue"
+                  >{{ newBoardButtonValue }}</md-button
+                >
+              </div>
 
-          </md-card-content>
-        </md-card>
+            </md-card-content>
+          </md-card>
+
+        </div>
       </div>
     </div>
+
+    <admin-new-board-table v-show="newBoardMode"></admin-new-board-table>
+    <!-- <admin-modify-board-table v-show="modifyBoardMode" v-bind:boardData="modifyTargetBoard"></admin-modify-board-table> -->
+
   </div>
 </template>
 
 <script>
+import { AdminNewBoardTable } from "@/components";
+
 export default {
+  components: {
+    AdminNewBoardTable,
+    // AdminModifyBoardTable
+  },
   props: {
     tableHeaderColor: {
       type: String,
@@ -51,7 +69,11 @@ export default {
   data: () => {
     return {
       loading: false,
-      boards: []
+      boards: [],
+      newBoardMode: false,
+      newBoardButtonValue: "새로운 게시판 ▼",
+      modifyBoardMode: false,
+      modifyTargetBoard: null
     };
   },
   created() {
@@ -103,11 +125,21 @@ export default {
     },
     // 게시판 생성
     newBoard() {
-      alert("아직 미구현");
+      // 이미 열려있다면
+      if (this.newBoardMode) {
+        this.newBoardMode = false;
+        this.newBoardButtonValue = "새로운 게시판 ▼";
+      } else {
+        this.newBoardMode = true;
+        this.newBoardButtonValue = "새로운 게시판 ▲";
+      }
     },
     // 게시판 수정
     modifyBoard(board) {
-      alert("아직 미구현 " + board.id);
+      alert("미구현" + board.id);
+      return;
+      // this.modifyBoardMode = true;
+      // this.modifyTargetBoard = board;
     },
     // 게시판 삭제
     removeBoard(board) {
