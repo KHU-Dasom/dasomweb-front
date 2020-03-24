@@ -139,11 +139,11 @@ export default {
     },
     // 게시판 수정
     modifyBoard(board) {
-      // alert("미구현" + board.id);
-      // return;
-      this.modifyTargetBoard = board;
-      this.modifyBoardMode = true;
-      this.$router.push("/admin/boards?modify=" + board.id);
+      alert("미구현" + board.id);
+      return;
+      // this.modifyTargetBoard = board;
+      // this.modifyBoardMode = true;
+      // this.$router.push("/admin/boards?modify=" + board.id);
     },
     // 게시판 삭제
     removeBoard(board) {
