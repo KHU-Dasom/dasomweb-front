@@ -67,7 +67,7 @@
 <script>
 export default {
   name: "admin-modify-board-table",
-  data: function () {
+  data: function() {
     return {
       loading: false,
       sending: false,
@@ -76,13 +76,19 @@ export default {
         inputIcon: this.boardData.icon_class,
         inputRead: this.boardData.read_level,
         inputWrite: this.boardData.write_level
-      }
+      },
+      boardData: {}
     };
   },
-  props: {
-    boardData: {
-      type: Object,
-      required: true
+  // props: {
+  //   boardData: {
+  //     type: Object,
+  //     required: true
+  //   }
+  // },
+  watch: {
+    data: function() {
+      console.log(this.data);
     }
   },
   methods: {

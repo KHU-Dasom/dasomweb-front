@@ -5,7 +5,8 @@ import Vuex from "vuex";
 import axios from "axios";
 
 // JWT
-import VueJwtDecode from "vue-jwt-decode";
+// import VueJwtDecode from "vue-jwt-decode";
+var jwtDecode = require("jwt-decode");
 
 import createPersistedState from "vuex-persistedstate";
 
@@ -126,8 +127,10 @@ export default new Vuex.Store({
         )
         .then(res => {
           var parsedData = res.data.data;
-          var atoken = VueJwtDecode.decode(parsedData.access_token);
-          var user_name = decodeURIComponent(escape(atoken.user_name));
+          // var atoken = VueJwtDecode.decode(parsedData.access_token);
+          // var user_name = decodeURIComponent(escape(atoken.user_name));
+          var atoken = jwtDecode(parsedData.access_token);
+          var user_name = atoken.user_name;
           console.log("Signin succeed. Welcome, %s.", user_name);
 
           // commit LOGIN Action
@@ -165,8 +168,10 @@ export default new Vuex.Store({
         )
         .then(res => {
           var parsedData = res.data.data;
-          var atoken = VueJwtDecode.decode(parsedData.access_token);
-          var user_name = decodeURIComponent(escape(atoken.user_name));
+          // var atoken = VueJwtDecode.decode(parsedData.access_token);
+          // var user_name = decodeURIComponent(escape(atoken.user_name));
+          var atoken = jwtDecode(parsedData.access_token);
+          var user_name = atoken.user_name;
           console.log("Refresh succeed. Welcome, %s.", user_name);
 
           // commit LOGIN Action
@@ -188,7 +193,7 @@ export default new Vuex.Store({
       .catch(error => {
         console.log("Refresh 실패.");
         console.log(error);
-        alert("세션 연장 실패.", error);
+        alert("세션 연장 실패." + error);
       })
     }
   }

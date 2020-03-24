@@ -47,24 +47,27 @@
     </div>
 
     <admin-new-board-table v-show="newBoardMode"></admin-new-board-table>
-    <!-- <admin-modify-board-table v-show="modifyBoardMode" v-bind:boardData="modifyTargetBoard"></admin-modify-board-table> -->
+    <admin-modify-board-table v-if="$route.params.modify != undefined" ref="modifyBoard" v-bind:key="$route.params.modify"></admin-modify-board-table>
 
   </div>
 </template>
 
 <script>
-import { AdminNewBoardTable } from "@/components";
+import { AdminNewBoardTable, AdminModifyBoardTable } from "@/components";
 
 export default {
   components: {
     AdminNewBoardTable,
-    // AdminModifyBoardTable
+    AdminModifyBoardTable
   },
   props: {
     tableHeaderColor: {
       type: String,
       default: "pantone-provence"
     }
+  },
+  watch: {
+    
   },
   data: () => {
     return {
@@ -136,10 +139,11 @@ export default {
     },
     // 게시판 수정
     modifyBoard(board) {
-      alert("미구현" + board.id);
-      return;
-      // this.modifyBoardMode = true;
-      // this.modifyTargetBoard = board;
+      // alert("미구현" + board.id);
+      // return;
+      this.modifyTargetBoard = board;
+      this.modifyBoardMode = true;
+      this.$router.push("/admin/boards?modify=" + board.id);
     },
     // 게시판 삭제
     removeBoard(board) {
