@@ -53,7 +53,7 @@ export default {
   },
   methods: {
     wsconnect() {
-      this.socket = new WebSocket("ws://api.dasom.io/ws");
+      this.socket = new WebSocket("ws://chat.dasom.io/ws");
       this.socket.onopen = () => {
         this.status = "connected";
         this.getmsg();

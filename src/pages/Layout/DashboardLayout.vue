@@ -12,6 +12,11 @@
       </sidebar-link>
 
       <!-- 공통 메뉴 -->
+      <sidebar-link to="/home">
+        <md-icon>home</md-icon>
+        <p>홈</p>
+      </sidebar-link>
+
       <sidebar-link to="/albums">
         <md-icon>photo_camera</md-icon>
         <p>갤러리</p>

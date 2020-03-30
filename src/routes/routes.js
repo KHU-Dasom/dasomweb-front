@@ -97,6 +97,12 @@ const routes = [
         name: "Dashboard",
         component: Dashboard
       },
+      // 커뮤니티 홈
+      {
+        path: "/home",
+        name: "Home",
+        component: Dashboard
+      },
       {
         // 앨범 갤러리
         path: "/albums",

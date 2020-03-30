@@ -6,13 +6,13 @@
     :style="sidebarStyle"
   >
     <div class="logo">
-      <a href="#/" class="simple-text logo-mini">
+      <a href="http://dasom.io" class="simple-text logo-mini">
         <div class="logo-img">
           <img :src="imgLogo" alt="logo" />
         </div>
       </a>
 
-      <a href="#/" class="simple-text logo-normal">
+      <a href="http://dasom.io" class="simple-text logo-normal">
         dasom.io
       </a>
     </div>
