@@ -3,6 +3,7 @@ import store from "../store";
 
 import DashboardLayout from "@/pages/Layout/DashboardLayout.vue";
 
+import Home from "@/pages/Home.vue";
 import Dashboard from "@/pages/Dashboard.vue";
 
 import Albums from "@/pages/Albums.vue";
@@ -91,7 +92,7 @@ const routes = [
   {
     path: "/",
     component: DashboardLayout,
-    redirect: "/dashboard",
+    redirect: "/home",
     children: [
       {
         path: "/dashboard",
@@ -102,7 +103,7 @@ const routes = [
       {
         path: "/home",
         name: "Home",
-        component: Dashboard
+        component: Home
       },
       {
         // 앨범 갤러리

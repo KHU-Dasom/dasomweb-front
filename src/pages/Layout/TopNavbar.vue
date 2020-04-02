@@ -36,9 +36,11 @@
           <md-field>
             <!-- <md-textarea v-model="searchmsg" style="resize:unset; min-height:50px; height:50px" @keydown.enter="search"></md-textarea> -->
             <md-input
+              id="input-searchmsg"
               v-model="searchmsg"
               style="resize:unset; min-height:50px; height:50px; margin-top: -2px;"
               @keydown.enter="search"
+              placeholder="검색어를 입력하세요."
             ></md-input>
           </md-field>
 
@@ -133,4 +135,8 @@ export default {
 };
 </script>
 
-<style lang="css"></style>
+<style lang="scss">
+#input-searchmsg::placeholder {
+  font-size: 13px !important;
+}
+</style>
