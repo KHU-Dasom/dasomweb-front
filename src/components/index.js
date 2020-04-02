@@ -26,6 +26,7 @@ import ImageUploadModal from "./Modals/ImageUploadModal.vue";
 // Admin
 import AdminNewBoardTable from "./Tables/Admin/AdminNewBoardTable.vue";
 import AdminModifyBoardTable from "./Tables/Admin/AdminModifyBoardTable.vue";
+import SearchBoardTable from "./Tables/SearchBoardTable.vue";
 
 export {
   ChartCard,
@@ -45,5 +46,6 @@ export {
   ImageUploadModal,
   AlbumViewTable,
   AdminNewBoardTable,
-  AdminModifyBoardTable
+  AdminModifyBoardTable,
+  SearchBoardTable
 };

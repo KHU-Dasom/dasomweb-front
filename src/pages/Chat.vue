@@ -8,8 +8,9 @@
           </md-card-header>
           <md-card-content class="md-scrollbar">
           <div>
-            <Infinite @infinite="infiniteHandler" direction="top" spinner="waveDots"></Infinite>
+
             <md-list class="md-scrollbar" ref="chatList">
+              <Infinite @infinite="infiniteHandler" direction="top" spinner="waveDots"></Infinite>
               <md-list-item v-for="(msg, index) in msgs" v-bind:key="index">
                 <md-avatar class="md-avatar-icon" style="font-size: 15px;">{{ msg.from.slice(1,3) }}</md-avatar>
                 <div class="md-list-item-text">

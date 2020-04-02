@@ -12,6 +12,7 @@ import FreeBoard from "@/pages/FreeBoard.vue";
 import ArticleShow from "@/pages/ArticleShow.vue";
 import ArticleCreation from "@/pages/ArticleCreation.vue";
 import Chat from "@/pages/Chat.vue";
+import SearchBoard from "@/pages/SearchBoard.vue";
 
 import Signin from "@/pages/Signin.vue";
 import Signup from "@/pages/Signup.vue";
@@ -32,7 +33,7 @@ const requireAuth = () => (from, to, next) => {
     var refresh_token = store.getters.getRefreshToken;
     store.dispatch("REFRESH", { refresh_token });
     return next();
-  } 
+  }
   // 로그인이 되어있지 않은 경우.
   else {
     console.log("Unauthorized.");
@@ -57,7 +58,7 @@ const adminAuth = () => (from, to, next) => {
       alert("관리자용 메뉴입니다.");
       next("/");
     }
-  } 
+  }
   // 로그인이 되어있지 않은 경우.
   else {
     console.log("Unauthorized.");
@@ -157,6 +158,12 @@ const routes = [
         path: "/chat",
         name: "Chat",
         component: Chat,
+        beforeEnter: requireAuth()
+      },
+      {
+        path: "/search",
+        name: "Search",
+        component: SearchBoard,
         beforeEnter: requireAuth()
       },
       /* 어드민 메뉴들 */
