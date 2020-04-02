@@ -275,7 +275,7 @@ export default {
               name: name,
               email: email,
               birth: birth,
-              enrollYear: _enrollYear
+              enrollYear: Number(_enrollYear)
             },
             {
               "Content-Type": "application/json"

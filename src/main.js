@@ -42,6 +42,9 @@ import VueMomentJS from "vue-momentjs";
 // 반응형 미디어쿼리
 import VueMq from "vue-mq";
 
+// Highlight.js
+import VueHighlightJS from "vue-highlightjs";
+
 Vue.use(VueMq, {
   breakpoints: {
     mobile: 480,
@@ -66,6 +69,7 @@ Vue.use(GlobalComponents);
 Vue.use(GlobalDirectives);
 Vue.use(Notifications);
 Vue.use(VueMomentJS, moment);
+Vue.use(VueHighlightJS);
 
 /* eslint-disable no-new */
 new Vue({

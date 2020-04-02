@@ -57,10 +57,32 @@
 import FileAttachmentsTable from "./FileAttachmentsTable.vue";
 import CommentsTable from "./CommentsTable.vue";
 
+/* Code Highlighting */
+import bash from "highlight.js/lib/languages/bash";
+import cpp from "highlight.js/lib/languages/cpp";
+import cs from "highlight.js/lib/languages/cs";
+import css from "highlight.js/lib/languages/css";
+import dockerfile from "highlight.js/lib/languages/dockerfile";
+import go from "highlight.js/lib/languages/go";
+import htmlbars from "highlight.js/lib/languages/htmlbars";
+import java from "highlight.js/lib/languages/java";
+import javascript from "highlight.js/lib/languages/javascript";
+import json from "highlight.js/lib/languages/json";
+import php from "highlight.js/lib/languages/php";
+import python from "highlight.js/lib/languages/python";
+import ruby from "highlight.js/lib/languages/ruby";
+import rust from "highlight.js/lib/languages/rust";
+import scss from "highlight.js/lib/languages/scss";
+import scala from "highlight.js/lib/languages/scala";
+import shell from "highlight.js/lib/languages/shell";
+import sql from "highlight.js/lib/languages/sql";
+import swift from "highlight.js/lib/languages/swift";
+import xml from "highlight.js/lib/languages/xml";
+
 import { Editor, EditorContent } from "tiptap";
 import {
   Blockquote,
-  CodeBlock,
+  // CodeBlock,
   HardBreak,
   Heading,
   HorizontalRule,
@@ -76,7 +98,8 @@ import {
   Strike,
   Underline,
   History,
-  Image
+  Image,
+  CodeBlockHighlight
 } from "tiptap-extensions";
 
 export default {
@@ -108,7 +131,7 @@ export default {
         extensions: [
           new Blockquote(),
           new BulletList(),
-          new CodeBlock(),
+          // new CodeBlock(),
           new HardBreak(),
           new Heading({ levels: [2, 3, 4] }),
           new HorizontalRule(),
@@ -123,7 +146,12 @@ export default {
           new Strike(),
           new Underline(),
           new History(),
-          new Image()
+          new Image(),
+          new CodeBlockHighlight({
+            languages: {
+              bash, cpp, cs, css, dockerfile, go, htmlbars, java, javascript, json, php, python, ruby, rust, scss, scala, shell, sql, swift, xml
+            }
+          })
         ],
         content: ""
       })
@@ -302,6 +330,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import "@/assets/scss/code-highlight.scss";
+
 .article-table {
   position: relative;
   max-width: 55rem;

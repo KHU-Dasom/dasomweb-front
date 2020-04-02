@@ -6,7 +6,7 @@
       >
         <md-card>
           <md-card-header data-background-color="pantone-provence">
-            <h4 class="title">검색결과</h4>
+            <h4 class="title">"{{ $route.query.query }}" 검색결과</h4>
           </md-card-header>
           <md-card-content>
             <SearchBoardTable></SearchBoardTable>
@@ -23,9 +23,6 @@ import { SearchBoardTable } from "@/components";
 export default {
   components: {
     SearchBoardTable
-  },
-  data() {
-
   }
 };
 </script>

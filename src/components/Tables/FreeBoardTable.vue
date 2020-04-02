@@ -28,7 +28,10 @@
           md-selectable="single"
           :key="item.id"
         >
-          <md-table-cell md-label="제목" class="table-title">{{ item.title }}</md-table-cell>
+          <md-table-cell md-label="제목" class="table-title">
+            {{ item.title }}
+            <span class="span-comment-count" v-show="item.comment_counts != 0">({{ item.comment_counts }})</span>
+          </md-table-cell>
           <md-table-cell md-label="작성 시간" width="90px">{{
             item.published_at_kor
           }}</md-table-cell>
@@ -46,7 +49,10 @@
         >
           <md-icon class="">library_books</md-icon>
           <div class="md-list-item-text">
-            <span>{{ artc.title }}</span>
+            <span>
+              {{ artc.title }}
+              <span class="span-comment-count" v-show="artc.comment_counts != 0">({{ artc.comment_counts }})</span>
+            </span>
             <span>{{ artc.author_name }}</span>
             <p>{{ artc.published_at_kor }} | 조회수 : {{ artc.views }}</p>
           </div>
@@ -208,6 +214,10 @@ export default {
 </script>
 
 <style scoped>
+.span-comment-count {
+  font-size: 0.75rem;
+}
+
 .md-table .md-table-cell.md-numeric .md-table-cell-container {
   display: inline;
 }
