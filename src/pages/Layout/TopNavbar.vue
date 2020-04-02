@@ -16,15 +16,33 @@
         </md-button>
 
         <div class="md-collapse">
-          <div class="md-autocomplete">
+        <div>
+          <div class="md-layout md-gutter">
+            <div class="md-layout-item" style="margin-right: 10px;">
+              <md-field>
+                <md-select v-model="searchtype" name="searchtype" id="searchtype" style="width: 80px;">
+                  <md-option value="author">작성자</md-option>
+                  <md-option value="title">제목</md-option>
+                </md-select>
+              </md-field>
+            </div>
+          </div>
+        </div>
+        <md-field>
+          <md-textarea v-model="searchmsg" style="resize:unset; min-height:50px; height:50px" @keydown.enter="search"></md-textarea>
+        </md-field>
+
+
+            <!-- <div class="md-autocomplete">
             <md-autocomplete
               class="search"
-              v-model="selectedEmployee"
-              :md-options="employees"
+              v-model="search"
+              :md-options="search"
             >
               <label>Search...</label>
             </md-autocomplete>
-          </div>
+          </div> -->
+
           <md-list>
             <!-- <md-list-item>
               <i class="material-icons">dashboard</i>
@@ -101,6 +119,8 @@ export default {
   },
   data() {
     return {
+      searchtype: "",
+      searchmsg: "",
       selectedEmployee: null,
       employees: [
         "Jim Halpert",
@@ -117,6 +137,11 @@ export default {
   methods: {
     toggleSidebar() {
       this.$sidebar.displaySidebar(!this.$sidebar.showSidebar);
+    },
+    search() {
+      this.$router.push("/search?type=" + this.searchtype + "&query=" + this.searchmsg);
+      this.searchtype=""
+      this.searchmsg=""
     }
   }
 };
