@@ -9,8 +9,8 @@
           <md-card-content class="md-scrollbar">
           <div>
             <Infinite @infinite="infiniteHandler" direction="top" spinner="waveDots"></Infinite>
-            <md-list class="md-scrollbar" v-for="(msg, index) in msgs" v-bind:key="index">
-              <md-list-item>
+            <md-list class="md-scrollbar" ref="chatList">
+              <md-list-item v-for="(msg, index) in msgs" v-bind:key="index">
                 <md-avatar class="md-avatar-icon" style="font-size: 15px;">{{ msg.from.slice(1,3) }}</md-avatar>
                 <div class="md-list-item-text">
                   <span>{{msg.message}}</span>
@@ -51,6 +51,11 @@ export default {
   created() {
     this.wsconnect()
   },
+  watch: {
+    idx: function() {
+      this.gotoBottom();
+    }
+  },
   methods: {
     wsconnect() {
       this.socket = new WebSocket("ws://chat.dasom.io/ws");
@@ -79,6 +84,7 @@ export default {
             this.msgData = templist[i]
             this.msgs.push(this.msgData);
             }
+          // this.gotoBottom();
         }
 
         }
@@ -117,8 +123,6 @@ export default {
       this.socket.send(JSON.stringify(realmsg));
       this.sendmessage="";
       this.idx = this.idx + 1;
-      var el = this.$el.getElementsByClassName("md-scrollbar")[0];
-      el.scrollIntoView(false);
       return false;
     },
     getmsg() {
@@ -132,6 +136,11 @@ export default {
 
       this.socket.send(JSON.stringify(realmsg));
       return false;
+    },
+    gotoBottom() {
+      console.log("goto bottom!");
+      var objDiv = this.$refs.chatList;
+      objDiv.scrollTop = objDiv.scrollHeight;
     },
     infiniteHandler() {
       setTimeout(() => {
@@ -167,7 +176,7 @@ export default {
 
 .md-list {
   max-width: 100%;
-  max-height: 600px;
+  max-height: 500px;
   overflow: auto;
 }
 
