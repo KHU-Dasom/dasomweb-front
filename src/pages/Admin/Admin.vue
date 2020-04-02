@@ -23,15 +23,15 @@
               <md-list-item @click="redirect('/admin/boards')">
                 <md-icon class="">content_paste</md-icon>
                 <div class="md-list-item-text">
-                  <span>게시판 관리 (개발 중)</span>
-                  <p>게시판 생성 및 수정, 노출 순서 변경 등의 기능.</p>
+                  <span>게시판 관리</span>
+                  <p>게시판 생성 및 삭제 등의 기능.</p>
                 </div>
               </md-list-item>
 
               <md-list-item @click="redirect('/admin/main-page')">
                 <md-icon class="">home</md-icon>
                 <div class="md-list-item-text">
-                  <span>홈 메인 관리 (개발 중)</span>
+                  <span>홈 메인 관리</span>
                   <p>dasom.io 메인 페이지 내 데이터 수정 기능.</p>
                 </div>
               </md-list-item>
