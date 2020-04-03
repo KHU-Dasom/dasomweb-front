@@ -7,14 +7,40 @@
 
     <!-- 아이콘 모음 -->
     <div class="main-icons-wrapper">
-      <span>여기는 각종 아이콘 모음이면 괜찮지 않을까 싶은데. 위에다간 대체 무슨 그림 넣지 ㅠ</span>
-    </div>
+
+      <!-- Icon -->
+      <div class="icon-container" @click="iconClicked(iconUrlMap.khu_home)">
+        <div class="icon-view">
+          <img :src="require('@/assets/img/home-icons/khu_ci_lion_character.png')" />
+        </div>
+        <span class="icon-label">경희대학교</span>
+      </div>
+
+      <!-- Icon -->
+      <div class="icon-container" @click="iconClicked(iconUrlMap.khu_ce)">
+        <div class="icon-view">
+          <img :src="require('@/assets/img/home-icons/khu_ci_flower.png')" />
+        </div>
+        <span class="icon-label">SW중심대학</span>
+      </div>
+
+    </div> <!-- Icon wrapper ends -->
   </div>
 </template>
 
 <script>
 export default {
-  
+  data: () => ({
+    iconUrlMap: {
+      khu_home: "https://khu.ac.kr",
+      khu_sw: "https://software.khu.ac.kr"
+    }
+  }),
+  methods: {
+    iconClicked(url) {
+      window.location.href = url;
+    }
+  }
 }
 </script>
 
@@ -28,8 +54,7 @@ export default {
   display: table;
 
   width: 100%;
-  max-width: 1000px;
-  height: 250px;
+  height: 200px;
 
   margin: 0 auto;
 
@@ -51,14 +76,48 @@ export default {
   }
 }
 
+// Icon Wrapper
 .main-icons-wrapper {
   width: 100%;
-  max-width: 1000px;
+  max-width: 55rem;
   height: 400px;
 
   margin: 0 auto;
   margin-top: 50px;
+  padding: 10px;
 
-  background-color: white;
+  overflow-y: auto;
+
+  // Icons
+  .icon-container {
+    cursor: pointer;
+    float: left;
+
+    width: 100px;
+    height: 100px;
+
+    text-align: center;
+    margin: 30px;
+
+    .icon-view {
+      width: 100%;
+
+      border-radius: 15px;
+      box-shadow: 0 5px 28px 0 rgba(0, 0, 0, 0.1);
+      background-color: white;
+
+      img {
+        width: 70%;
+        margin: 15%;
+      }
+    }
+
+    .icon-label {
+      font-size: 0.9rem;
+      text-align: center;
+      margin-top: 10px;
+      font-weight: 500;
+    }
+  }
 }
 </style>
