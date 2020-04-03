@@ -17,7 +17,7 @@
                 <md-icon class="">mode_comment</md-icon>
                 <div class="md-list-item-text">
                   <span>{{ comm.comment }}</span>
-                  <span>{{ comm.author_name }}({{ comm.author_enroll_year }}) | {{ comm.published_at_kor }}</span>
+                  <span>{{ comm.author_name }} | {{ comm.published_at_kor }}</span>
                 </div>
               </md-list-item>
             </md-list>
